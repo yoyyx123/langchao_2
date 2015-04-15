@@ -36,14 +36,14 @@ select{width:60px;}
                 <th>离场时间(签退)</th>
                 <td>
                     <input type="text" style="width:160px" class="format_time" name="back_time" id="back_time" value="<?echo $value['back_time'];?>">
-                </td>                
+                </td>
             </tr>
             <tr>
                 <th>保修症状</th>
                 <td colspan="3">
                     <textarea  name="symptom" rows="1" cols="50"><?echo $value['symptom'];?></textarea>
                 </td>
-            </tr>            
+            </tr>
             <tr>
                 <th>故障分类</th>
                 <td>
@@ -126,7 +126,7 @@ select{width:60px;}
         <thead>
             <tr class="CaseRow">
                 <th align="center" colspan="14">去程费用</th>
-            </tr>                    
+            </tr>
             <tr class="CaseRow">
                 <th>序号</th>
                 <th>出发时间</th>
@@ -155,7 +155,7 @@ select{width:60px;}
                     <td>
                         <select name="transportation" id="transportation">
                             <?foreach ($traffic_list as $k => $tmp) {?>
-                            <option value="<?echo $tmp['id'];?>" <?if($val['transportation']==$tmp['id']){echo "checked='checked'";}?>><?echo $tmp['name'];?></option>
+                            <option value="<?echo $tmp['id'];?>" <?if($val['transportation']==$tmp['id']){echo "selected=selected";}?>><?echo $tmp['name'];?></option>
                             <?}?>
                         </select>
                     </td>
@@ -175,7 +175,7 @@ select{width:60px;}
         <thead>
             <tr class="CaseRow">
                 <th align="center" colspan="14">返程费用</th>
-            </tr>                    
+            </tr>
             <tr class="CaseRow">
                 <th>序号</th>
                 <th>出发时间</th>
@@ -205,7 +205,7 @@ select{width:60px;}
                 <td>
                     <select name="transportation" id="transportation">
                         <?foreach ($traffic_list as $k => $tmp) {?>
-                        <option value="<?echo $tmp['id'];?>" <?if($val['transportation']==$tmp['id']){echo "checked='checked'";}?>><?echo $tmp['name'];?></option>
+                        <option value="<?echo $tmp['id'];?>" <?if($val['transportation']==$tmp['id']){echo "selected=selected";}?>><?echo $tmp['name'];?></option>
                         <?}?>
                     </select>
                 </td>
@@ -220,7 +220,7 @@ select{width:60px;}
             <?}?>
         </tbody>
     </table>
-    
+
 </div>
 
 <?}?>
