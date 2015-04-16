@@ -12,6 +12,10 @@
                     <td rowspan="7"><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=look_work_order&event_id='.$event["id"]);?>" target="_blank">查看</a></td>
                 </tr>
                 <tr align="center">
+                    <th>工作时间段</th>
+                    <td><?php echo $event['work_time'];?>小时</td>
+                </tr>                
+                <tr align="center">
                     <th>有效工时</th>
                     <td><?php echo $event['work_time'];?>小时</td>
                 </tr>

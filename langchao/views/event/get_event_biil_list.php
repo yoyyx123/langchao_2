@@ -20,7 +20,7 @@
                             <a class="btn btn-info change_event_status" id="change_event_status">已报销</a>
                         <?}?>
                     </th>
-                    <th colspan="9"></th>
+                    <th colspan="13"></th>
                 </tr>                
                 <tr>
                 <th>序号</th>
@@ -31,15 +31,18 @@
                 <th>目的地</th>
                 <th>交通方式</th>
                 <th>交通费</th>
+                <th>交通确认金额</th>
                 <th>住宿费</th>
+                <th>住宿确认金额</th>
                 <th>加班餐费</th>
+                <th>餐费确认金额</th>
                 <th>其他费用</th>
+                <th>其他确认金额</th>
                 <th>备注</th>
                 <th>单据编号</th>
                 <th>事件关联</th>
-                <th>小计</th>
-                <th>纠正费用</th>
                 <th>审核</th>
+                <th>小计</th>                
                 </tr>
             </thead>
             <tbody>
@@ -53,23 +56,26 @@
                     <td><?echo $val['arrival_place'];?></td>
                     <td><?echo $val['transportation_name'];?></td>
                     <td><?echo $val['transportation_fee'];?></td>
+                    <td><input type="text" style="width:60px" name="rel_transportation" id="rel_transportation" value="<?echo $val['rel_transportation'];?>"></td>
                     <td><?echo $val['hotel_fee'];?></td>
+                    <td><input type="text" style="width:60px" name="rel_hotel" id="rel_hotel" value="<?echo $val['rel_hotel'];?>"></td>
                     <td><?echo $val['food_fee'];?></td>
+                    <td><input type="text" style="width:60px" name="rel_food" id="rel_food" value="<?echo $val['rel_food'];?>"></td>
                     <td><?echo $val['other_fee'];?></td>
+                    <td><input type="text" style="width:60px" name="rel_other" id="rel_other" value="<?echo $val['rel_other'];?>"></td>
                     <td><?echo $val['memo'];?></td>
                     <td><?echo $val['bill_no'];?></td>
                     <td><a class="btn btn-primary do_look"  bill_id="<?echo $val['id'];?>" href="<?php echo site_url('ctl=event&act=look_work_order&event_id='.$val["event_id"]);?>" target="_blank">查看</a></td>
-                    <td><?echo $val['bill_total'];?></td>
-                    <td><input type="text" name="rel_fee" id="rel_fee" value="<?echo $val['rel_fee'];?>"></td>
                     <?if($val['status'] !=2){?>
                         <td><a class="btn btn-info do_check" bill_id="<?echo $val['id'];?>" id="do_check">审核</a></td>
                     <?}else{?>
                         <td><a class="btn btn-primary do_check" bill_id="<?echo $val['id'];?>" id="do_check">已审核</a></td>
                     <?}?>
+                    <td><div id="xiaoji" <?if($val['status'] !=2){echo "style='display:none'";}?>><?echo $val['bill_total'];?></div></td>                    
                 </tr>
                 <? $i++;}?>
                 <tr>
-                    <td colspan="15"></td>
+                    <td colspan="19"></td>
                     <td><a class="btn btn-info do_check_all" bill_id="<?echo $val['id'];?>" id="do_check_all">一键审核</a></td>
                     
    
@@ -156,10 +162,15 @@ $(function() {
         $(".do_check").click(function() {
             _self = this;
             var id = $(this).attr('bill_id');
-            var rel_fee = $(this).parent().parent().find("#rel_fee").val();
+            var rel_transportation = $(this).parent().parent().find("#rel_transportation").val();
+            var rel_hotel = $(this).parent().parent().find("#rel_hotel").val();
+            var rel_food = $(this).parent().parent().find("#rel_food").val();
+            var rel_other = $(this).parent().parent().find("#rel_other").val();
+            var xiaoji = $(this).parent().parent().find("#xiaoji");
+            
             var params = "status=2&id="+id;
-            if (rel_fee){
-                params = params+"&rel_fee="+rel_fee;
+            if (rel_transportation||rel_hotel||rel_food||rel_other){
+                params = params+"&rel_transportation="+rel_transportation+"&rel_hotel="+rel_hotel+"&rel_food="+rel_food+"&rel_other="+rel_other;
             }
             var value = $(_self).parent().find("#do_check").html();
             if ("审核" == value){
@@ -175,6 +186,7 @@ $(function() {
                                 $(_self).parent().find("#do_check").removeClass("btn-info");
                                 $(_self).parent().find("#do_check").addClass("btn-primary");
                                 $(_self).parent().find("#do_check").html("已审核");
+                                xiaoji.removeAttr("style");
                             }
                         }
                      });
@@ -193,6 +205,7 @@ $(function() {
                                 $(_self).parent().find("#do_check").removeClass("btn-primary");
                                 $(_self).parent().find("#do_check").addClass("btn-info");
                                 $(_self).parent().find("#do_check").html("审核");
+                                xiaoji.attr("style","display:none");
                             }
                         }
                      });                

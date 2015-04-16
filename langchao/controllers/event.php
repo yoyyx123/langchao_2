@@ -240,7 +240,8 @@ class Event extends MY_Controller {
 
     public function do_add_work_order(){
         $this->data['user_data'] = $this->session->userdata;
-        $data = $this->security->xss_clean($_POST);
+        //$data = $this->security->xss_clean($_POST);
+        $data = $_POST;
         if(isset($data['back_url'])&&!empty($data['back_url'])){
             $back_url = $data['back_url'];
             unset($data['back_url']);
@@ -250,15 +251,16 @@ class Event extends MY_Controller {
         $event_id = $data['event_id'];
         $res = $this->Event_model->save_work_order_info($data);
         $this->change_event_status($event_id,2);
-
         $redirect_url = 'ctl=event&act=edit_work_order&event_id='.$event_id."&back_url=".urlencode($back_url)."&status=succ";
         redirect($redirect_url);
     }
 
     public function edit_work_order(){
         $this->data['user_data'] = $this->session->userdata;
-        $data = $this->security->xss_clean($_GET);
+        //$data = $this->security->xss_clean($_GET);
+        $data = $_GET;
         if(isset($data['back_url'])&&!empty($data['back_url'])){
+            //$back_url = urlencode($_GET['back_url']);
             $back_url = $_GET['back_url'];
         }else{
             $back_url = site_url(array('ctl'=>'event', 'act'=>'event_list'));
@@ -1012,10 +1014,25 @@ class Event extends MY_Controller {
             foreach ($value['bill_order_list'] as $k => $val) {
                 $total = $total + $val['transportation_fee']+$val['hotel_fee']+$val['food_fee']+$val['other_fee'];
                 if($val['status'] == 2){
-                    if($val['rel_fee'] && $val['rel_fee']>0){
-                        $rel_total += $val['rel_fee'];
+                    if($val['rel_transportation'] && $val['rel_transportation']>0){
+                        $rel_total += $val['rel_transportation'];
                     }else{
-                        $rel_total = $rel_total + $val['transportation_fee']+$val['hotel_fee']+$val['food_fee']+$val['other_fee'];
+                        $rel_total += $val['transportation_fee'];
+                    }
+                    if($val['rel_hotel'] && $val['rel_hotel']>0){
+                        $rel_total += $val['rel_hotel'];
+                    }else{
+                        $rel_total += $val['hotel_fee'];
+                    }
+                    if($val['rel_food'] && $val['rel_food']>0){
+                        $rel_total += $val['rel_food'];
+                    }else{
+                        $rel_total += $val['food_fee'];
+                    }
+                    if($val['rel_other'] && $val['rel_other']>0){
+                        $rel_total += $val['rel_other'];
+                    }else{
+                        $rel_total += $val['other_fee'];
                     }
                 }
             }
@@ -1079,12 +1096,55 @@ class Event extends MY_Controller {
             foreach ($value['bill_order_list'] as $k => $val) {
                 $transportation_info = $this->Role_model->get_setting_info(array("id"=>$val['transportation']));
                 $val['transportation_name'] = $transportation_info['name'];
+
+                if($val['rel_transportation'] && $val['rel_transportation']>0){
+                    $total += $val['rel_transportation'];
+                }else{
+                    $total += $val['transportation_fee'];
+                }
+                if($val['rel_hotel'] && $val['rel_hotel']>0){
+                    $total += $val['rel_hotel'];
+                }else{
+                    $total += $val['hotel_fee'];
+                }
+                if($val['rel_food'] && $val['rel_food']>0){
+                    $total += $val['rel_food'];
+                }else{
+                    $total += $val['food_fee'];
+                }
+                if($val['rel_other'] && $val['rel_other']>0){
+                    $total += $val['rel_other'];
+                }else{
+                    $total += $val['other_fee'];
+                }
+                /**
                 if(floatval($val['rel_fee'])){
                     $total += $val['rel_fee'];
                 }else{
                     $total = $total+$val['transportation_fee']+$val['hotel_fee']+$val['food_fee']+$val['other_fee'];
                 }
-                $bill_total = $val['transportation_fee']+$val['hotel_fee']+$val['food_fee']+$val['other_fee'];
+                **/
+                $bill_total = 0;
+                if($val['rel_transportation'] && $val['rel_transportation']>0){
+                    $bill_total += $val['rel_transportation'];
+                }else{
+                    $bill_total += $val['transportation_fee'];
+                }
+                if($val['rel_hotel'] && $val['rel_hotel']>0){
+                    $bill_total += $val['rel_hotel'];
+                }else{
+                    $bill_total += $val['hotel_fee'];
+                }
+                if($val['rel_food'] && $val['rel_food']>0){
+                    $bill_total += $val['rel_food'];
+                }else{
+                    $bill_total += $val['food_fee'];
+                }
+                if($val['rel_other'] && $val['rel_other']>0){
+                    $bill_total += $val['rel_other'];
+                }else{
+                    $bill_total += $val['other_fee'];
+                }                
                 $val['bill_total'] = $bill_total;
                 $bill_list[] = $val;
             }
