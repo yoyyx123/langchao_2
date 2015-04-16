@@ -187,6 +187,7 @@ $(function() {
                                 $(_self).parent().find("#do_check").addClass("btn-primary");
                                 $(_self).parent().find("#do_check").html("已审核");
                                 xiaoji.removeAttr("style");
+                                location.reload();
                             }
                         }
                      });
@@ -206,6 +207,7 @@ $(function() {
                                 $(_self).parent().find("#do_check").addClass("btn-info");
                                 $(_self).parent().find("#do_check").html("审核");
                                 xiaoji.attr("style","display:none");
+                                location.reload();
                             }
                         }
                      });                

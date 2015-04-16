@@ -43,7 +43,7 @@
           <div class="form-group">
             <div class="input-group">
               <div class="input-group-addon">月份</div>
-              <input id="event_month" class="form-control date-picker" type="text" value="<?if(isset($event_month)){echo $event_month;}?>" name="event_month">
+              <input id="format_time" class="form-control format_time" type="text" value="<?if(isset($event_month)){echo $event_month;}?>" name="event_month">
 
             </div>
           </div>&nbsp&nbsp
@@ -93,7 +93,7 @@
                 <td></td>
                 <td></td>
                 <td><?if($value['status']==1){echo "待添加";}elseif($value['status']==2){echo "待审核";}elseif($value['status']==3){echo "已审核";}?></td>
-                <td></td>                
+                <td><?if($value['cost_status'] == 3){echo "已报销";}else{echo "未报销";}?></td>                
                 <td><a class="btn btn-primary" target="_blank" href="<?php echo site_url('ctl=event&act=look_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);?>">查看</a></td>
             </tr>
             <? } ?>
@@ -158,13 +158,17 @@ var sel_time_data = function (per_page) {
 
 $(function() {
 
-        $('.date-picker').datepicker({
-            format: 'yyyy-mm',
-            autoclose:true,
-            startView: "year",
-            language:"zh-CN",
-            minViewMode:"months"
-          })
+    $('.format_time').datetimepicker({
+        format: "yyyy-mm", 
+        language:  'zh-CN',
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        forceParse: 0,
+        showMeridian: 1,
+        minView:3
+    });
 
         $(".department_id").change(function() {
             _self = this;

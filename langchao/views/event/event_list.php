@@ -91,15 +91,11 @@
                 <td><?php echo $value['work_order_num'];?></td>
                 <td><?echo $value['cost_fee'];?></td>
                 <td><?php echo $value['event_less_time'];?></td>
-                <?if($user_data['id']==$user_id){?>
-                <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=add_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);?>" >添加工单</a></td>
-                <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=edit_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);;?>">查看</a></td>
-                
-                <!--<?if($user_data['position2']==4 || $user_data['position2']==3){?>-->
-                    <td><a class="btn btn-primary edit_event" event_id="<?echo $value['id'];?>">编辑</a></td>
-                    <td><a class="btn btn-info delete_event" event_id="<?echo $value['id'];?>">删除</a></td>
-                <!--<?}?>-->
-                <?}?>
+
+                <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=add_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);?>" >添加工单</a>&nbsp&nbsp
+                <a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=edit_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);;?>">查看</a>&nbsp&nbsp
+                <a class="btn btn-primary edit_event" event_id="<?echo $value['id'];?>">编辑</a>&nbsp&nbsp
+                <a class="btn btn-info delete_event" event_id="<?echo $value['id'];?>">删除</a></td>
             </tr>
             <? } ?>
         </tbody>
