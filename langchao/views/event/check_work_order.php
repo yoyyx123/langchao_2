@@ -13,7 +13,7 @@
                 </tr>
                 <tr align="center">
                     <th>工作时间段</th>
-                    <td><?php echo $event['work_time'];?>小时</td>
+                    <td><?php echo $event['worktime_id_value'];?></td>
                 </tr>                
                 <tr align="center">
                     <th>有效工时</th>

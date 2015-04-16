@@ -18,7 +18,11 @@ class Event_model extends CI_Model {
         $res = $query->row_array();
         $query3 = $this->db->get_where('event_type_list', array('id'=>$res['event_type_id']));
         $res3 = $query3->row_array();
-        $res['event_type_name'] = $res3['name'];        
+        $res['event_type_name'] = $res3['name'];
+
+        $query4 = $this->db->get_where('setting_list', array('id'=>$res['worktime_id']));
+        $res4 = $query4->row_array();
+        $res['worktime_id_value'] = $res4['name'];
         return $res;
     }
 
