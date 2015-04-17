@@ -10,6 +10,7 @@
             <div class="input-group">
             <div class="input-group-addon">部门</div>
               <select  class="form-control department_id" name="department_id" id="department_id">
+              <option value="">请选择</option>
                 <?if($user_data['position2']==3||$user_data['position2']==4){?>
                 <option value="all">全部</option>
                 <?}?>
