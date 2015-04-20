@@ -249,13 +249,22 @@ class Search extends MY_Controller {
             $hotel_fee = 0;
             $food_fee = 0;
             $other_fee = 0;
+            $cost_status = 0;
+            $no_status = 0;            
             foreach ($value as $k => $v) {
                 list($t_fee,$h_fee,$f_fee,$o_fee) = $this->get_cost_fee($v['id']);
                 $transportation_fee += $t_fee;
                 $hotel_fee += $h_fee;
                 $food_fee += $f_fee;
                 $other_fee += $o_fee;
+                if ($v['cost_status'] != '3'){
+                    $no_status += 1;
+                }else{
+                    $cost_status += 1;
+                }                
             }
+            $info[$key]['no_status'] =  $no_status;
+            $info[$key]['cost_status'] =  $cost_status;            
             $info[$key]['transportation_fee'] =  $transportation_fee;
             $info[$key]['hotel_fee'] = $hotel_fee;
             $info[$key]['food_fee'] = $food_fee;
@@ -301,6 +310,8 @@ class Search extends MY_Controller {
             $holiday_more = 0;
             $worktime_count = 0;
             $work_time = 0;
+            $cost_status = 0;
+            $no_status = 0;
             foreach ($value as $k => $v) {
                 $more_work = $this->get_event_worktime_more($v);
                 $work_time += $more_work['work_time'];
@@ -308,7 +319,14 @@ class Search extends MY_Controller {
                 $weekend_more += $more_work['weekend_more'];
                 $holiday_more += $more_work['holiday_more'];
                 $worktime_count += $more_work['worktime_count'];;
-            }            
+                if ($v['cost_status'] != '3'){
+                    $no_status += 1;
+                }else{
+                    $cost_status += 1;
+                }
+            }
+            $info[$key]['no_status'] =  $no_status;
+            $info[$key]['cost_status'] =  $cost_status;
             $info[$key]['worktime_count'] =  $worktime_count;
             $info[$key]['work_time'] = $work_time;
             $info[$key]['week_more'] = $week_more;
@@ -617,6 +635,27 @@ class Search extends MY_Controller {
         }        
 
         if(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="fee"){
+
+            foreach ($res as $key => $value) {
+                $trans_count = 0;
+                $hotel_count = 0;
+                $food_count = 0;
+                $other_count = 0;
+                foreach ($value as $k => $val) {              
+                    $trans_count += $val["transportation_fee"];
+                    $hotel_count += $val["hotel_fee"];
+                    $food_count += $val["transportation_fee"];
+                    $other_count += $val["other_fee"];
+                    $res[$key]['head_msg']['trans_count'] = $trans_count;
+                    $res[$key]['head_msg']['hotel_count'] = $hotel_count;
+                    $res[$key]['head_msg']['food_count'] = $food_count;
+                    $res[$key]['head_msg']['other_count'] = $other_count;
+                    $res[$key]['head_msg']['event_month'] = $this->data['event_month'];
+                    $res[$key]['head_msg']['all_count'] = $trans_count + $hotel_count + $food_count + $other_count;
+                }                
+            }
+            
+
             $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","单据编号","交通方式","类型");
             $this->export_xls_all('费用',$res,$title);  
         }elseif(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="work_time"){
@@ -688,6 +727,22 @@ class Search extends MY_Controller {
             }
         }
         if(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="fee"){
+            $trans_count = 0;
+            $hotel_count = 0;
+            $food_count = 0;
+            $other_count = 0;
+            foreach ($result as $key => $value) {
+                $trans_count += $value["transportation_fee"];
+                $hotel_count += $value["hotel_fee"];
+                $food_count += $value["transportation_fee"];
+                $other_count += $value["other_fee"];
+            }
+            $result['head_msg']['trans_count'] = $trans_count;
+            $result['head_msg']['hotel_count'] = $hotel_count;
+            $result['head_msg']['food_count'] = $food_count;
+            $result['head_msg']['other_count'] = $other_count;
+            $result['head_msg']['event_month'] = $this->data['event_month'];
+            $result['head_msg']['all_count'] = $trans_count + $hotel_count + $food_count + $other_count;
             $msg[$this->data['name']] = $result;
             $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","单据编号","交通方式","类型");
             $this->export_xls($this->data['name'],$msg,$title);  
@@ -770,20 +825,52 @@ class Search extends MY_Controller {
                                      ->setKeywords("office 2007 openxml php")
                                      ->setCategory("Test result file");
         $i=0;
+        $start = "A1";
+        $second = "A2";        
         foreach ($msg as $key => $value) {
-            $objPHPExcel->createSheet($i);            
+            $objPHPExcel->createSheet($i);
+            if(isset($value['head_msg']) && !empty($value['head_msg'])){
+                $head_msg = $value['head_msg'];
+                $objPHPExcel->setActiveSheetIndex($i)
+                    ->fromArray(
+                        array("姓名",$key,"交通费",$head_msg['trans_count'],"总计"),
+                        NULL,
+                        "A1"
+                    );
+                $objPHPExcel->setActiveSheetIndex($i)
+                    ->fromArray(
+                        array("报销月份",$head_msg['event_month'],"住宿费",$head_msg['hotel_count'],$head_msg['all_count']),
+                        NULL,
+                        "A2"
+                    );
+                $objPHPExcel->setActiveSheetIndex($i)
+                    ->fromArray(
+                        array("","","加班餐费费",$head_msg['food_count']),
+                        NULL,
+                        "A3"
+                    );
+                $objPHPExcel->setActiveSheetIndex($i)
+                    ->fromArray(
+                        array("","","其他费用",$head_msg['other_count'],),
+                        NULL,
+                        "A4"
+                    );                                        
+                    unset($value['head_msg']);
+                    $start = "A6";
+                    $second = "A7";
+            }            
             $objPHPExcel->setActiveSheetIndex($i)
                 ->fromArray(
                     $title,
                     NULL,
-                    'A1'
+                    $start
                 );            
             $arrayData = $value;
             $objPHPExcel->setActiveSheetIndex($i)
                 ->fromArray(
                     $arrayData,
                     NULL,
-                    'A2'
+                    $second
                 );
             // Rename worksheet
             //$objPHPExcel->getActiveSheet()->setTitle(iconv("UTF-8", "GB2312//IGNORE", $key) );
@@ -826,20 +913,53 @@ class Search extends MY_Controller {
                                      ->setKeywords("office 2007 openxml php")
                                      ->setCategory("Test result file");
         $i=0;
+        $start = "A1";
+        $second = "A2";
         foreach ($msg as $key => $value) {
-            $objPHPExcel->createSheet($i);            
+            $objPHPExcel->createSheet($i);
+            if(isset($value['head_msg']) && !empty($value['head_msg'])){
+                $head_msg = $value['head_msg'];
+                $objPHPExcel->setActiveSheetIndex($i)
+                    ->fromArray(
+                        array("姓名",$key,"交通费",$head_msg['trans_count'],"总计"),
+                        NULL,
+                        "A1"
+                    );
+                $objPHPExcel->setActiveSheetIndex($i)
+                    ->fromArray(
+                        array("报销月份",$head_msg['event_month'],"住宿费",$head_msg['hotel_count'],$head_msg['all_count']),
+                        NULL,
+                        "A2"
+                    );
+                $objPHPExcel->setActiveSheetIndex($i)
+                    ->fromArray(
+                        array("","","加班餐费费",$head_msg['food_count']),
+                        NULL,
+                        "A3"
+                    );
+                $objPHPExcel->setActiveSheetIndex($i)
+                    ->fromArray(
+                        array("","","其他费用",$head_msg['other_count'],),
+                        NULL,
+                        "A4"
+                    );                                        
+                    unset($value['head_msg']);
+                    $start = "A6";
+                    $second = "A7";
+            }
+
             $objPHPExcel->setActiveSheetIndex($i)
                 ->fromArray(
                     $title,
                     NULL,
-                    'A1'
-                );            
+                    $start
+                );
             $arrayData = $value;
             $objPHPExcel->setActiveSheetIndex($i)
                 ->fromArray(
                     $arrayData,
                     NULL,
-                    'A2'
+                    $second
                 );
             // Rename worksheet
             //$objPHPExcel->getActiveSheet()->setTitle(iconv("UTF-8", "GB2312//IGNORE", $key) );

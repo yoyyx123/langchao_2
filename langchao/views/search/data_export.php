@@ -107,7 +107,7 @@
                 <td><?php echo $i;?></td>
                 <td><?php echo $value['event_month'];?></td>
                 <td><?php echo $value['name'];?></td>
-                <td></td>
+                <td>未报销<?php echo $value['no_status'];?>/已报销<?php echo $value['cost_status'];?></td>
                 <td><?php echo $value['worktime_count'];?></td>
                 <td><?php echo $value['work_time'];?></td>
                 <td><?echo $value['week_more'];?></td>
@@ -149,7 +149,7 @@
                   <td><?php echo $i;?></td>
                   <td><?php echo $value['event_month'];?></td>
                   <td><?php echo $value['name'];?></td>
-                  <td><?php if($value['cost_status']==1){echo "未审核";}if($value['cost_status']==2){echo "待报销";}if($value['cost_status']==3){echo "已报销";}?></td>
+                  <td>未报销<?php echo $value['no_status'];?>/已报销<?php echo $value['cost_status'];?></td>
                   <td><?php echo $value['transportation_fee'];?></td>
                   <td><?echo $value['hotel_fee'];?></td>
                   <td><?echo $value['food_fee'];?></td>
