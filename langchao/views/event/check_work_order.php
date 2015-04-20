@@ -179,7 +179,6 @@ function do_add(){
         });
         var url = "<?echo $back_url;?>";
         url = url+"&is_status=succ";
-        alert(url);
         window.location.href = url;
         //$(".do_add").html("已审核");
         //return true;
