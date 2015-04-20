@@ -39,11 +39,11 @@
               <div class="input-group-addon">客户简称</div>
               <input class="form-control" type="text" value="<?if(isset($short_name)){echo $short_name;}?>" name="short_name" id="short_name">
             </div>
-          </div>&nbsp&nbsp          
+          </div>&nbsp&nbsp
           <div class="form-group">
             <div class="input-group">
               <div class="input-group-addon">月份</div>
-              <input id="format_time" class="form-control format_time" type="text" value="<?if(isset($event_month)){echo $event_month;}?>" name="event_month">
+              <input id="event_month" class="form-control format_time event_month" type="text" value="<?if(isset($event_month)){echo $event_month;}?>" name="event_month">
 
             </div>
           </div>&nbsp&nbsp
@@ -56,14 +56,14 @@
 
     <?php
     if(isset($event_list)&&!empty($event_list)&&isset($is_event)){
-    ?>    
+    ?>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>事件列表</th>
                 <th colspan="2"><?if($title=="user"){echo"使用人：".$user['name'];}elseif($title=="member"){echo"客户简称：".$member['short_name'];}?></th>
                 <th colspan="7"></th>
-            </tr>                    
+            </tr>
             <tr>
                 <th>序号</th>
                 <th>日期、时间</th>
@@ -93,7 +93,7 @@
                 <td></td>
                 <td></td>
                 <td><?if($value['status']==1){echo "待添加";}elseif($value['status']==2){echo "待审核";}elseif($value['status']==3){echo "已审核";}?></td>
-                <td><?if($value['cost_status'] == 3){echo "已报销";}else{echo "未报销";}?></td>                
+                <td><?if($value['cost_status'] == 3){echo "已报销";}else{echo "未报销";}?></td>
                 <td><a class="btn btn-primary" target="_blank" href="<?php echo site_url('ctl=event&act=look_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);?>">查看</a></td>
             </tr>
             <? } ?>
@@ -102,12 +102,12 @@
             <tr>
                 <td colspan="10"><?php $this->load->view('elements/pager'); ?></td>
             </tr>
-        </tbody>        
+        </tbody>
     </table>
 <?php }elseif(isset($is_event)){?>
 <p>查询不到事件信息!</p>
-<?php }?> 
-   
+<?php }?>
+
 </div>
 
 
@@ -121,7 +121,7 @@ var sel_time_data = function (per_page) {
     department_id = $('#department_id').val();
     user_id = $('#user_id').val();
     event_month = $('#event_month').val();
-    short_name = $('#short_name').val();    
+    short_name = $('#short_name').val();
     var url = '<?php echo site_url("ctl=event&act=event_search");?>'+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&short_name="+short_name+"&department_id="+department_id;
     var getobj = {};
     if(per_page>0){
@@ -148,18 +148,18 @@ var sel_time_data = function (per_page) {
                 if(value['id']==<?echo$user_id;?>){
                 $(".user_id").append('<option value="'+value['id']+'" selected=selected>'+value['name']+'</option>');
                 }else{
-                $(".user_id").append('<option value="'+value['id']+'">'+value['name']+'</option>');                  
+                $(".user_id").append('<option value="'+value['id']+'">'+value['name']+'</option>');
                 }
             });
         }
-     });   
+     });
 
 <?}?>
 
 $(function() {
 
     $('.format_time').datetimepicker({
-        format: "yyyy-mm", 
+        format: "yyyy-mm",
         language:  'zh-CN',
         todayBtn:  1,
         autoclose: 1,
@@ -192,7 +192,7 @@ $(function() {
                         }
                     });
                 }
-             });            
+             });
         });
 
         $(".do_search").click(function() {
@@ -200,7 +200,7 @@ $(function() {
             department_id = $('#department_id').val();
             user_id = $('#user_id').val();
             event_month = $('#event_month').val();
-            short_name = $('#short_name').val();      
+            short_name = $('#short_name').val();
             if (user_id == '' && short_name == '') {
                     var n = noty({
                       text: "使用人和客户简称中必须填写一项",
@@ -213,7 +213,7 @@ $(function() {
 
             var url = "<?php echo site_url(array('ctl'=>'event', 'act'=>'event_search'))?>"+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&short_name="+short_name+"&department_id="+department_id;
             window.location.href = url;
-            /**    
+            /**
             $.ajax({
                 type: "POST",
                 url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'do_event_search'))?>",
@@ -223,7 +223,7 @@ $(function() {
                 }
              });
             **/
-        });        
+        });
 
 })
 </script>
