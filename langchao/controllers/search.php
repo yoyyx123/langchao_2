@@ -644,7 +644,7 @@ class Search extends MY_Controller {
                 foreach ($value as $k => $val) {              
                     $trans_count += $val["transportation_fee"];
                     $hotel_count += $val["hotel_fee"];
-                    $food_count += $val["transportation_fee"];
+                    $food_count += $val["food_fee"];
                     $other_count += $val["other_fee"];
                     $res[$key]['head_msg']['trans_count'] = $trans_count;
                     $res[$key]['head_msg']['hotel_count'] = $hotel_count;
@@ -734,7 +734,7 @@ class Search extends MY_Controller {
             foreach ($result as $key => $value) {
                 $trans_count += $value["transportation_fee"];
                 $hotel_count += $value["hotel_fee"];
-                $food_count += $value["transportation_fee"];
+                $food_count += $value["food_fee"];
                 $other_count += $value["other_fee"];
             }
             $result['head_msg']['trans_count'] = $trans_count;

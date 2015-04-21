@@ -37,7 +37,7 @@
           <div class="form-group">
             <div class="input-group">
               <div class="input-group-addon">月份</div>
-              <input id="event_month" class="form-control date-picker" type="text" value="<?if(isset($event_month)){echo $event_month;}?>" name="event_month">
+              <input id="event_month" class="form-control format_time" type="text" value="<?if(isset($event_month)){echo $event_month;}?>" name="event_month">
             </div>
           </div>&nbsp&nbsp
           <div class="form-group">
@@ -166,13 +166,17 @@ $(function() {
             });
         <?}?>
 
-        $('.date-picker').datepicker({
-            format: 'yyyy-mm',
-            autoclose:true,
-            startView: "year",
-            language:"zh-CN",
-            minViewMode:"months"
-          })
+    $('.format_time').datetimepicker({
+        format: "yyyy-mm", 
+        language:  'zh-CN',
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        forceParse: 0,
+        showMeridian: 1,
+        minView:3
+    });
 
 
         $(".department_id").change(function() {
