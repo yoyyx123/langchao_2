@@ -436,13 +436,13 @@ class Search extends MY_Controller {
         if($day>1){
             $tmp_int += ($day-1)*(strtotime($start_date." ".$work_end) - strtotime($start_date." ".$work_start));
         }        
-        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time>=$work_start) && ($end_time<=$work_end) ){
+        if($astatus && ($start_date ==$end_date) && ($start_time =<$work_start) && ($end_time>=$work_start) && ($end_time<=$work_end) ){
             $tmp_int += strtotime($start_date." ".$end_time) - strtotime($start_date." ".$work_start);
         }
-        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time>=$work_start) && ($end_time>$work_end) ){
+        if($astatus && ($start_date ==$end_date) && ($start_time =<$work_start) && ($end_time>=$work_start) && ($end_time>$work_end) ){
             $tmp_int += strtotime($start_date." ".$work_end) - strtotime($start_date." ".$work_start);
         }
-        if($astatus && ($start_date ==$end_date) && ($start_time >$work_start) && ($start_time<$work_end) && ($end_time<$work_end) ){
+        if($astatus && ($start_date ==$end_date) && ($start_time >$work_start) && ($start_time<$work_end) && ($end_time=<$work_end) ){
             $tmp_int += strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time);
         }
         if($astatus && ($start_date ==$end_date) && ($start_time >$work_start) && ($start_time<$work_end) && ($end_time>$work_end) ){
@@ -460,9 +460,9 @@ class Search extends MY_Controller {
 
         }
 
-        if($bstatus && ($start_date < $end_date) && ($end_time>$work_start)&& ($end_time<$work_end)){
+        if($bstatus && ($start_date < $end_date) && ($end_time>=$work_start)&& ($end_time<$work_end)){
             $tmp_int += strtotime($end_date." ".$end_time) - strtotime($end_date." ".$work_start);
-        }elseif($bstatus && ($start_date < $end_date) && ($end_time>$work_end)){
+        }elseif($bstatus && ($start_date < $end_date) && ($end_time>=$work_end)){
             $tmp_int += strtotime($end_date." ".$work_end) - strtotime($end_date." ".$work_start);
         }
         list($int_tmp,$less_tmp) = $this->get_time_format($tmp_int);  
@@ -486,7 +486,7 @@ class Search extends MY_Controller {
         if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time>=$work_start) && ($end_time<=$work_end) ){
             $tmp_int += strtotime($start_date." ".$work_start) - strtotime($start_date." ".$start_time);
         }
-        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time<$work_start)){
+        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time=<$work_start)){
             $tmp_int += strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time);
         }
 
@@ -495,7 +495,7 @@ class Search extends MY_Controller {
             $tmp_int += strtotime($start_date." ".$end_time) - strtotime($start_date." ".$work_end);
         }
 
-        if($astatus && ($start_date ==$end_date) && ($start_time >$work_start) && ($start_time <=$work_end) && ($end_time >$work_end)){
+        if($astatus && ($start_date ==$end_date) && ($start_time >=$work_start) && ($start_time <=$work_end) && ($end_time >$work_end)){
             $tmp_int += strtotime($start_date." ".$end_time) - strtotime($start_date." ".$work_end);
         }
         if($astatus && ($start_date ==$end_date) && ($start_time >$work_end)){
