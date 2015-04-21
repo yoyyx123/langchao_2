@@ -486,7 +486,7 @@ class Search extends MY_Controller {
         if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time>=$work_start) && ($end_time<=$work_end) ){
             $tmp_int += strtotime($start_date." ".$work_start) - strtotime($start_date." ".$start_time);
         }
-        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time=<$work_start)){
+        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time<=$work_start)){
             $tmp_int += strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time);
         }
 
