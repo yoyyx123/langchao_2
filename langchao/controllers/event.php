@@ -1180,6 +1180,38 @@ class Event extends MY_Controller {
         $this->Event_model->update_bill_order_status($data,$where);
         echo "succ";
     }
+
+    public function do_check_all_view(){
+        $data = $this->security->xss_clean($_GET);
+        $performance_list = $this->Role_model->get_setting_list(array("type"=>"performance"));
+        $this->data['performance_list'] = $performance_list['info'];
+        $this->data['department_id'] = $data['department_id'];
+        $this->data['user_id'] = $data['user_id'];
+        $this->data['event_month'] = $data['event_month'];
+        $this->data['status'] = $data['status'];
+        $this->load->view('event/do_check_all_view',$this->data);
+    }
+
+    public function do_check_all(){
+        $data = $this->security->xss_clean($_POST);
+        //$where['department_id'] = $data['department_id'];
+        $where['user_id'] = $data['user_id'];
+        $where['event_month'] = $data['event_month'];
+        $where['status'] = $data['status'];
+        $params['status'] = 3;
+        $params['is_complain'] = $data['is_complain'];
+        $params['event_status'] = $data['event_status'];
+        $params['performance_id'] = $data['performance_id'];
+        $params['memo'] = $data['memo'];
+        $res = $this->Event_model->update_event_info($params,$where);
+        $redirect_url = 'ctl=event&act=event_check';
+        if($res == 1){
+            $redirect_url .= '&is_status=succ';
+        }else{
+            $redirect_url .= '&is_status=fail';
+        }
+        redirect($redirect_url);        
+    }
 }
 
 ?>

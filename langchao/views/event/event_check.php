@@ -95,6 +95,12 @@
                 <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=check_work_order')."&event_id=".$value['id']."&user_id=".$user_id."&department_id=".$department_id."&event_month=".$event_month."&status=".$status;?>">查看</a></td>
             </tr>
             <? } ?>
+        <?if(isset($status)&&$status==2){?>
+        <tr>
+            <td colspan="8"></td>
+            <td><a class="btn btn-info do_check_all" user_id='<?php echo $value['id'];?>'>一键审核</a></td>
+        </tr>
+        <?}?>
         </tbody>
         <tbody>
             <tr>
@@ -157,10 +163,18 @@ var sel_time_data = function (per_page) {
 $(function() {
   
 
-        <?if(isset($is_status) && $is_status=="succ"){?>
+        <?if(isset($is_status) && $is_status == "succ"){?>
             var n = noty({
               text: "审核成功",
               type: 'success',
+              layout: 'center',
+              timeout: 1000,
+            });
+        <?}?>
+        <?if(isset($is_status) && $is_status != "succ"){?>
+            var n = noty({
+              text: "审核失败",
+              type: 'error',
               layout: 'center',
               timeout: 1000,
             });
@@ -176,6 +190,30 @@ $(function() {
         forceParse: 0,
         showMeridian: 1,
         minView:3
+    });
+
+    $(".do_check_all").click(function() {
+        _self = this;
+        department_id = $('#department_id').val();
+        user_id = $('#user_id').val();
+        event_month = $('#event_month').val();
+        status = $('#status').val();        
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'do_check_all_view'))?>"+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id,
+            data: "",
+            success: function(result){
+                $("#dialog").html(result);
+                $("#dialog").dialog({
+                    autoOpen : false,
+                    width : 900,
+                    title : ('正在进行一键审核'),
+                    modal: true,
+
+                });
+                $("#dialog").dialog("open");
+            }
+         });
     });
 
 
