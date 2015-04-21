@@ -417,9 +417,13 @@ class Search extends MY_Controller {
             $date = 0.5;
         }
         $performance = $this->Role_model->get_setting_info(array("id"=>$event['performance_id']));        
-        $worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
-
-        $res['worktime_count'] = $worktime_count;
+        //$worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
+        if($performance['name'] || $performance['name']!=0){
+            $xx = $worktime_count*$performance['name']/100*$date;
+        }else{
+            $xx = $worktime_count*$date;
+        }
+        $res['worktime_count'] = $xx;
         return $res;
     }
 
@@ -588,7 +592,12 @@ class Search extends MY_Controller {
             $date = 0.5;
         }
         $performance = $this->Role_model->get_setting_info(array("id"=>$event['performance_id']));        
-        $time = $worktime_count*$performance['name']/100*$date;
+        //$time = $worktime_count*$performance['name']/100*$date;
+        if($performance['name'] || $performance['name']!=0){
+            $time = $worktime_count*$performance['name']/100*$date;
+        }else{
+            $time = $worktime_count*$date;
+        }        
         return $time;
     }
 
@@ -1030,8 +1039,13 @@ class Search extends MY_Controller {
             $date = 0.5;
         }
         $performance = $this->Role_model->get_setting_info(array("id"=>$event['performance_id']));        
-        $worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
-        $work['worktime_count'] = $worktime_count;
+        //$worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
+        if($performance['name'] || $performance['name']!=0){
+            $xx = $worktime_count*$performance['name']/100*$date;
+        }else{
+            $xx = $worktime_count*$date;
+        }        
+        $work['worktime_count'] = $xx;
         $work['work_time'] = $work_time;
         $work['week_more'] = $week_more;
         $work['weekend_more'] = $weekend_more;
