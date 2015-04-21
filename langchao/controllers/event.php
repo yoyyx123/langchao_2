@@ -718,14 +718,14 @@ class Event extends MY_Controller {
             $tmp_int += ($day-1)*(strtotime($start_date." ".$work_start) - strtotime($start_date." 00:00:00"));
             $tmp_int += ($day-1)*(3600*24 + strtotime($start_date." 00:00:00") - strtotime($start_date." ".$work_end));
         }
-        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time>=$work_start) && ($end_time<=$work_end) ){
+        if($astatus && ($start_date ==$end_date) && ($start_time <=$work_start) && ($end_time>=$work_start) && ($end_time<=$work_end) ){
             $tmp_int += strtotime($start_date." ".$work_start) - strtotime($start_date." ".$start_time);
         }
-        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time<$work_start)){
+        if($astatus && ($start_date ==$end_date) && ($start_time <=$work_start) && ($end_time<$work_start)){
             $tmp_int += strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time);
         }
 
-        if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time>$work_end)){
+        if($astatus && ($start_date ==$end_date) && ($start_time <=$work_start) && ($end_time>$work_end)){
             $tmp_int += strtotime($start_date." ".$work_start) - strtotime($start_date." ".$start_time);
             $tmp_int += strtotime($start_date." ".$end_time) - strtotime($start_date." ".$work_end);
         }
