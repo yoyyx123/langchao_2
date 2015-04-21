@@ -1127,12 +1127,12 @@ class Search extends MY_Controller {
             $arrive = False;
         }elseif (!in_array($arrive_date, $holiday_list) && in_array($back_date, $holiday_list)){
             $back_tmp = strtotime($work_order['back_time']) - strtotime($back_date." 00:00:00");
-            list($abackint_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
+            list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
             $holiday_more = $holiday_more+$back_int_tmp+$back_less_tmp;
             $back = False;
         }elseif (in_array($arrive_date, $holiday_list) && in_array($back_date, $holiday_list)){
             $back_tmp = strtotime($work_order['back_time']) - strtotime($work_order['arrive_time']);
-            list($backint_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
+            list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
             $holiday_more = $holiday_more+$back_int_tmp+$back_less_tmp;
             $arrive = False;
             $back = False;
