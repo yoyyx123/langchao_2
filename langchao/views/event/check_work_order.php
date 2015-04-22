@@ -94,6 +94,7 @@
         </table>
         <input type="hidden" name="event_id" id="event_id" value="<?echo $event['id']?>;">
         <input type="hidden" name="check_id" id="check_id" value="<?if(isset($check)){echo $check['id'];}?>">
+
         <a class="btn btn-primary do_add" onclick="do_add()"><?if($event['status']==3){echo "已审核";}if($event['status']==2){echo "审核";}?></a>&nbsp&nbsp&nbsp
         <a class="btn btn-primary do_delete" event_id='<?php echo $event['id'];?>'>删除</a>        
     </form>
@@ -105,7 +106,7 @@ $(function () {
     $(".do_delete").click(function() {
      if(confirm("确认删除吗")){
         _self = this;
-        url = "<?php echo site_url(array('ctl'=>'event', 'act'=>'delete_check_event'))?>"+"&event_id="+$(this).attr('event_id');
+        url = "<?php echo site_url(array('ctl'=>'event', 'act'=>'delete_check_event'))?>"+"&event_id="+$(this).attr('event_id')+'<?echo $back_url;?>';
         window.location.href=url;
      }else{
         return;
