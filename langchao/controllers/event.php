@@ -815,12 +815,10 @@ class Event extends MY_Controller {
         if(isset($data['event_id'])&&!empty($data['event_id'])){
             $where = array('id'=>$data['event_id']);
             $this->Event_model->delete_check_event_info($where);
-            $redirect_url = 'ctl=event&act=check_work_order&event_id='.$data['event_id'];
-            $this->change_event_status($data['event_id'],2);
-        }else{
-            $redirect_url = 'ctl=event&act=event_check';
+            //$redirect_url = 'ctl=event&act=check_work_order&event_id='.$data['event_id'];
+            //$this->change_event_status($data['event_id'],2);
         }
-
+        $redirect_url = 'ctl=event&act=event_check';
         redirect($redirect_url);
     }
 

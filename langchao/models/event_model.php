@@ -295,8 +295,18 @@ class Event_model extends CI_Model {
     }
 
     public function delete_check_event_info($where){
+        
+        //$res = $this->db->update('event_list', $params);
+        $work_list = $this->get_work_order_list(array("event_id"=>$where['id']));
+        foreach($work_list as $key=>$value){
+            $bill_list = $this->get_bill_order_list(array('work_order_id'=>$value['id']));
+            foreach($bill_list as $k=>$val){
+                $this->db->delete('biil_order_list',array('id' => $val['id']));
+            }
+            $this->db->delete('work_order_list',array('id' => $value['id']));
+        }
         $this->db->where($where);
-        $res = $this->db->update('event_list', $params); 
+        $res = $this->db->delete('event_list');
         return $res;          
     }
     
