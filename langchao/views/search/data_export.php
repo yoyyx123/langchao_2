@@ -207,7 +207,9 @@ var sel_time_data = function (per_page) {
             var data = eval("("+result+")");
             $(".user_id").empty();
             if(result){
-              $(".user_id").append('<option value="all">全部</option>');
+                if(<?echo $user_data['position2'];?> != 1){
+                    $(".user_id").append('<option value="all">全部</option>');
+                }
             }
             $.each(data, function(key,value){
                 if(value['id']=='<?echo$user_id;?>'){
