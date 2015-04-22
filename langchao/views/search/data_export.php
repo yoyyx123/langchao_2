@@ -249,7 +249,9 @@ $(function() {
                     var data = eval("("+result+")");
                     $(".user_id").empty();
                     if(result){
-                      $(".user_id").append('<option value="all">全部</option>');
+                        if(<?echo $user_data['position2'];?> != 1){
+                            $(".user_id").append('<option value="all">全部</option>');
+                        }
                     }
                     $.each(data, function(key,value){
 
