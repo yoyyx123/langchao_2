@@ -8,11 +8,11 @@
             <thead>
                 <tr>
                     <th>月份</th>
-                    <td><? echo $event_month;?></td>
+                    <th><? echo $event_month;?></th>
                     <th>使用人</th>
-                    <td><?echo $user_info['name']?></td>
+                    <th><?echo $user_info['name']?></th>
                     <th>合计</th>
-                    <td><?echo $total;?></td>
+                    <th><?echo $total;?></th>
                     <th>
                         <?if($is_cost !=1){?>
                             <a class="btn btn-primary change_event_status" id="change_event_status">进行报销</a>
