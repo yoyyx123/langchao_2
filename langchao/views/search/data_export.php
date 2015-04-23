@@ -120,7 +120,7 @@
         
         <tbody>
             <tr>
-                <td colspan="10"><?php $this->load->view('elements/pager'); ?></td>
+                <td colspan="9"><?php $this->load->view('elements/pager'); ?></td>
                 <td><a class="btn btn-info do_export">全部导出</a></td>
             </tr>
         </tbody>
@@ -161,7 +161,7 @@
           
           <tbody>
               <tr>
-                  <td colspan="10"><?php $this->load->view('elements/pager'); ?></td>
+                  <td colspan="8"><?php $this->load->view('elements/pager'); ?></td>
                   <td><a class="btn btn-info do_export">全部导出</a></td>
               </tr>
           </tbody>
