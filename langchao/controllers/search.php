@@ -419,9 +419,9 @@ class Search extends MY_Controller {
         $performance = $this->Role_model->get_setting_info(array("id"=>$event['performance_id']));        
         //$worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
         if($performance['name'] || $performance['name']!=0){
-            $xx = $worktime_count*$performance['name']/100*$date;
+            $xx = $worktime_count_tmp*$performance['name']/100*$date;
         }else{
-            $xx = $worktime_count*$date;
+            $xx = $worktime_count_tmp*$date;
         }
         $res['worktime_count'] = $xx;
         return $res;
