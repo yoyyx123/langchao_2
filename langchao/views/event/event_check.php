@@ -97,16 +97,11 @@
             <? } ?>
         <?if(isset($status)&&$status==2){?>
         <tr>
-            <td colspan="8"></td>
+            <td colspan="8"><?php $this->load->view('elements/pager'); ?></td>
             <td><a class="btn btn-info do_check_all" user_id='<?php echo $value['id'];?>'>一键审核</a></td>
         </tr>
         <?}?>
-        </tbody>
-        <tbody>
-            <tr>
-                <td colspan="10"><?php $this->load->view('elements/pager'); ?></td>
-            </tr>
-        </tbody>        
+        </tbody>       
     </table>
 <?php }elseif(isset($is_event)){?>
 <p>查询不到事件信息!</p>
