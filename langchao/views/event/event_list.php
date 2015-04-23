@@ -93,7 +93,7 @@
                 <td><?php echo $value['event_less_time'];?></td>
 
                 <td>
-                <a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=edit_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);;?>">查看</a>&nbsp&nbsp
+                <a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=look_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);;?>">查看</a>&nbsp&nbsp
 
                 <?if($user_data['position2'] == 3 || $user_data['position2'] == 4 || $user_data['id'] == $value['user_id']){?>
                 <a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=add_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);?>" >添加工单</a>&nbsp&nbsp
