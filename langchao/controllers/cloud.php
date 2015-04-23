@@ -49,7 +49,7 @@ class Cloud extends MY_Controller {
             header('Content-type: application/pdf');
             header('filename='.$file);
             readfile($file);            
-        }elseif ($doc['type'] == 'xlsx') {
+        }elseif ($doc['type'] == 'xlsx' || $doc['type'] == 'xls') {
             require_once dirname(__FILE__) . '/../libraries/PHPExcel/IOFactory.php';
             require_once dirname(__FILE__) . '/../libraries/PHPExcel.php';
             //$objPHPExcel = new PHPExcel();
@@ -61,15 +61,15 @@ class Cloud extends MY_Controller {
             for($i=0;$i<$count;$i++){
                 $objWriter->setSheetIndex($i);
                 $f = "_".$i.".htm";
-                $objWriter->save(str_replace('.xlsx', $f, $file));
+                $objWriter->save(str_replace(".".$doc['type'], $f, $file));
             }
             $this->data['row_num'] = 1;
             if(isset($data['per_page']) && !empty($data['per_page'])){
                 $num = $data['per_page'];
                 $f = "_".$num.".htm";
-                $this->data['path'] = str_replace('.xlsx', $f, $file);
+                $this->data['path'] = str_replace(".".$doc['type'], $f, $file);
             }else{
-                $this->data['path'] = str_replace('.xlsx', '_0.htm', $file);
+                $this->data['path'] = str_replace(".".$doc['type'], '_0.htm', $file);
             }
             $this->load->view('cloud/doc_look',$this->data);
         }
