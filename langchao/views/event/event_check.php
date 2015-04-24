@@ -95,12 +95,16 @@
                 <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=check_work_order')."&event_id=".$value['id']."&user_id=".$user_id."&department_id=".$department_id."&event_month=".$event_month."&status=".$status;?>">查看</a></td>
             </tr>
             <? } ?>
-        <?if(isset($status)&&$status==2){?>
+        
         <tr>
             <td colspan="8"><?php $this->load->view('elements/pager'); ?></td>
+            <?if(isset($status)&&$status==2){?>
             <td><a class="btn btn-info do_check_all" user_id='<?php echo $value['id'];?>'>一键审核</a></td>
+            <?}else{?>
+            <td></td>
+            <?}?>
         </tr>
-        <?}?>
+        
         </tbody>       
     </table>
 <?php }elseif(isset($is_event)){?>
