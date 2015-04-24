@@ -1201,6 +1201,11 @@ class Event extends MY_Controller {
         $params['event_status'] = $data['event_status'];
         $params['performance_id'] = $data['performance_id'];
         $params['memo'] = $data['memo'];
+        foreach($where as $key=>$value){
+            if(!$value){
+                unset($where[$key]);
+            }
+        }
         $res = $this->Event_model->update_event_info($params,$where);
         $redirect_url = 'ctl=event&act=event_check';
         if($res == 1){
