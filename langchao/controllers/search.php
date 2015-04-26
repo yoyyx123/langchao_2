@@ -327,7 +327,7 @@ class Search extends MY_Controller {
             }
             $info[$key]['no_status'] =  $no_status;
             $info[$key]['cost_status'] =  $cost_status;
-            $info[$key]['worktime_count'] =  $worktime_count;
+            //$info[$key]['worktime_count'] =  $worktime_count;
             $info[$key]['work_time'] = $work_time;
             $info[$key]['week_more'] = $week_more;
             $info[$key]['weekend_more'] = $weekend_more;
@@ -441,7 +441,7 @@ class Search extends MY_Controller {
         $res['week_more'] = $week_more;
         $res['weekend_more'] = $weekend_more;
         $res['holiday_more'] = $holiday_more;        
-        $res['worktime_count'] = $xxx;
+        //$res['worktime_count'] = $xxx;
         return $res;
     }
 
@@ -694,7 +694,7 @@ class Search extends MY_Controller {
                 $weekend_more = 0;
                 $holiday_more = 0;                
                 foreach ($v as $key => $value) {
-                    $worktime_count += $value['worktime_count'];
+                    //$worktime_count += $value['worktime_count'];
                     $work_time += $value['work_time'];
                     $week_more += $value['week_more'];
                     $weekend_more += $value['weekend_more'];
@@ -1071,7 +1071,7 @@ class Search extends MY_Controller {
             $weekend_more = $weekend_more*$date;
             $holiday_more = $holiday_more*$date;
         }        
-        $work['worktime_count'] = $xx;
+        //$work['worktime_count'] = $xx;
         $work['work_time'] = $work_time;
         $work['week_more'] = $week_more;
         $work['weekend_more'] = $weekend_more;
