@@ -397,10 +397,6 @@ class Search extends MY_Controller {
             $work_time_tmp = $this->get_work_time($value['arrive_time'],$value['back_time'],$arrive,$back,$tmp_time,$day);
             $work_time = $work_time+$work_time_tmp;
         }
-        $res['work_time'] = $work_time;
-        $res['week_more'] = $week_more;
-        $res['weekend_more'] = $weekend_more;
-        $res['holiday_more'] = $holiday_more;
         $worktime_count_tmp = $work_time+$week_more+$weekend_more+$holiday_more;
 
         $time = $event['event_time'];
@@ -430,9 +426,21 @@ class Search extends MY_Controller {
         //$worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
         if($performance['name'] || $performance['name']!=0){
             $xxx = $worktime_count_tmp*$performance['name']/100*$date;
+            $work_time = $work_time*$performance['name']/100*$date;
+            $week_more = $week_more*$performance['name']/100*$date;
+            $weekend_more = $weekend_more*$performance['name']/100*$date;
+            $holiday_more = $holiday_more*$performance['name']/100*$date;
         }else{
             $xxx = $worktime_count_tmp*$date;
+            $work_time = $work_time*$date;
+            $week_more = $week_more*$date;
+            $weekend_more = $weekend_more*$date;
+            $holiday_more = $holiday_more*$date;
         }
+        $res['work_time'] = $work_time;
+        $res['week_more'] = $week_more;
+        $res['weekend_more'] = $weekend_more;
+        $res['holiday_more'] = $holiday_more;        
         $res['worktime_count'] = $xxx;
         return $res;
     }
@@ -678,7 +686,7 @@ class Search extends MY_Controller {
             $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","单据编号","交通方式","类型");
             $this->export_xls_all('费用',$res,$title);  
         }elseif(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="work_time"){
-            $title = array("使用人","日期","客户简称","事件类型","到场时间","离场时间","事件描述","工时","工作时间工时","平时加班","周末加班","节日加班");
+            $title = array("使用人","日期","客户简称","事件类型","到场时间","离场时间","事件描述","工作时间工时","平时加班","周末加班","节日加班");
             foreach ($res as $k => $v) {
                 $worktime_count = 0;
                 $work_time = 0;
@@ -699,7 +707,7 @@ class Search extends MY_Controller {
                 $all['arrive_time'] = '';
                 $all['back_time'] = '';
                 $all['desc'] = '';        
-                $all['worktime_count'] = $worktime_count;
+                //$all['worktime_count'] = $worktime_count;
                 $all['work_time'] = $work_time;
                 $all['week_more'] = $week_more;
                 $all['weekend_more'] = $weekend_more;
@@ -785,14 +793,14 @@ class Search extends MY_Controller {
             $all['arrive_time'] = '';
             $all['back_time'] = '';
             $all['desc'] = '';        
-            $all['worktime_count'] = $worktime_count;
+            //$all['worktime_count'] = $worktime_count;
             $all['work_time'] = $work_time;
             $all['week_more'] = $week_more;
             $all['weekend_more'] = $weekend_more;
             $all['holiday_more'] = $holiday_more;
             $result[] = $all;
             $msg[$this->data['name']] = $result;
-            $title = array("使用人","日期","客户简称","事件类型","到场时间","离场时间","事件描述","工时","工作日工时","平时加班","周末加班","节日加班");
+            $title = array("使用人","日期","客户简称","事件类型","到场时间","离场时间","事件描述","工作日工时","平时加班","周末加班","节日加班");
             $this->export_xls($this->data['name'],$msg,$title);  
         }
         $this->pages_conf(count($result));
@@ -1052,8 +1060,16 @@ class Search extends MY_Controller {
         //$worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
         if($performance['name'] || $performance['name']!=0){
             $xx = $worktime_count*$performance['name']/100*$date;
+            $work_time = $work_time*$performance['name']/100*$date;
+            $week_more = $week_more*$performance['name']/100*$date;
+            $weekend_more = $weekend_more*$performance['name']/100*$date;
+            $holiday_more = $holiday_more*$performance['name']/100*$date;
         }else{
             $xx = $worktime_count*$date;
+            $work_time = $work_time*$date;
+            $week_more = $week_more*$date;
+            $weekend_more = $weekend_more*$date;
+            $holiday_more = $holiday_more*$date;
         }        
         $work['worktime_count'] = $xx;
         $work['work_time'] = $work_time;

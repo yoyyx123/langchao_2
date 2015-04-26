@@ -24,7 +24,7 @@
                 <th>到场时间</th>
                 <th>离场时间</th>
                 <th>事件描述</th>
-                <th>工时</th>
+                <!--<th>工时</th>-->
                 <th>工作日工时</th>
                 <th>平时加班</th>
                 <th>周末加班</th>
@@ -43,7 +43,7 @@
                 <td><? echo $value['arrive_time'];?></td>
                 <td><? echo $value['back_time'];?></td>
                 <td><? echo $value['desc'];?></td>
-                <td><? echo $value['worktime_count'];?></td>
+                <!--<td><? echo $value['worktime_count'];?></td>-->
                 <td><? echo $value['work_time'];?></td>
                 <td><?echo $value['week_more'];?></td>
                 <td><?echo $value['weekend_more'];?></td>

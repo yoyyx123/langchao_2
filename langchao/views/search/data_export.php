@@ -90,7 +90,7 @@
                 <th>月份</th>
                 <th>使用人</th>
                 <th>状态</th>
-                <th>工时</th>
+                <!--<th>工时</th>-->
                 <th>工作日工时</th>
                 <th>平时加班时间</th>
                 <th>周末加班时间</th>
@@ -108,7 +108,7 @@
                 <td><?php echo $value['event_month'];?></td>
                 <td><?php echo $value['name'];?></td>
                 <td>未报销<?php echo $value['no_status'];?>/已报销<?php echo $value['cost_status'];?></td>
-                <td><?php echo $value['worktime_count'];?></td>
+                <!--<td><?php echo $value['worktime_count'];?></td>-->
                 <td><?php echo $value['work_time'];?></td>
                 <td><?echo $value['week_more'];?></td>
                 <td><?echo $value['weekend_more'];?></td>
