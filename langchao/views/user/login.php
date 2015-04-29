@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>上海浪潮工贸有限公司</title>
+    <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="上海浪潮工贸有限公司">
 
