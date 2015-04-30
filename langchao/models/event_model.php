@@ -7,7 +7,6 @@ class Event_model extends CI_Model {
     }
 
     public function add_event_info($params){
-        print_r($params);
         $this->db->set($params);
         $res = $this->db->insert('event_list');
         return $res;

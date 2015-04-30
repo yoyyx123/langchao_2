@@ -92,7 +92,7 @@
                 </tr>                                                                     
             </tbody>
         </table>
-        <input type="hidden" name="event_id" id="event_id" value="<?echo $event['id']?>;">
+        <input type="hidden" name="event_id" id="event_id" value="<?echo $event['id'];?>">
         <input type="hidden" name="check_id" id="check_id" value="<?if(isset($check)){echo $check['id'];}?>">
 
         <a class="btn btn-primary do_add" onclick="do_add()"><?if($event['status']==3){echo "已审核";}if($event['status']==2){echo "审核";}?></a>&nbsp&nbsp&nbsp
