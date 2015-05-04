@@ -130,6 +130,7 @@ class MY_Controller extends CI_Controller {
         $this->load->library('session');
         $this->load->helper('url');
         $this->load->model('Role_model');
+        $this->load->model('Event_model');
 		$this->getdata = $_GET;
 		$this->postdata = $_POST;
 		$this->data['getdata'] = $this->security->xss_clean($this->getdata);
@@ -139,6 +140,9 @@ class MY_Controller extends CI_Controller {
         	$expire_date = array('name'=>0);
         }
         define('EXPIRE_DATE', $expire_date['name']); // 事件过期时间
+        $weekend = $this->Event_model->get_weekend_info();
+        define('WEEKEND', $weekend['value']);  //设置周末时间
+        
 
 
 		/**

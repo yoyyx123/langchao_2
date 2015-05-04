@@ -6,13 +6,15 @@
             <tr>
                 <th width="80px">日期</th>
                 <td>
-                    <input type="text" class="form_datetime" name="value" id="value">
+                    <input type="text" class="datetime" name="value" id="value">
+                    * 周末格式为 6_7 对应周六周天
                 </td>
             </tr>
             <tr>
                 <th width="80px">类型</th>
                 <td>
-                    <select name="type" id="type">
+                    <select name="type" id="type" class="type">
+                        <option value="weekend">周末</option>
                         <option value="holiday">节日</option>
                     </select>                    
                 </td>
@@ -55,6 +57,45 @@ $(function() {
             showMeridian: 1,
 
         });
+
+        $(".type").change(function(){
+            _self = this;
+            type = $(this).val();
+            if (type == "weekend"){
+                $(".datetime").removeClass("form_datetime");
+                $("#value").val("");
+                $('.form_datetime').datetimepicker({
+                    format: "yyyy-mm-dd", 
+                    language:  'zh-CN',
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView:2,
+                    forceParse: 0,
+                    showMeridian: 1,
+
+                });                
+            }
+            if (type == "holiday"){
+                $(".datetime").addClass("form_datetime");
+                $("#value").val("");
+                $('.form_datetime').datetimepicker({
+                    format: "yyyy-mm-dd", 
+                    language:  'zh-CN',
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView:2,
+                    forceParse: 0,
+                    showMeridian: 1,
+
+                });                
+            }
+        })
 })
 
 function do_add(){

@@ -206,6 +206,7 @@ class Event_model extends CI_Model {
     }
 
     public function get_work_order_list($where){
+        $this->db->order_by("date", "desc");
         $query = $this->db->get_where('work_order_list', $where);
         $res = $query->result_array();
         foreach($res as $key=>$val){
@@ -243,7 +244,7 @@ class Event_model extends CI_Model {
     }
 
     public function get_bill_order_list($where){
-        $this->db->order_by("id", "desc");
+        $this->db->order_by("date", "desc");
         $query = $this->db->get_where('biil_order_list', $where);
         $res = $query->result_array();
         foreach ($res as $key => $value) {
@@ -324,6 +325,13 @@ class Event_model extends CI_Model {
         }
         return $result;        
     }
+
+    public function get_weekend_info(){
+        $where = array('type'=>"weekend");
+        $query = $this->db->get_where('date_setting', $where);
+        $result = $query->row_array();
+        return $result;        
+    }    
 
 
 }

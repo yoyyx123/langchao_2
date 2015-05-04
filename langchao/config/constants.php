@@ -40,6 +40,6 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('ROW_SHOW_NUM',		10); //分页，每页条数
 
 //define('EXPIRE_DATE', 5);
-define('WEEKEND', "6_7"); //周末,多个用 _ 分割，枚举:1234567
+////周末,多个用 _ 分割，枚举:1234567
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

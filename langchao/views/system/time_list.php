@@ -29,6 +29,7 @@
                     <td><?php echo $value['value'];?></td>
                     <td><?php 
                         if($value['type']=="holiday"){echo "节日";}
+                        if($value['type']=="weekend"){echo "周末";}
                      ?></td>
                     <td><a class="btn btn-info doedit" setting_id='<?php echo $value['id'];?>'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-danger dodelete" setting_id='<?php echo $value['id'];?>'>删除</a>
