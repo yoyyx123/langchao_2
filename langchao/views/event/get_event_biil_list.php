@@ -7,8 +7,8 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>月份</th>
-                    <th><? echo $event_month;?></th>
+                    <th colspan="2">月份</th>
+                    <th colspan="2"><? echo $event_month;?></th>
                     <th>使用人</th>
                     <th><?echo $user_info['name']?></th>
                     <th>合计</th>
@@ -24,7 +24,7 @@
                 </tr>                
                 <tr>
                 <th>序号</th>
-                <th>日期</th>
+                <!--<th>日期</th>-->
                 <th>出发时间</th>
                 <th>到达时间</th>
                 <th>起始地</th>
@@ -49,7 +49,7 @@
                 <? $i=1; foreach ($bill_list as $key => $val) {?>
                 <tr align="center" id="1">
                     <td><?echo $i;?></td>
-                    <td><?echo $val['date2'];?></td>
+                    <!--<td><?echo $val['date2'];?></td>-->
                     <td><?echo $val['go_time'];?></td>
                     <td><?echo $val['arrival_time'];?></td>
                     <td><?echo $val['start_place'];?></td>
@@ -75,7 +75,7 @@
                 </tr>
                 <? $i++;}?>
                 <tr>
-                    <td colspan="19"></td>
+                    <td colspan="18"></td>
                     <td><a class="btn btn-info do_check_all" bill_id="<?echo $val['id'];?>" id="do_check_all">一键审核</a></td>
                     
    
