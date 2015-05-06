@@ -785,9 +785,12 @@ class Search extends MY_Controller {
         }
         foreach ($result as $key => $value) {
             $res[$value['user_name']][] = $value;
-        }        
-
+        }
         if(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="fee"){
+            foreach ($res as $k => $v) {
+                $vv =  $this->bubble_sort($v);
+                $res[$k] = $vv;
+            }
 
             foreach ($res as $key => $value) {
                 $trans_count = 0;
@@ -855,6 +858,19 @@ class Search extends MY_Controller {
         $this->layout->view('search/do_data_export',$this->data);
     }
 
+    public function bubble_sort($array){
+        for($i = 0; $i < count($array) - 1; $i++) {
+            for($j = 0; $j < count($array) - 1 - $i; $j++) {    //$j为需要排序的元素个数,用总长减去$i
+                if($array[$j]['arrival_time'] > $array[$j + 1]['arrival_time']) {    //按升序排序
+                    $temp = $array[$j];
+                    $array[$j] = $array[$j + 1];
+                    $array[$j + 1] = $temp;
+                }
+            }
+        }
+        return $array;        
+    }
+
     public function do_data_export(){
         $data = $this->security->xss_clean($_GET);
         $this->data['is_search'] = 1;
@@ -880,6 +896,7 @@ class Search extends MY_Controller {
             }
         }
         if(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="fee"){
+            $result = $this->bubble_sort($result);
             $trans_count = 0;
             $hotel_count = 0;
             $food_count = 0;
@@ -979,7 +996,7 @@ class Search extends MY_Controller {
                                      ->setCategory("Test result file");
         $i=0;
         $start = "A1";
-        $second = "A2";        
+        $second = "A2";
         foreach ($msg as $key => $value) {
             $objPHPExcel->createSheet($i);
             if(isset($value['head_msg']) && !empty($value['head_msg'])){

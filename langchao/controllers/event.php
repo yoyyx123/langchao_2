@@ -1193,6 +1193,7 @@ class Event extends MY_Controller {
                 $is_cost = 0;
             }
         }
+        $bill_list = $this->bubble_sort($bill_list);        
         $user_info = $this->User_model->get_user_info(array('id'=>$data['user_id']));
         $this->data['is_cost'] = $is_cost;
         $this->data['total'] = $total;
@@ -1201,6 +1202,19 @@ class Event extends MY_Controller {
         $this->data['user_info'] = $user_info;
         $this->data['user_data'] = $this->session->userdata;
         $this->layout->view('event/get_event_biil_list',$this->data);
+    }
+
+    public function bubble_sort($array){
+        for($i = 0; $i < count($array) - 1; $i++) {
+            for($j = 0; $j < count($array) - 1 - $i; $j++) {    //$j为需要排序的元素个数,用总长减去$i
+                if($array[$j]['arrival_time'] > $array[$j + 1]['arrival_time']) {    //按升序排序
+                    $temp = $array[$j];
+                    $array[$j] = $array[$j + 1];
+                    $array[$j + 1] = $temp;
+                }
+            }
+        }
+        return $array;        
     }
 
     public function check_all_bill_order(){
