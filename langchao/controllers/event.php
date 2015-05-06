@@ -735,7 +735,7 @@ class Event extends MY_Controller {
             }elseif($worktime==="08:30:00_17:30:00" && $start_time>"11:30:00" && $start_time<="12:30:00"&& $end_time<="12:30:00"){
                 $tmp_int = $tmp_int - (strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time));
             }elseif($worktime==="08:30:00_17:30:00" && $start_time>"11:30:00" && $start_time<="12:30:00"&& $end_time>"12:30:00"){
-                $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
+                $tmp_int = $tmp_int - (strtotime($start_date." 12:30:00") - strtotime($start_date." ".$start_time));
             }elseif($worktime==="09:30:00_18:30:00" && $start_time<="12:00:00" && $end_time>"13:00:00"){
                 $tmp_int = $tmp_int - (1*3600);
             }elseif($worktime==="09:30:00_18:30:00" && $start_time<="12:00:00"  && $end_time>="12:00:00"&& $end_time<="13:00:00"){
@@ -810,7 +810,7 @@ class Event extends MY_Controller {
             }elseif($worktime==="08:30:00_17:30:00" && $start_time>"11:30:00" && $start_time<="12:30:00"&& $end_time<="12:30:00"){
                 $tmp_int = $tmp_int - (strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time));
             }elseif($worktime==="08:30:00_17:30:00" && $start_time>"11:30:00" && $start_time<="12:30:00"&& $end_time>"12:30:00"){
-                $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
+                $tmp_int = $tmp_int - (strtotime($start_date." 12:30:00") - strtotime($start_date." ".$start_time));
             }elseif($worktime==="09:30:00_18:30:00" && $start_time<="12:00:00" && $end_time>"13:00:00"){
                 $tmp_int = $tmp_int - (1*3600);
             }elseif($worktime==="09:30:00_18:30:00" && $start_time<="12:00:00"  && $end_time>="12:00:00"&& $end_time<="13:00:00"){
