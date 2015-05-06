@@ -65,8 +65,8 @@ class Event_model extends CI_Model {
         return $res;
     }
 
-    public function get_event_list($where,$offset=false){
-        $this->db->order_by("event_time", "asc");
+    public function get_event_list($where,$offset=false,$orderby="asc"){
+        $this->db->order_by("event_time", $orderby);
         if(isset($where['where_in'])){
             $this->db->where_in($where['where_in']['key'], $where['where_in']['value']);
             unset($where['where_in']);
