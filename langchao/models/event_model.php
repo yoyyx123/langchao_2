@@ -244,7 +244,7 @@ class Event_model extends CI_Model {
     }
 
     public function get_bill_order_list($where){
-        $this->db->order_by("date", "desc");
+        $this->db->order_by("arrival_time", "asc");
         $query = $this->db->get_where('biil_order_list', $where);
         $res = $query->result_array();
         foreach ($res as $key => $value) {
