@@ -866,7 +866,7 @@ class Search extends MY_Controller {
         $this->data['event_month'] = $data['event_month'];
         $where = array('user_id'=>$data['user_id'],'event_month'=>$data['event_month']);
         $result = array();
-        $event_list = $this->Event_model->get_event_list($where,false,'desc');
+        $event_list = $this->Event_model->get_event_list($where,false);
         foreach ($event_list['info'] as $key => $value) {
             $work_order_list = $this->Event_model->get_work_order_list(array('event_id'=>$value['id']));
             foreach ($work_order_list as $k => $val) {
