@@ -39,7 +39,7 @@
             <tr align="center">
                 <td><? echo $i;?></td>
                 <td><? echo $name;?></td>
-                <td><? echo $value['date'];?></td>
+                <!--<td><? echo $value['date'];?></td>-->
                 <td><? echo $value['arrive_time'];?></td>
                 <td><? echo $value['back_time'];?></td>
                 <td><? echo $value['desc'];?></td>
