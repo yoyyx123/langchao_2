@@ -891,6 +891,7 @@ class Search extends MY_Controller {
                 }elseif($data['data_type']=="fee"){
                     foreach($val['bill_order_list'] as $m=>$n){
                         $result[] = $this->format_bill_data($n,$user['name']);
+                        $result = $this->bubble_sort($result);
                     }
                 }
             }
