@@ -12,15 +12,15 @@
         <thead>
             <tr>
               <th>月份</th>
-              <th><?echo $event_month;?></th>
+              <th colspan="2"><?echo $event_month;?></th>
               <th>状态</th>
               <th></th>
-              <th colspan="7"></th>
+              <th colspan="5"></th>
             </tr>          
             <tr>
                 <th>序号</th>
                 <th>使用人</th>
-                <th>日期</th>
+                <!--<th>日期</th>-->
                 <th>到场时间</th>
                 <th>离场时间</th>
                 <th>事件描述</th>
@@ -39,7 +39,7 @@
             <tr align="center">
                 <td><? echo $i;?></td>
                 <td><? echo $name;?></td>
-                <td><? echo $value['date'];?></td>
+                <!--<td><? echo $value['date'];?></td>-->
                 <td><? echo $value['arrive_time'];?></td>
                 <td><? echo $value['back_time'];?></td>
                 <td><? echo $value['desc'];?></td>
@@ -53,7 +53,7 @@
         </tbody>
           <tbody>
               <tr>
-                  <td colspan="9"><?php $this->load->view('elements/pager'); ?></td>
+                  <td colspan="8"><?php $this->load->view('elements/pager'); ?></td>
                   <td><a class="btn btn-info do_export">导出</a></td>
               </tr>
           </tbody>

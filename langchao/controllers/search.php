@@ -815,7 +815,11 @@ class Search extends MY_Controller {
             $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","单据编号","交通方式","类型");
             $this->export_xls_all('费用',$res,$title);  
         }elseif(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="work_time"){
-            $title = array("使用人","日期","客户简称","事件类型","到场时间","离场时间","事件描述","工作时间工时","平时加班","周末加班","节日加班");
+            foreach ($res as $k => $v) {
+                $vv =  $this->bubble_sort_time($v);
+                $res[$k] = $vv;
+            }
+            $title = array("使用人","客户简称","事件类型","到场时间","离场时间","事件描述","工作时间工时","平时加班","周末加班","节日加班");
             foreach ($res as $k => $v) {
                 $worktime_count = 0;
                 $work_time = 0;
@@ -871,6 +875,19 @@ class Search extends MY_Controller {
         return $array;        
     }
 
+    public function bubble_sort_time($array){
+        for($i = 0; $i < count($array) - 1; $i++) {
+            for($j = 0; $j < count($array) - 1 - $i; $j++) {    //$j为需要排序的元素个数,用总长减去$i
+                if($array[$j]['arrive_time'] > $array[$j + 1]['arrive_time']) {    //按升序排序
+                    $temp = $array[$j];
+                    $array[$j] = $array[$j + 1];
+                    $array[$j + 1] = $temp;
+                }
+            }
+        }
+        return $array;        
+    }    
+
     public function do_data_export(){
         $data = $this->security->xss_clean($_GET);
         $this->data['is_search'] = 1;
@@ -888,6 +905,7 @@ class Search extends MY_Controller {
             foreach ($work_order_list as $k => $val) {
                 if($data['data_type']=="work_time"){
                     $result[] = $this->do_data_export_worktime($value,$val,$data,$user['name']);
+                    $result = $this->bubble_sort_time($result);
                 }elseif($data['data_type']=="fee"){
                     foreach($val['bill_order_list'] as $m=>$n){
                         $result[] = $this->format_bill_data($n,$user['name']);
@@ -897,7 +915,6 @@ class Search extends MY_Controller {
             }
         }
         if(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="fee"){
-            $result = $this->bubble_sort($result);
             $trans_count = 0;
             $hotel_count = 0;
             $food_count = 0;
@@ -944,7 +961,7 @@ class Search extends MY_Controller {
             $all['holiday_more'] = $holiday_more;
             $result[] = $all;
             $msg[$this->data['name']] = $result;
-            $title = array("使用人","日期","客户简称","事件类型","到场时间","离场时间","事件描述","工作日工时","平时加班","周末加班","节日加班");
+            $title = array("使用人","客户简称","事件类型","到场时间","离场时间","事件描述","工作日工时","平时加班","周末加班","节日加班");
             $this->export_xls($this->data['name'],$msg,$title);  
         }
         $this->pages_conf(count($result));
@@ -1167,7 +1184,7 @@ class Search extends MY_Controller {
         $worktime_count = $this->do_data_export_worktime_count($work_order);
         $work['user_name'] = $user_name;
         //$work['date'] = $work_order['date'];
-        $work['date'] = $event['event_time'];
+        //$work['date'] = $event['event_time'];
         $work['short_name'] = $event['short_name'];
         $work['event_type_name'] = $event['event_type_name'];
         $work['arrive_time'] = $work_order['arrive_time'];
