@@ -436,6 +436,9 @@ class Event extends MY_Controller {
         $worktime = $this->Event_model->get_work_time($tmp_where);
         $work_order_list = $this->Event_model->get_work_order_list(array('event_id'=>$event['id']));
         foreach ($work_order_list as $key => $value) {
+            $astatus = True;
+            $bstatus = True;
+
             $tmp = strtotime($value['back_time']) - strtotime($value['arrive_time']);
             
             $tmpx = explode("_",$worktime);
