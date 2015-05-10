@@ -14,7 +14,7 @@ class Home extends MY_Controller {
 	{		
 		$expire_count = 0;
 		$warning_count = 0;
-		$where = array("user_id"=>$this->session->userdata['id']);
+		$where = array("user_id"=>$this->session->userdata['id'],"status"=>"1");
 		$event_list = $this->Event_model->get_event_list($where,$this->per_page);
 		$this->pages_conf($event_list['count']);
 		$this->data['event_list'] = $event_list['info'];

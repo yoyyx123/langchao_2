@@ -57,15 +57,15 @@
             <thead>
                 <tr>
                     <th rowspan="1" style="text-align:center;">系统提示</th>
-                    <th  colspan="6" style="text-align:center;">当前已有<?echo $expire_count;?>件工单超时，请补填！</th>
+                    <th  colspan="7" style="text-align:center;">当前已有<?echo $expire_count;?>件工单超时，请补填！</th>
                 </tr>
                 <tr>
                     <th></th>
-                    <th colspan="6" style="text-align:center;">当前已有<?echo $warning_count;?>件工单即将超时，请注意！</th>
+                    <th colspan="7" style="text-align:center;">当前已有<?echo $warning_count;?>件工单即将超时，请注意！</th>
                 </tr>  
                 <tr>
                     <th>待填工单</th>
-                    <th colspan="6"></th>
+                    <th colspan="7"></th>
                 </tr>                
                 <tr>
                     <th>序号</th>
