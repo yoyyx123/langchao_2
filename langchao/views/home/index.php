@@ -61,7 +61,7 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <th colspan="7" style="text-align:center;">当前已有<?echo $warning_count;?>件工单即将超时，请注意！</th>
+                    <th colspan="7" style="text-align:center;">当前已有<?echo $warning_count;?>件工单即将超时，请抓紧填写！</th>
                 </tr>  
                 <tr>
                     <th>待填工单</th>
@@ -89,7 +89,7 @@
                         <td><?php echo $value['event_type_name'];?></td>
                         <td><?php echo $value['user_name'];?></td>
                         <td><?php echo $value['desc'];?></td>
-                        <td><?php echo $value['event_less_time'];?></td>
+                        <td><?php if($value['event_less_time'] <0){echo "已超时".abs($value['event_less_time'])."天";}else{echo $value['event_less_time'];}?></td>
                         <td><a class="btn btn-primary add_work_order" event_id="<?echo $value['id']?>">查看</a></td>
                     </tr>
                 <?$i++;}}?>
