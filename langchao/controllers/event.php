@@ -450,21 +450,21 @@ class Event extends MY_Controller {
             $end_time = substr($value['back_time'],11);
             $day = (strtotime($end_date." 00:00:00") - strtotime($start_date." 00:00:00"))/(3600*24);
             $holiday_list = $this->Event_model->get_holiday_list();
+            
             $weekend_list = explode('_', WEEKEND);
-            if (in_array(start_date, $holiday_list) && !in_array($end_date, $holiday_list)){
-
+            if (in_array($start_date, $holiday_list) && !in_array($end_date, $holiday_list)){
                 $astatus = False;
-            }elseif (!in_array(start_date, $holiday_list) && in_array($end_date, $holiday_list)){
+            }elseif (!in_array($start_date, $holiday_list) && in_array($end_date, $holiday_list)){
                 $bstatus = False;
-            }elseif (in_array(start_date, $holiday_list) && in_array($end_date, $holiday_list)){
+            }elseif (in_array($start_date, $holiday_list) && in_array($end_date, $holiday_list)){
                 $astatus = False;
                 $bstatus = False;
             }
-            if(in_array(date("N",strtotime($end_date)), $weekend_list) && !in_array(date("N",strtotime(start_date)), $weekend_list)){
+            if(in_array(date("N",strtotime($end_date)), $weekend_list) && !in_array(date("N",strtotime($start_date)), $weekend_list)){
                 $bstatus = False;
-            }elseif(in_array(date("N",strtotime(start_date)), $weekend_list) && !in_array(date("N",strtotime($end_date)), $weekend_list)){
+            }elseif(in_array(date("N",strtotime($start_date)), $weekend_list) && !in_array(date("N",strtotime($end_date)), $weekend_list)){
                 $astatus = False;
-            }elseif (in_array(date("N",strtotime(start_date)), $weekend_list) && in_array(date("N",strtotime($end_date)), $weekend_list)) {
+            }elseif (in_array(date("N",strtotime($start_date)), $weekend_list) && in_array(date("N",strtotime($end_date)), $weekend_list)) {
                 $astatus = False;
                 $bstatus = False;
             }
