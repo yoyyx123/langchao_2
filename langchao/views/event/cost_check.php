@@ -78,7 +78,7 @@
             ?>
             <tr align="center">
                 <td><?php echo $i;?></td>
-                <td><?php echo $value['user_name'];?></td>
+                <td><?php echo $value['name'];?></td>
                 <td><?php echo $key;?></td>
                 <td><?if($value['cost_status']==1){echo "未审核";}elseif($value['cost_status']==2){echo "待报销";}elseif($value['cost_status']==3){echo "已报销";}?></td>
                 <td><?php echo $value['total_fee'];?></td>              

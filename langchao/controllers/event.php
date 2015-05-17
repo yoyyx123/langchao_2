@@ -1414,6 +1414,9 @@ class Event extends MY_Controller {
                 $data = array("status"=>$data['status']);
                 $this->Event_model->update_bill_order_status($data,$ww);
             }
+            $ew = array('id'=>$value['id']);
+            $ep = array('cost_status'=>'2');
+            $this->Event_model->update_event_info($ep,$ew);
         }
         echo json_encode(array('status'=>'succ'));
 
@@ -1500,6 +1503,12 @@ class Event extends MY_Controller {
         unset($data['id']);
         $where = array('id'=>$id);
         $this->Event_model->update_bill_order_status($data,$where);
+        if($data['status'] == 2){
+
+        }
+        if($data['status'] == 1){
+
+        }
         echo "succ";
     }
 
