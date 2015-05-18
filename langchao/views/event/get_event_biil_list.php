@@ -75,7 +75,7 @@
                 </tr>
                 <? $i++;}?>
                 <tr>
-                    <td colspan="18"></td>
+                    <td colspan="18"><?php $this->load->view('elements/pager'); ?></td>
                     <td><a class="btn btn-info do_check_all" bill_id="<?echo $val['id'];?>" id="do_check_all">一键审核</a></td>
                     
    
@@ -93,6 +93,23 @@
 </div>
 
 <script type="text/javascript">
+
+
+var sel_time_data = function (per_page) {
+    user_id = $('#user_id').val();
+    event_month = $('#event_month').val();
+    status = $('#status').val();    
+    var url = '<?php echo site_url("ctl=event&act=get_event_biil_list");?>'+"&user_id="+user_id+"&event_month="+event_month;
+    var getobj = {};
+    if(per_page>0){
+        getobj.per_page=per_page;
+    }
+    jQuery.each(getobj, function(k,v) {
+        url = url+"&"+k+"="+v;
+    });
+    window.location.href = url;
+}
+
 $(function() {
         $(".do_check_all").click(function(){
             if(!confirm("确定要审核全部")){

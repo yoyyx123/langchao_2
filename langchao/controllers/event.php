@@ -1231,6 +1231,7 @@ class Event extends MY_Controller {
         $data = $this->security->xss_clean($_GET);
         if(isset($data['is_event']) && $data['is_event']==1){
             $this->data['is_event'] = 1;
+            $per_page = $data['per_page'];
             unset($data['is_event']);
             unset($data['ctl']);
             unset($data['act']);
@@ -1257,23 +1258,31 @@ class Event extends MY_Controller {
                 $month_list[$value['event_month']][] = $value;
             }
             $this->pages_conf(count($month_list));
+            if(!$per_page){
+                $per_page = 0;
+            }
+            $i = 1;
             foreach ($month_list as $key => $value) {
-                $info = array();
-                $total_fee = 0;
-                $rel_total_fee = 0;
-                foreach($value as $k => $v) {
-                    $total_fee += $v['total'];
-                    $rel_total_fee += $v['rel_total'];
+                if($i>$per_page && $i<=($per_page+ROW_SHOW_NUM)){
+                    $info = array();
+                    $total_fee = 0;
+                    $rel_total_fee = 0;
+                    foreach($value as $k => $v) {
+                        $total_fee += $v['total'];
+                        $rel_total_fee += $v['rel_total'];
+                    }
+                    $info = array(
+                        'name' =>$v['name'],
+                        'user_name' =>$v['user_name'],
+                        'user_id' =>$v['user_id'],
+                        'cost_status'=>$v['cost_status'],
+                        'total_fee' =>$total_fee,
+                        'rel_total_fee' => $rel_total_fee,
+                        );
+                    $month_list[$key] = $info;                    
                 }
-                $info = array(
-                    'name' =>$v['name'],
-                    'user_name' =>$v['user_name'],
-                    'user_id' =>$v['user_id'],
-                    'cost_status'=>$v['cost_status'],
-                    'total_fee' =>$total_fee,
-                    'rel_total_fee' => $rel_total_fee,
-                    );
-                $month_list[$key] = $info;
+                $i++;
+                
             }
             $this->data['month_list'] = $month_list;
         }
@@ -1380,11 +1389,23 @@ class Event extends MY_Controller {
                 $is_cost = 0;
             }
         }
-        $bill_list = $this->bubble_sort($bill_list);        
+        $this->pages_conf(count($bill_list));
+        $per_page = $data['per_page'];
+        if(!$per_page){
+                $per_page = 0;
+            }
+        $i = 1;
+        $n_bill_list = array();
+        foreach ($bill_list as $key => $value) {
+            if($i>$per_page && $i<=($per_page+ROW_SHOW_NUM)){
+                $n_bill_list[$key] = $value;
+            }
+        }
+        $bill_list = $this->bubble_sort($n_bill_list);        
         $user_info = $this->User_model->get_user_info(array('id'=>$data['user_id']));
         $this->data['is_cost'] = $is_cost;
         $this->data['total'] = $total;
-        $this->data['bill_list'] = $bill_list;
+        $this->data['bill_list'] = $n_bill_list;
         $this->data['event_month'] = $data['event_month'];
         $this->data['user_info'] = $user_info;
         $this->data['user_data'] = $this->session->userdata;
