@@ -1400,6 +1400,7 @@ class Event extends MY_Controller {
             if($i>$per_page && $i<=($per_page+ROW_SHOW_NUM)){
                 $n_bill_list[$key] = $value;
             }
+            $i++;
         }
         $bill_list = $this->bubble_sort($n_bill_list);        
         $user_info = $this->User_model->get_user_info(array('id'=>$data['user_id']));
