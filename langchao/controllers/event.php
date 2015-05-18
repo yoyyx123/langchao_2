@@ -1256,6 +1256,7 @@ class Event extends MY_Controller {
                 $value['rel_total'] = $rel_total;
                 $month_list[$value['event_month']][] = $value;
             }
+            $this->pages_conf(count($month_list));
             foreach ($month_list as $key => $value) {
                 $info = array();
                 $total_fee = 0;
@@ -1265,6 +1266,7 @@ class Event extends MY_Controller {
                     $rel_total_fee += $v['rel_total'];
                 }
                 $info = array(
+                    'name' =>$v['name'],
                     'user_name' =>$v['user_name'],
                     'user_id' =>$v['user_id'],
                     'cost_status'=>$v['cost_status'],
@@ -1503,11 +1505,23 @@ class Event extends MY_Controller {
         unset($data['id']);
         $where = array('id'=>$id);
         $this->Event_model->update_bill_order_status($data,$where);
+        $event = $this->Event_model->get_event_info_by_bill_id($id);
         if($data['status'] == 2){
-
+            $cost_status = 2;
+            $event_list = $this->Event_model->get_event_search_list(array("id"=>$event['id']));
+            foreach ($event_list as $key => $value) {
+                foreach ($value['work_order_list'] as $ke => $val) {
+                    foreach ($$val['bill_order_list'] as $k => $v) {
+                        if($v['status']==1){
+                            $cost_status = 1;
+                        }
+                    }
+                }
+            }
+            $this->Event_model->update_event_info(array("cost_status"=>$cost_status),array('id'=>$event['id']));
         }
         if($data['status'] == 1){
-
+            $this->Event_model->update_event_info(array("cost_status"=>'1'),array('id'=>$event['id']));
         }
         echo "succ";
     }

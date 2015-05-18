@@ -86,6 +86,9 @@
                 <td><?php echo $value['rel_total_fee'];?></td>
             </tr>
             <? } ?>
+        <tr>
+            <td colspan="7"><?php $this->load->view('elements/pager'); ?></td>
+        </tr>            
         </tbody>
     </table>
 <?php }elseif(isset($is_event)){?>

@@ -333,6 +333,16 @@ class Event_model extends CI_Model {
         return $result;        
     }    
 
+    public function get_event_info_by_bill_id($id){
+        $query = $this->db->get_where('biil_order_list', array('id'=>$id));
+        $result = $query->row_array();
+        $query2 = $this->db->get_where('work_order_list', array('id'=>$result['work_order_id']));
+        $result2 = $query2->row_array();
+        $query3 = $this->db->get_where('event_list', array('id'=>$result2['event_id']));
+        $result3 = $query3->row_array();
+        return $result3;
+
+    }
 
 }
 
