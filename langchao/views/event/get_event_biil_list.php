@@ -82,8 +82,8 @@
                 </tr>
             </tbody>
         </table>
-        <input class="event_month" type="hidden" value="<?php echo $event_month;?>">
-        <input class="user_id" type="hidden" value="<?php echo $user_info["id"];?>">
+        <input class="event_month" id="event_month" type="hidden" value="<?php echo $event_month;?>">
+        <input class="user_id" id="user_id" type="hidden" value="<?php echo $user_info["id"];?>">
     </div>
 </div>
 
