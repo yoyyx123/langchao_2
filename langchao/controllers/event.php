@@ -1343,22 +1343,22 @@ class Event extends MY_Controller {
             foreach ($value['bill_order_list'] as $k => $val) {
                 $total = $total + $val['transportation_fee']+$val['hotel_fee']+$val['food_fee']+$val['other_fee'];
                 if($val['status'] == 2){
-                    if($val['rel_transportation'] && $val['rel_transportation']>0){
+                    if($val['rel_transportation'] && $val['rel_transportation']>=0){
                         $rel_total += $val['rel_transportation'];
                     }else{
                         $rel_total += $val['transportation_fee'];
                     }
-                    if($val['rel_hotel'] && $val['rel_hotel']>0){
+                    if($val['rel_hotel'] && $val['rel_hotel']>=0){
                         $rel_total += $val['rel_hotel'];
                     }else{
                         $rel_total += $val['hotel_fee'];
                     }
-                    if($val['rel_food'] && $val['rel_food']>0){
+                    if($val['rel_food'] && $val['rel_food']>=0){
                         $rel_total += $val['rel_food'];
                     }else{
                         $rel_total += $val['food_fee'];
                     }
-                    if($val['rel_other'] && $val['rel_other']>0){
+                    if($val['rel_other'] && $val['rel_other']>=0){
                         $rel_total += $val['rel_other'];
                     }else{
                         $rel_total += $val['other_fee'];
@@ -1427,11 +1427,18 @@ class Event extends MY_Controller {
     }
 
     public function check_all_bill_order(){
+         $status = '';
         $data = $this->security->xss_clean($_POST);
         $where = array('event_month'=>$data['event_month'],'user_id'=>$data['user_id']);
         $event_list = $this->Event_model->get_event_simple_list($where);
         foreach ($event_list as $key => $value) {
             $sql = array('event_id' => $value['id']);
+            $sql2 = array('id' => $value['id']);
+            $event_info = $this->Event_model->get_event_info($sql2);
+            if ($event_info != '3'){
+                $status = 'status_error';
+                break;
+            }
             $work_order_list = $this->Event_model->get_work_order_list($sql);
             foreach ($work_order_list as $k => $val) {
                 $ww = array("work_order_id"=>$val['id']);
@@ -1442,7 +1449,12 @@ class Event extends MY_Controller {
             $ep = array('cost_status'=>'2');
             $this->Event_model->update_event_info($ep,$ew);
         }
-        echo json_encode(array('status'=>'succ'));
+        if($status == 'status_error'){
+            echo json_encode(array('status'=>'error'));
+        }else{
+            echo json_encode(array('status'=>'succ'));
+        }
+        
 
     }
 
@@ -1456,22 +1468,22 @@ class Event extends MY_Controller {
                 $transportation_info = $this->Role_model->get_setting_info(array("id"=>$val['transportation']));
                 $val['transportation_name'] = $transportation_info['name'];
 
-                if($val['rel_transportation'] && $val['rel_transportation']>0){
+                if($val['rel_transportation'] && $val['rel_transportation']>=0){
                     $total += $val['rel_transportation'];
                 }else{
                     $total += $val['transportation_fee'];
                 }
-                if($val['rel_hotel'] && $val['rel_hotel']>0){
+                if($val['rel_hotel'] && $val['rel_hotel']>=0){
                     $total += $val['rel_hotel'];
                 }else{
                     $total += $val['hotel_fee'];
                 }
-                if($val['rel_food'] && $val['rel_food']>0){
+                if( $val['rel_food']>=0){
                     $total += $val['rel_food'];
                 }else{
                     $total += $val['food_fee'];
                 }
-                if($val['rel_other'] && $val['rel_other']>0){
+                if($val['rel_other'] && $val['rel_other']>=0){
                     $total += $val['rel_other'];
                 }else{
                     $total += $val['other_fee'];
@@ -1484,22 +1496,22 @@ class Event extends MY_Controller {
                 }
                 **/
                 $bill_total = 0;
-                if($val['rel_transportation'] && $val['rel_transportation']>0){
+                if($val['rel_transportation'] && $val['rel_transportation']>=0){
                     $bill_total += $val['rel_transportation'];
                 }else{
                     $bill_total += $val['transportation_fee'];
                 }
-                if($val['rel_hotel'] && $val['rel_hotel']>0){
+                if($val['rel_hotel'] && $val['rel_hotel']>=0){
                     $bill_total += $val['rel_hotel'];
                 }else{
                     $bill_total += $val['hotel_fee'];
                 }
-                if($val['rel_food'] && $val['rel_food']>0){
+                if($val['rel_food'] && $val['rel_food']>=0){
                     $bill_total += $val['rel_food'];
                 }else{
                     $bill_total += $val['food_fee'];
                 }
-                if($val['rel_other'] && $val['rel_other']>0){
+                if($val['rel_other'] && $val['rel_other']>=0){
                     $bill_total += $val['rel_other'];
                 }else{
                     $bill_total += $val['other_fee'];
@@ -1526,26 +1538,36 @@ class Event extends MY_Controller {
         $id = $data['id'];
         unset($data['id']);
         $where = array('id'=>$id);
-        $this->Event_model->update_bill_order_status($data,$where);
         $event = $this->Event_model->get_event_info_by_bill_id($id);
-        if($data['status'] == 2){
-            $cost_status = 2;
-            $event_list = $this->Event_model->get_event_search_list(array("id"=>$event['id']));
-            foreach ($event_list as $key => $value) {
-                foreach ($value['work_order_list'] as $ke => $val) {
-                    foreach ($$val['bill_order_list'] as $k => $v) {
-                        if($v['status']==1){
-                            $cost_status = 1;
+        if($event['status'] == "3"){
+            foreach ($data as $key => $value) {
+                if(empty($data[$key]) && $value !== "0"){
+                    unset($data[$key]);
+                }
+            }
+            $this->Event_model->update_bill_order_status($data,$where);
+            if($data['status'] == 2){
+                $cost_status = 2;
+                $event_list = $this->Event_model->get_event_search_list(array("id"=>$event['id']));
+                foreach ($event_list as $key => $value) {
+                    foreach ($value['work_order_list'] as $ke => $val) {
+                        foreach ($$val['bill_order_list'] as $k => $v) {
+                            if($v['status']==1){
+                                $cost_status = 1;
+                            }
                         }
                     }
                 }
+                $this->Event_model->update_event_info(array("cost_status"=>$cost_status),array('id'=>$event['id']));
             }
-            $this->Event_model->update_event_info(array("cost_status"=>$cost_status),array('id'=>$event['id']));
-        }
-        if($data['status'] == 1){
-            $this->Event_model->update_event_info(array("cost_status"=>'1'),array('id'=>$event['id']));
-        }
-        echo "succ";
+            if($data['status'] == 1){
+                $this->Event_model->update_event_info(array("cost_status"=>'1'),array('id'=>$event['id']));
+            }
+            echo "succ";        
+        }else{
+            echo "error";
+        }        
+
     }
 
     public function do_check_all_view(){

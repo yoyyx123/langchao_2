@@ -133,6 +133,17 @@ $(function() {
                 window.location.reload();
                 //return true;
             }
+            if ("error" == data.status){
+                var n = noty({
+                  text: "有事件未审核，不能进行一键审核！",
+                  type: 'error',
+                  layout: 'center',
+                  timeout: 1000,
+                });
+                //window.location.reload();
+                //return true;
+            }
+
         })
         $(".change_event_status").click(function() {
             _self = this;
@@ -206,13 +217,16 @@ $(function() {
                                 xiaoji.removeAttr("style");
                                 location.reload();
                             }
+                            if(result=="error"){
+                                alert("对应事件状态未审核，不能审核费用！")
+                            }
                         }
                      });
                 }                
             }
             if ("已审核" == value){
                 if(confirm("确认要取消审核")){
-                    params = params+"&status=1";
+                    params = "&status=1";
                     $.ajax({
                         type: "POST",
                         url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'update_bill_order_status'))?>",
