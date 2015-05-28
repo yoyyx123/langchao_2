@@ -1539,7 +1539,7 @@ class Event extends MY_Controller {
         unset($data['id']);
         $where = array('id'=>$id);
         $event = $this->Event_model->get_event_info_by_bill_id($id);
-        if($event['status'] == "3"){
+        if($event['status'] == "3" || $data['status'] == 1){
             foreach ($data as $key => $value) {
                 if(empty($data[$key]) && $value !== "0"){
                     unset($data[$key]);

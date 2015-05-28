@@ -196,7 +196,7 @@ $(function() {
             var rel_other = $(this).parent().parent().find("#rel_other").val();
             var xiaoji = $(this).parent().parent().find("#xiaoji");
             
-            var params = "status=2&id="+id;
+            var params = "id="+id;
             if (rel_transportation||rel_hotel||rel_food||rel_other){
                 params = params+"&rel_transportation="+rel_transportation+"&rel_hotel="+rel_hotel+"&rel_food="+rel_food+"&rel_other="+rel_other;
             }
@@ -204,29 +204,30 @@ $(function() {
             if ("审核" == value){
                 if(confirm("确认要审核")){
                     params = params+"&status=2";
-                    $.ajax({
-                        type: "POST",
-                        url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'update_bill_order_status'))?>",
-                        data: params,
-                        success: function(result){
-                            if(result=="succ"){
-                                //$(_self).parent().find("#do_check").removeClass("do_check");
-                                $(_self).parent().find("#do_check").removeClass("btn-info");
-                                $(_self).parent().find("#do_check").addClass("btn-primary");
-                                $(_self).parent().find("#do_check").html("已审核");
-                                xiaoji.removeAttr("style");
-                                location.reload();
-                            }
-                            if(result=="error"){
-                                alert("对应事件状态未审核，不能审核费用！")
-                            }
-                        }
-                     });
+                    xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open("POST","<?php echo site_url(array('ctl'=>'event', 'act'=>'update_bill_order_status'))?>",false);
+                    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xmlhttp.send(params);
+                    var result = xmlhttp.responseText;
+                    if(result=="succ"){
+                        $(_self).parent().find("#do_check").removeClass("btn-info");
+                        $(_self).parent().find("#do_check").addClass("btn-primary");
+                        $(_self).parent().find("#do_check").html("已审核");
+                        xiaoji.removeAttr("style");
+                        location.reload();
+                    }else{
+                        var n = noty({
+                          text: "对应事件状态未审核，不能审核费用！",
+                          type: 'error',
+                          layout: 'center',
+                          timeout: 1000,
+                        });
+                    }
                 }                
             }
             if ("已审核" == value){
                 if(confirm("确认要取消审核")){
-                    params = "&status=1";
+                    params = params+"&status=1";
                     $.ajax({
                         type: "POST",
                         url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'update_bill_order_status'))?>",
