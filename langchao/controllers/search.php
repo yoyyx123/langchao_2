@@ -834,7 +834,7 @@ class Search extends MY_Controller {
                     $holiday_more += $value['holiday_more'];
                 }
                 $all['user_name'] = '合计';
-                $all['date'] = '';
+                //$all['date'] = '';
                 $all['short_name'] = '';
                 $all['event_type_name'] = '';
                 $all['arrive_time'] = '';
