@@ -812,7 +812,7 @@ class Search extends MY_Controller {
             }
             
 
-            $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","单据编号","交通方式","类型");
+            $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","业务员","单据编号","交通方式","类型");
             $this->export_xls_all('费用',$res,$title);  
         }elseif(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="work_time"){
             foreach ($res as $k => $v) {
@@ -932,7 +932,7 @@ class Search extends MY_Controller {
             $result['head_msg']['event_month'] = $this->data['event_month'];
             $result['head_msg']['all_count'] = $trans_count + $hotel_count + $food_count + $other_count;
             $msg[$this->data['name']] = $result;
-            $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","单据编号","交通方式","类型");
+            $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","业务员","单据编号","交通方式","类型");
             $this->export_xls($this->data['name'],$msg,$title);  
         }elseif(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="work_time"){
             $worktime_count = 0;
@@ -987,6 +987,7 @@ class Search extends MY_Controller {
             "food_fee"=>"food_fee",
             "other_fee"=>"other_fee",
             "memo"=>"memo",
+            "use_person"=>"use_person",
             "bill_no"=>"bill_no",
             );
         $res['user_name'] = $user_name;

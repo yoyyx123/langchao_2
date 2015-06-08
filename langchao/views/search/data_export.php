@@ -120,7 +120,7 @@
         
         <tbody>
             <tr>
-                <td colspan="9"><?php $this->load->view('elements/pager'); ?></td>
+                <td colspan="8"><?php $this->load->view('elements/pager'); ?></td>
                 <td><a class="btn btn-info do_export">全部导出</a></td>
             </tr>
         </tbody>
@@ -294,6 +294,7 @@ $(function() {
                     });
                     return false;
                 }
+            /**
             if (data_type == 'work_time' && <?echo $user_data['position2'];?>==1){
                     var n = noty({
                       text: "员工没有导出权限",
@@ -303,6 +304,7 @@ $(function() {
                     });
                     return false;              
             }
+            **/
             var url = "<?php echo site_url(array('ctl'=>'search', 'act'=>'data_export'))?>"+"&is_search=1&user_id="+user_id+"&department_id="+department_id+"&event_month="+event_month+"&data_type="+data_type;
             window.location.href = url;
         });

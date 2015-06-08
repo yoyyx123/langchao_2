@@ -84,6 +84,17 @@ class User_model extends CI_Model {
         return $res;
     }
 
+    public function get_sms_setting(){
+        $query = $this->db->get_where('sms_setting',array('id'=>1));
+        $res = $query->row_array();
+        return $res;
+    }
+
+    public function update_sms_info($data){
+        $res = $this->db->update('sms_setting', $data,array("id"=>1)); 
+        return $res;
+    }
+
     public function save_sms_captcha($uid,$captcha,$task_id){
         $data = array(
                'uid' => $uid,

@@ -96,7 +96,6 @@
 </div>
 </div>
 
-
 <script src="<?php echo base_url('/statics/bower_components/jquery/jquery.min.js');?>"></script>
 <script src="<?php echo base_url('/statics/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 
@@ -227,6 +226,10 @@ function send_captcha(){
                           layout: 'center',
                           timeout: 1000,
                     });
+                }else if(result=='close'){
+                    $("#alert-info").addClass("alert-danger");
+                    $("#alert-info").html('不需要动态验证码');
+
                 }else{
                     $("#alert-info").addClass("alert-danger");
                     $("#alert-info").html('动态密码发送失败');
@@ -258,6 +261,11 @@ function do_login(){
     password = $('#password').val();
     mobile = $('#mobile').val();
     sms_captcha = $('#sms_captcha').val();
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST","<?php echo site_url('ctl=system&act=check_sms_status');?>",false);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send("");
+    var is_sms = xmlhttp.responseText;
     if (user_name== '') {
             $("#userdiv").addClass("has-error");
             var n = noty({
@@ -288,7 +296,7 @@ function do_login(){
             });
             return false;
         }
-    if (sms_captcha == '') {
+    if (sms_captcha == '' && is_sms == 'true') {
             $("#captchadiv").addClass("has-error");
             var n = noty({
               text: "请输入动态验证码",

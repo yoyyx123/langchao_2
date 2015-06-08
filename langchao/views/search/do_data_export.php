@@ -81,6 +81,7 @@
                   <th>加班餐费</th>
                   <th>其他费用</th>
                   <th>备注</th>
+                  <th>业务员</th>
                   <th>单据编号</th>
               </tr>
           </thead>
@@ -102,6 +103,7 @@
                     <td><?echo $val['food_fee'];?></td>
                     <td><?echo $val['other_fee'];?></td>
                     <td><?echo $val['memo'];?></td>
+                    <td><?echo $val['use_person'];?></td>
                     <td><?echo $val['bill_no'];?></td>
                 </tr>
               <? } ?>

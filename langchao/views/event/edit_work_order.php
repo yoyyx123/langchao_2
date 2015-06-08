@@ -3,13 +3,7 @@ input{width:95px;}
 select{width:60px;}
 </style>
 
-<div>
-    <ul class="breadcrumb">
-        <li>
-            <a class="btn btn-info" href="<?php echo $back_url;?>">返回</a>
-        </li>
-    </ul>
-</div>
+
 
 <? foreach ($work_order_list as $key => $value) {
 ?>
@@ -128,7 +122,7 @@ select{width:60px;}
     <table class="table-bordered table-striped table-condensed">
         <thead>
             <tr class="CaseRow">
-                <th align="center" colspan="14">去程费用</th>
+                <th align="center" colspan="15">去程费用</th>
             </tr>                    
             <tr class="CaseRow">
                 <th>序号</th>
@@ -142,6 +136,7 @@ select{width:60px;}
                 <th>加班餐费</th>
                 <th>其他费用</th>
                 <th>备注</th>
+                <th>使用人</th>
                 <th>单据编号</th>
                 <th colspan="2"><a class="btn btn-info" type_id ="0" onclick="add_td(this)">添加一行</a></th>
             </tr>
@@ -168,6 +163,7 @@ select{width:60px;}
                     <td><input type="text" name="food_fee" id="food_fee" style="width:45px" value="<?echo $val['food_fee'];?>"></td>
                     <td><input type="text" name="other_fee" id="other_fee" style="width:45px" value="<?echo $val['other_fee'];?>"></td>
                     <td><input type="text" name="memo" id="memo" value="<?echo $val['memo'];?>"></td>
+                    <td><input type="text" name="use_person" id="use_person" value="<?echo $val['use_person'];?>"></td>
                     <td><input type="text" name="bill_no" id="bill_no" value="<?echo $val['bill_no'];?>"></td>
                     <td><a class="btn btn-primary do_save" type_id ="0" bill_id="<?echo $val['id'];?>" onclick="do_save(this)">编辑</a></td>
                     <td><a class="btn btn-primary" id = "do_delete" type_id ="0" bill_id="<?echo $val['id'];?>" onclick="do_delete(this)">删除</a></td>
@@ -180,7 +176,7 @@ select{width:60px;}
         <table class="table-bordered table-striped table-condensed">
         <thead>
             <tr class="CaseRow">
-                <th align="center" colspan="14">返程费用</th>
+                <th align="center" colspan="15">返程费用</th>
             </tr>                    
             <tr class="CaseRow">
                 <th>序号</th>
@@ -194,6 +190,7 @@ select{width:60px;}
                 <th>加班餐费</th>
                 <th>其他费用</th>
                 <th>备注</th>
+                <th>使用人</th>
                 <th>单据编号</th>
                 <th colspan="2"><a class="btn btn-info" type_id ="1" onclick="add_td(this)">添加一行</a></th>
             </tr>
@@ -221,6 +218,7 @@ select{width:60px;}
                 <td><input type="text" name="food_fee" id="food_fee" style="width:45px" value="<?echo $val['food_fee'];?>"></td>
                 <td><input type="text" name="other_fee" id="other_fee" style="width:45px" value="<?echo $val['other_fee'];?>"></td>
                 <td><input type="text" name="memo" id="memo" value="<?echo $val['memo'];?>"></td>
+                <td><input type="text" name="use_person" id="use_person" value="<?echo $val['use_person'];?>"></td>
                 <td><input type="text" name="bill_no" id="bill_no" value="<?echo $val['bill_no'];?>"></td>
                 <td><a class="btn btn-primary do_save" type_id ="1" bill_id="<?echo $val['id'];?>" onclick="do_save(this)">编辑</a></td>
                 <td><a class="btn btn-primary" id = "do_delete" type_id ="1" bill_id="<?echo $val['id'];?>" onclick="do_delete(this)">删除</a></td>
@@ -238,7 +236,13 @@ select{width:60px;}
 <div class="row">
 </div>
 <?}?>
-
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a class="btn btn-info" href="<?php echo $back_url;?>">返回</a>
+        </li>
+    </ul>
+</div>
 
 <script type="text/javascript">
 laydate.skin('danlan')
@@ -289,7 +293,7 @@ function add_td(atable){
     }
     var NId = parseInt(id)+1;
     //var str = 'onclick="laydate({istime: true, format: "YYYY-MM-DD hh:mm:ss"})"';
-    var TrContent = '<tr id="'+NId+'"><td>'+NId+'</td><td><input type="text" style="width:135px" name="go_time" id="go_time" class="format_time"></td><td><input style="width:135px" type="text" name="arrival_time" id="arrival_time" class="format_time"></td><td><input type="text" name="start_place" id="start_place"></td><td><input type="text" name="arrival_place" id="arrival_place"></td><td><select id="transportation" name="transportation"><?foreach ($traffic_list as $k => $tmp) {?><option value="<?echo $tmp["id"];?>" selected=selected><?echo $tmp["name"];?></option><?}?></select></td><td><input type="text" name="transportation_fee" id="transportation_fee" value="0" style="width:45px" ></td><td><input type="text" name="hotel_fee" id="hotel_fee" value="0" style="width:45px" ></td><td><input type="text" name="food_fee" id="food_fee" value="0" style="width:45px" ></td><td><input type="text" name="other_fee" value="0" id="other_fee" style="width:45px" ></td><td><input type="text" name="memo" id="memo"></td><td><input type="text" name="bill_no" id="bill_no"></td><td><a class="btn btn-primary do_save" type_id="'+type_id+'" bill_id="" onclick="do_save(this)">保存</a></td><td><a class="btn btn-primary" id="do_delete" type_id="'+type_id+'" bill_id="" onclick="do_delete(this)">删除</a></td></tr>';
+    var TrContent = '<tr id="'+NId+'"><td>'+NId+'</td><td><input type="text" style="width:135px" name="go_time" id="go_time" class="format_time"></td><td><input style="width:135px" type="text" name="arrival_time" id="arrival_time" class="format_time"></td><td><input type="text" name="start_place" id="start_place"></td><td><input type="text" name="arrival_place" id="arrival_place"></td><td><select id="transportation" name="transportation"><?foreach ($traffic_list as $k => $tmp) {?><option value="<?echo $tmp["id"];?>" selected=selected><?echo $tmp["name"];?></option><?}?></select></td><td><input type="text" name="transportation_fee" id="transportation_fee" value="0" style="width:45px" ></td><td><input type="text" name="hotel_fee" id="hotel_fee" value="0" style="width:45px" ></td><td><input type="text" name="food_fee" id="food_fee" value="0" style="width:45px" ></td><td><input type="text" name="other_fee" value="0" id="other_fee" style="width:45px" ></td><td><input type="text" name="memo" id="memo"></td><td><input type="text" name="use_person" id="use_person"></td><td><input type="text" name="bill_no" id="bill_no"></td><td><a class="btn btn-primary do_save" type_id="'+type_id+'" bill_id="" onclick="do_save(this)">保存</a></td><td><a class="btn btn-primary" id="do_delete" type_id="'+type_id+'" bill_id="" onclick="do_delete(this)">删除</a></td></tr>';
     $(atable).parent().parent().parent().parent().find("tbody").append(TrContent);
     $('.format_time').datetimepicker({
         format: "yyyy-mm-dd hh:ii:ss", 
@@ -343,6 +347,7 @@ function do_save(atable){
     food_fee = $(atable).parent().parent().find('#food_fee').val();
     other_fee = $(atable).parent().parent().find('#other_fee').val();
     memo = $(atable).parent().parent().find('#memo').val();
+    use_person = $(atable).parent().parent().find('#use_person').val();
     bill_no = $(atable).parent().parent().find('#bill_no').val()
     var bill_id = $(atable).attr('bill_id');
     var type_id = $(atable).attr('type_id');
@@ -433,10 +438,19 @@ function do_save(atable){
             });
             return false;
         }
+    if(use_person == ''){
+        var n = noty({
+              text: "请输入使用人",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+    }
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST","<?php echo site_url('ctl=event&act=add_biil_order');?>",false);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("type="+type_id+"&bill_id="+bill_id+"&work_order_id="+work_order_id+"&go_time="+go_time+"&arrival_time="+arrival_time+"&start_place="+start_place+"&arrival_place="+arrival_place+"&transportation="+transportation+"&transportation_fee="+transportation_fee+"&hotel_fee="+hotel_fee+"&food_fee="+food_fee+"&other_fee="+other_fee+"&memo="+memo+"&bill_no="+bill_no);
+    xmlhttp.send("type="+type_id+"&bill_id="+bill_id+"&work_order_id="+work_order_id+"&go_time="+go_time+"&arrival_time="+arrival_time+"&start_place="+start_place+"&arrival_place="+arrival_place+"&transportation="+transportation+"&transportation_fee="+transportation_fee+"&hotel_fee="+hotel_fee+"&food_fee="+food_fee+"&other_fee="+other_fee+"&memo="+memo+"&use_person="+use_person+"&bill_no="+bill_no);
     var result = xmlhttp.responseText;
     var data = eval("("+result+")");
     if ("succ" == data.status){

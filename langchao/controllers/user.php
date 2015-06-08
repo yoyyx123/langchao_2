@@ -54,8 +54,12 @@ class User extends MY_Controller {
     	if(!$user){
     		echo 'fail';
     	}
-    	//$status = $this->User_model->check_captcha_msg($user['id'],$data['sms_captcha']);
-        $status = True;//临时去掉验证码
+        $sms_info = $this->User_model->get_sms_info();
+        if($sms_info){
+            $status = $this->User_model->check_captcha_msg($user['id'],$data['sms_captcha']);            
+        }else{
+            $status = True;//不需要验证码
+        }
     	if ($status){
     		echo 'succ';
     	}else{
@@ -65,11 +69,17 @@ class User extends MY_Controller {
 
     public function send_captcha(){
     	$data = $this->security->xss_clean($_POST);
+        $sms_info = $this->User_model->get_sms_info();        
     	$u_info = $this->check_mobile($data['mobile'],$data['user_name']);
+
     	if (!$u_info){
     		echo "error";exit;
     	}
-    	$status = $this->send_captcha_sms($u_info);
+        if($sms_info){
+            $status = $this->send_captcha_sms($u_info,$sms_info);            
+        }else{
+            echo "close";exit;
+        }
     	if ($status){
     		echo 'succ';
     	}else{
@@ -86,8 +96,7 @@ class User extends MY_Controller {
         }
     }
 
-    public function send_captcha_sms($u_info){
-        $sms_info = $this->User_model->get_sms_info();
+    public function send_captcha_sms($u_info,$sms_info){
         $captcha = $this->get_captcha();
         $content = "您的验证码是 ".$captcha.", 请于30分钟内输入, 请勿泄漏. 【浪潮工贸】";
         $params['userid'] = $sms_info['userid'];

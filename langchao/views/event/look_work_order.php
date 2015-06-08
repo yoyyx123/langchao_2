@@ -125,7 +125,7 @@ select{width:60px;}
     <table class="table-bordered table-striped table-condensed" width="300">
         <thead>
             <tr class="CaseRow">
-                <th align="center" colspan="14">去程费用</th>
+                <th align="center" colspan="15">去程费用</th>
             </tr>
             <tr class="CaseRow">
                 <th>序号</th>
@@ -139,6 +139,7 @@ select{width:60px;}
                 <th>加班餐费</th>
                 <th>其他费用</th>
                 <th>备注</th>
+                <th>使用人</th>
                 <th>单据编号</th>
             </tr>
         </thead>
@@ -164,6 +165,7 @@ select{width:60px;}
                     <td><input type="text" style="width:55px" name="food_fee" id="food_fee" value="<?echo $val['food_fee'];?>"></td>
                     <td><input type="text" style="width:55px" name="other_fee" id="other_fee" value="<?echo $val['other_fee'];?>"></td>
                     <td><input type="text" name="memo" id="memo" value="<?echo $val['memo'];?>"></td>
+                    <td><input type="text" name="use_person" id="use_person" value="<?echo $val['use_person'];?>"></td>                   
                     <td><input type="text" name="bill_no" id="bill_no" value="<?echo $val['bill_no'];?>"></td>
                 </tr>
                 <?}$i++;}}else{?>
@@ -174,7 +176,7 @@ select{width:60px;}
         <table class="table-bordered table-striped table-condensed" width="300">
         <thead>
             <tr class="CaseRow">
-                <th align="center" colspan="14">返程费用</th>
+                <th align="center" colspan="15">返程费用</th>
             </tr>
             <tr class="CaseRow">
                 <th>序号</th>
@@ -188,6 +190,7 @@ select{width:60px;}
                 <th>加班餐费</th>
                 <th>其他费用</th>
                 <th>备注</th>
+                <th>使用人</th>
                 <th>单据编号</th>
             </tr>
         </thead>
@@ -214,6 +217,7 @@ select{width:60px;}
                 <td><input type="text" style="width:55px" name="food_fee" id="food_fee" value="<?echo $val['food_fee'];?>"></td>
                 <td><input type="text" style="width:55px" name="other_fee" id="other_fee" value="<?echo $val['other_fee'];?>"></td>
                 <td><input type="text" name="memo" id="memo" value="<?echo $val['memo'];?>"></td>
+                <td><input type="text" name="use_person" id="use_person" value="<?echo $val['use_person'];?>"></td>                
                 <td><input type="text" name="bill_no" id="bill_no" value="<?echo $val['bill_no'];?>"></td>
             </tr>
             <?}$n++;}}else{?>

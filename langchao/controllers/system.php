@@ -8,6 +8,7 @@ class System extends MY_Controller {
         parent::__construct();
         $this->load->helper('security');
         $this->load->model('Role_model');
+        $this->load->model('User_model');
     }
 
 
@@ -601,6 +602,32 @@ class System extends MY_Controller {
 		}
 		echo "succ";
 	}
+
+    public function sms_setting(){
+		$this->data['user_data'] = $this->session->userdata;	
+		$sms_info = $this->User_model->get_sms_setting();
+		$this->data['sms_info'] = $sms_info;
+        $this->layout->view('system/sms_setting',$this->data);    	
+    }
+
+    public function do_sms_setting(){
+    	$data = $this->security->xss_clean($_POST);
+    	$sms_info = $this->User_model->update_sms_info($data);
+    	if($sms_info){
+    		echo "succ";
+    	}else{
+    		echo "fail";
+    	}
+    }
+
+    public function check_sms_status(){
+		$sms_info = $this->User_model->get_sms_info();
+		if($sms_info){
+			echo 'true';
+		}else{
+			echo 'false';
+		}
+    }
 
 }
 
