@@ -110,6 +110,7 @@ select{width:60px;}
     <input type="hidden" id="work_order_id" name="work_order_id" value="<?echo $value['id']; ?>">
     <input type="hidden" id="event_id" name="event_id" value="<?echo $event['id']; ?>">
 </div>
+<input type="hidden" name="back_url" value="<?php echo $back_url;?>">
 <div class="col-lg-7 col-md-4">
     <p class="center col-md-12">
         <button type="submit" class="btn btn-primary">编辑</button>&nbsp&nbsp&nbsp
@@ -136,7 +137,7 @@ select{width:60px;}
                 <th>加班餐费</th>
                 <th>其他费用</th>
                 <th>备注</th>
-                <th>使用人</th>
+                <th>业务员</th>
                 <th>单据编号</th>
                 <th colspan="2"><a class="btn btn-info" type_id ="0" onclick="add_td(this)">添加一行</a></th>
             </tr>
@@ -190,7 +191,7 @@ select{width:60px;}
                 <th>加班餐费</th>
                 <th>其他费用</th>
                 <th>备注</th>
-                <th>使用人</th>
+                <th>业务员</th>
                 <th>单据编号</th>
                 <th colspan="2"><a class="btn btn-info" type_id ="1" onclick="add_td(this)">添加一行</a></th>
             </tr>
@@ -440,7 +441,7 @@ function do_save(atable){
         }
     if(use_person == ''){
         var n = noty({
-              text: "请输入使用人",
+              text: "请输入业务员",
               type: 'error',
               layout: 'center',
               timeout: 1000,

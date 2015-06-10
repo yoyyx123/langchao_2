@@ -325,13 +325,16 @@ class Event extends MY_Controller {
 
     public function do_edit_work_order(){
         $this->data['user_data'] = $this->session->userdata;
-        $data = $this->security->xss_clean($_POST);
+        //$data = $this->security->xss_clean($_POST);
+        $data = $_POST;
+        $back_url = $data['back_url'];
+        unset($data['back_url']);
         $event_id = $data['event_id'];
         $work_order_id = $data['work_order_id'];
         unset($data['work_order_id']);
         $where = array("id"=>$work_order_id);
         $res = $this->Event_model->update_work_order_info($data,$where);
-        $redirect_url = 'ctl=event&act=edit_work_order&event_id='.$event_id."&status=succ";
+        $redirect_url = 'ctl=event&act=edit_work_order&event_id='.$event_id."&status=succ&back_url=".urlencode($back_url);
         redirect($redirect_url);
     }
 
@@ -353,6 +356,10 @@ class Event extends MY_Controller {
         $this->data['user_data'] = $this->session->userdata;
         $data = $this->security->xss_clean($_POST);
         unset($data['id']);
+        $data['rel_transportation'] = $data['transportation_fee'];
+        $data['rel_hotel'] = $data['hotel_fee'];
+        $data['rel_food'] = $data['food_fee'];
+        $data['rel_other'] = $data['other_fee'];
         if(isset($data['bill_id']) && !empty($data['bill_id'])){
             $where = array('id'=>$data['bill_id']);
             unset($data['bill_id']);

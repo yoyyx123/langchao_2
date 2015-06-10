@@ -139,7 +139,7 @@ select{width:60px;}
                 <th>加班餐费</th>
                 <th>其他费用</th>
                 <th>备注</th>
-                <th>使用人</th>
+                <th>业务员</th>
                 <th>单据编号</th>
             </tr>
         </thead>
@@ -190,7 +190,7 @@ select{width:60px;}
                 <th>加班餐费</th>
                 <th>其他费用</th>
                 <th>备注</th>
-                <th>使用人</th>
+                <th>业务员</th>
                 <th>单据编号</th>
             </tr>
         </thead>
