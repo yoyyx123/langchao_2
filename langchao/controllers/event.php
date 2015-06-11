@@ -1441,11 +1441,11 @@ class Event extends MY_Controller {
             }
             $i++;
         }
-        $bill_list = $this->bubble_sort($n_bill_list);        
+        $x_bill_list = $this->bubble_sort($n_bill_list);        
         $user_info = $this->User_model->get_user_info(array('id'=>$data['user_id']));
         $this->data['is_cost'] = $is_cost;
         $this->data['total'] = $total;
-        $this->data['bill_list'] = $n_bill_list;
+        $this->data['bill_list'] = $x_bill_list;
         $this->data['event_month'] = $data['event_month'];
         $this->data['user_info'] = $user_info;
         $this->data['user_data'] = $this->session->userdata;
