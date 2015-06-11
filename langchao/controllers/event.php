@@ -1434,6 +1434,7 @@ class Event extends MY_Controller {
                 $per_page = 0;
             }
         $i = 1;
+        $bill_list = $this->bubble_sort($bill_list);  
         $n_bill_list = array();
         foreach ($bill_list as $key => $value) {
             if($i>$per_page && $i<=($per_page+ROW_SHOW_NUM)){
@@ -1441,11 +1442,11 @@ class Event extends MY_Controller {
             }
             $i++;
         }
-        $x_bill_list = $this->bubble_sort($n_bill_list);        
+              
         $user_info = $this->User_model->get_user_info(array('id'=>$data['user_id']));
         $this->data['is_cost'] = $is_cost;
         $this->data['total'] = $total;
-        $this->data['bill_list'] = $x_bill_list;
+        $this->data['bill_list'] = $n_bill_list;
         $this->data['event_month'] = $data['event_month'];
         $this->data['user_info'] = $user_info;
         $this->data['user_data'] = $this->session->userdata;
