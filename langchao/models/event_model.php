@@ -323,7 +323,7 @@ class Event_model extends CI_Model {
         foreach ($res as $key => $value) {
             $result[] = $value['value'];
         }
-        return $result;        
+        return $result;
     }
 
     public function get_weekend_info(){
@@ -331,7 +331,17 @@ class Event_model extends CI_Model {
         $query = $this->db->get_where('date_setting', $where);
         $result = $query->row_array();
         return $result;        
-    }    
+    }
+
+    public function get_h_weekend_list(){
+        $where = array('type'=>"h_weekend");
+        $query = $this->db->get_where('date_setting', $where);
+        $res = $query->result_array();
+        foreach ($res as $key => $value) {
+            $result[] = $value['value'];
+        }
+        return $result;     
+    }
 
     public function get_event_info_by_bill_id($id){
         $query = $this->db->get_where('biil_order_list', array('id'=>$id));

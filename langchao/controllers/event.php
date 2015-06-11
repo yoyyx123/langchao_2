@@ -119,8 +119,11 @@ class Event extends MY_Controller {
 
     public function is_valid_date($date){
         $holiday_list = $this->Event_model->get_holiday_list();
+        $h_weekend_list = $this->Event_model->get_h_weekend_list();
         $weekend_list = explode('_', WEEKEND);
         if (in_array($date, $holiday_list)){
+            return false;
+        }elseif (in_array($date, $h_weekend_list)){
             return false;
         }elseif(in_array(date("N",strtotime($date)), $weekend_list)){
             return false;
@@ -160,6 +163,9 @@ class Event extends MY_Controller {
                 if(!empty($data[$k])){
                     $where[$k] = trim($v);
                 }
+            }
+            if($where['status'] == 'all'){
+                unset($where['status']);
             }
             $event_list = $this->Event_model->get_event_list($where,$this->per_page);
             foreach ($event_list['info'] as $key => $value) {
@@ -457,7 +463,7 @@ class Event extends MY_Controller {
             $end_time = substr($value['back_time'],11);
             $day = (strtotime($end_date." 00:00:00") - strtotime($start_date." 00:00:00"))/(3600*24);
             $holiday_list = $this->Event_model->get_holiday_list();
-            
+            $h_weekend_list = $this->Event_model->get_h_weekend_list();
             $weekend_list = explode('_', WEEKEND);
             if (in_array($start_date, $holiday_list) && !in_array($end_date, $holiday_list)){
                 $astatus = False;
@@ -475,6 +481,14 @@ class Event extends MY_Controller {
                 $astatus = False;
                 $bstatus = False;
             }
+            if (in_array($start_date, $h_weekend_list) && !in_array($end_date, $h_weekend_list)){
+                $astatus = False;
+            }elseif (!in_array($start_date, $h_weekend_list) && in_array($end_date, $h_weekend_list)){
+                $bstatus = False;
+            }elseif (in_array($start_date, $h_weekend_list) && in_array($end_date, $h_weekend_list)){
+                $astatus = False;
+                $bstatus = False;
+            }            
             if($day>1){
                 if($worktime==="08:30:00_17:00:00"){
                     $int_tmp = $int_tmp - ($day-1)*(0.5*3600);
@@ -812,6 +826,7 @@ class Event extends MY_Controller {
             $arrive_date = substr($value['arrive_time'],0,10);
             $day = (strtotime($back_date." 00:00:00") - strtotime($arrive_date." 00:00:00"))/(3600*24);
             $holiday_list = $this->Event_model->get_holiday_list();
+            $h_weekend_list = $this->Event_model->get_h_weekend_list();
             $weekend_list = explode('_', WEEKEND);
             if (in_array($arrive_date, $holiday_list) && !in_array($back_date, $holiday_list)){
                 $arrive_tmp = strtotime($arrive_date." 00:00:00") + (3600*24) -strtotime($value['arrive_time']);
@@ -830,7 +845,24 @@ class Event extends MY_Controller {
                 $arrive = False;
                 $back = False;
             }
-            if(in_array(date("N",strtotime($back_date)), $weekend_list) && !in_array(date("N",strtotime($arrive_date)), $weekend_list)){
+
+            if (in_array($arrive_date, $h_weekend_list) && !in_array($back_date, $h_weekend_list)){
+                $arrive_tmp = strtotime($arrive_date." 00:00:00") + (3600*24) -strtotime($value['arrive_time']);
+                list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
+                $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
+                $arrive = False;
+            }elseif (!in_array($arrive_date, $h_weekend_list) && in_array($back_date, $h_weekend_list)){
+                $back_tmp = strtotime($value['back_time']) - strtotime($back_date." 00:00:00");
+                list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
+                $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;
+                $back = False;
+            }elseif (in_array($arrive_date, $h_weekend_list) && in_array($back_date, $h_weekend_list)){
+                $back_tmp = strtotime($value['back_time']) - strtotime($value['arrive_time']);
+                list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
+                $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;
+                $arrive = False;
+                $back = False;
+            }elseif(in_array(date("N",strtotime($back_date)), $weekend_list) && !in_array(date("N",strtotime($arrive_date)), $weekend_list)){
                 $back_tmp = strtotime($value['back_time']) - strtotime($back_date." 00:00:00");
                 list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
                 $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;

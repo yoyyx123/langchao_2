@@ -16,6 +16,7 @@
                     <select name="type" id="type" class="type">
                         <option value="weekend">周末</option>
                         <option value="holiday">节日</option>
+                        <option value="h_weekend">假期周末加班</option>
                     </select>                    
                 </td>
             </tr>
@@ -79,6 +80,23 @@ $(function() {
                 });                
             }
             if (type == "holiday"){
+                $(".datetime").addClass("form_datetime");
+                $("#value").val("");
+                $('.form_datetime').datetimepicker({
+                    format: "yyyy-mm-dd", 
+                    language:  'zh-CN',
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView:2,
+                    forceParse: 0,
+                    showMeridian: 1,
+
+                });                
+            }
+            if (type == "h_weekend"){
                 $(".datetime").addClass("form_datetime");
                 $("#value").val("");
                 $('.form_datetime').datetimepicker({

@@ -14,6 +14,7 @@
                     <select name="type" id="type" class="type">
                         <option value="weekend" <?php if($info['type']=="weekend") echo "selected='selected'"; ?>>周末</option>                        
                         <option value="holiday" <?php if($info['type']=="holiday") echo "selected='selected'"; ?>>节日</option>
+                        <option value="h_weekend" <?php if($info['type']=="h_weekend") echo "selected='selected'"; ?>>假期周末加班</option>                        
                     </select>                    
                 </td>
             </tr>

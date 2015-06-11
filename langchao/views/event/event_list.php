@@ -44,6 +44,7 @@
             <div class="input-group">
               <div class="input-group-addon">事件状态</div>
               <select class="form-control" name="status" id="status">
+              <option value="all" <?if(isset($status)&&$status==all){echo "selected=selected";}?>>全部</option>
                 <option value="1" <?if(isset($status)&&$status==1){echo "selected=selected";}?>>待添加</option>
                 <option value="2" <?if(isset($status)&&$status==2){echo "selected=selected";}?>>待审核</option>
               </select>
