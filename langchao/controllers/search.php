@@ -150,8 +150,8 @@ class Search extends MY_Controller {
                         }
                     }
                 }
-                $info[$k]['work_time'] = $this->trans_to_hour($work_time);
-                $info[$k]['road_time'] = $this->trans_to_hour($road_time);
+                $info[$k]['work_time'] = round($this->trans_to_hour($work_time),1);
+                $info[$k]['road_time'] = round($this->trans_to_hour($road_time),1);
                 $info[$k]['complain_num'] = $complain_num;
                 $info[$k]['check_num'] = $check_num;
             }
@@ -204,6 +204,7 @@ class Search extends MY_Controller {
             $this->data['event_month'] = $data['event_month'];
 
             $where = array('event_month'=>$data['event_month']);
+            $where['status'] = '3';
             if($data['user_id'] != "all" && $data['department_id'] !='all'){
                 $where['where_in']['value'][] = $data['user_id'];
                 $where['where_in']['key'] = 'user_id';
@@ -287,10 +288,10 @@ class Search extends MY_Controller {
         foreach ($work_order_list as $key => $value) {
             foreach ($value['bill_order_list'] as $k => $val) {
                 if($val['status'] == 2){
-                    $transportation_fee += $val['transportation_fee'];
-                    $hotel_fee += $val['hotel_fee'];
-                    $food_fee += $val['food_fee'];
-                    $other_fee += $val['other_fee'];
+                    $transportation_fee += $val['rel_transportation'];
+                    $hotel_fee += $val['rel_hotel'];
+                    $food_fee += $val['rel_food'];
+                    $other_fee += $val['rel_other'];
                 }
             }
         }
@@ -328,10 +329,10 @@ class Search extends MY_Controller {
             $info[$key]['no_status'] =  $no_status;
             $info[$key]['cost_status'] =  $cost_status;
             //$info[$key]['worktime_count'] =  $worktime_count;
-            $info[$key]['work_time'] = $work_time;
-            $info[$key]['week_more'] = $week_more;
-            $info[$key]['weekend_more'] = $weekend_more;
-            $info[$key]['holiday_more'] = $holiday_more;
+            $info[$key]['work_time'] = round($work_time,1);
+            $info[$key]['week_more'] = round($week_more,1);
+            $info[$key]['weekend_more'] = round($weekend_more,1);
+            $info[$key]['holiday_more'] = round($holiday_more,1);
             $info[$key]['event_month'] = $data['event_month'];
             $info[$key]['user_name'] = $value[0]['user_name'];
             $info[$key]['name'] = $value[0]['name'];
@@ -1252,10 +1253,10 @@ class Search extends MY_Controller {
             $holiday_more = $holiday_more*$date;
         }        
         //$work['worktime_count'] = $xx;
-        $work['work_time'] = $work_time;
-        $work['week_more'] = $week_more;
-        $work['weekend_more'] = $weekend_more;
-        $work['holiday_more'] = $holiday_more;
+        $work['work_time'] = round($work_time,1);
+        $work['week_more'] = round($week_more,1);
+        $work['weekend_more'] = round($weekend_more,1);
+        $work['holiday_more'] = round($holiday_more,1);
         return $work;
     }
 

@@ -682,6 +682,7 @@ class Event extends MY_Controller {
         }else{
             $time = $worktime_count*$date;
         }
+        $time = round($time,1);
         return $time;
     }
 
@@ -733,12 +734,12 @@ class Event extends MY_Controller {
         $where = array("id"=>trim($data['event_id']));
         $event = $this->Event_model->get_event_info($where);
         $worktime_count = $this->get_event_worktime_count($event);
-        $event['worktime_count'] =  $worktime_count;
+        $event['worktime_count'] =  round($worktime_count,1);
         $more_work = $this->get_event_worktime_more($event);
-        $event['work_time'] = $more_work['work_time'];
-        $event['week_more'] = $more_work['week_more'];
-        $event['weekend_more'] = $more_work['weekend_more'];
-        $event['holiday_more'] = $more_work['holiday_more'];
+        $event['work_time'] = round($more_work['work_time'],1);
+        $event['week_more'] = round($more_work['week_more'],1);
+        $event['weekend_more'] = round($more_work['weekend_more'],1);
+        $event['holiday_more'] = round($more_work['holiday_more'],1);
         $time = $event['event_time'];
         $x = strtotime($time);
         $work_order = $this->Event_model->get_work_order_info(array('event_id'=>$event['id']));
@@ -1467,7 +1468,7 @@ class Event extends MY_Controller {
     }
 
     public function check_all_bill_order(){
-         $status = '';
+        $status = '';
         $data = $this->security->xss_clean($_POST);
         $where = array('event_month'=>$data['event_month'],'user_id'=>$data['user_id']);
         $event_list = $this->Event_model->get_event_simple_list($where);
@@ -1475,7 +1476,7 @@ class Event extends MY_Controller {
             $sql = array('event_id' => $value['id']);
             $sql2 = array('id' => $value['id']);
             $event_info = $this->Event_model->get_event_info($sql2);
-            if ($event_info != '3'){
+            if ($event_info['status'] != '3'){
                 $status = 'status_error';
                 break;
             }
