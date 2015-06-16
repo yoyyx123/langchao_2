@@ -917,6 +917,7 @@ class Search extends MY_Controller {
         $this->data['department_id'] = $data['department_id'];
         $this->data['event_month'] = $data['event_month'];
         $where = array('user_id'=>$data['user_id'],'event_month'=>$data['event_month']);
+        $where['status'] = '3';
         $result = array();
         $event_list = $this->Event_model->get_event_list($where,false);
         foreach ($event_list['info'] as $key => $value) {
@@ -927,7 +928,9 @@ class Search extends MY_Controller {
                     $result = $this->bubble_sort_time($result);
                 }elseif($data['data_type']=="fee"){
                     foreach($val['bill_order_list'] as $m=>$n){
-                        $result[] = $this->format_bill_data($n,$user['name']);
+                        if($n['cost_status'] == '3'){
+                            $result[] = $this->format_bill_data($n,$user['name']);                           
+                        }
                         $result = $this->bubble_sort($result);
                     }
                 }
