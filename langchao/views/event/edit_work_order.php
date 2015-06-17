@@ -114,7 +114,8 @@ select{width:60px;}
 <div class="col-lg-7 col-md-4">
     <p class="center col-md-12">
         <button type="submit" class="btn btn-primary">编辑</button>&nbsp&nbsp&nbsp
-        <button type="button" class="btn btn-info delete_work_order">删除</button>
+        <button type="button" class="btn btn-info delete_work_order">删除</button>&nbsp&nbsp&nbsp
+        <a class="btn btn-info" href="<?php echo $back_url;?>">返回</a>
     </p>
 </div>
 </form>
@@ -237,6 +238,7 @@ select{width:60px;}
 <div class="row">
 </div>
 <?}?>
+<!--
 <div>
     <ul class="breadcrumb">
         <li>
@@ -244,7 +246,7 @@ select{width:60px;}
         </li>
     </ul>
 </div>
-
+-->
 <script type="text/javascript">
 laydate.skin('danlan')
 $(function() {

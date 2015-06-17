@@ -38,7 +38,7 @@
 
    <script src="<?php echo base_url('/statics/js/bootstrap-datetimepicker.js');?>"></script>
    <script src="<?php echo base_url('/statics/js/bootstrap-datetimepicker.zh-CN.js');?>"></script>
-   <script src="<?php echo base_url('/statics/js/laydate/laydate.js');?>"></script>
+  <!-- <script src="<?php echo base_url('/statics/js/laydate/laydate.js');?>"></script>-->
 
     
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->

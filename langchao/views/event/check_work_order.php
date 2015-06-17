@@ -178,7 +178,7 @@ function do_add(){
           layout: 'center',
           timeout: 1000,
         });
-        var url = "<?echo $back_url;?>";
+        var url = "<?echo site_url('ctl=event&act=event_check').$back_url;?>";
         url = url+"&is_status=succ";
         window.location.href = url;
         //$(".do_add").html("已审核");

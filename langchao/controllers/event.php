@@ -11,6 +11,7 @@ class Event extends MY_Controller {
         $this->load->model('Role_model');
         $this->load->model('Event_model');
         $this->load->model('User_model');
+
     }
 
     public function index(){
@@ -1589,6 +1590,8 @@ class Event extends MY_Controller {
             $this->Event_model->update_bill_order_status($data,$where);
             if($data['status'] == 2){
                 $cost_status = 2;
+                /**
+
                 $event_list = $this->Event_model->get_event_search_list(array("id"=>$event['id']));
                 foreach ($event_list as $key => $value) {
                     foreach ($value['work_order_list'] as $ke => $val) {
@@ -1596,6 +1599,16 @@ class Event extends MY_Controller {
                             if($v['status']==1){
                                 $cost_status = 1;
                             }
+                        }
+                    }
+                }
+                **/
+
+                $work_list = $this->Event_model->get_work_order_list(array("event_id"=>$event['id']));
+                foreach ($work_list as $ke => $val) {
+                    foreach ($$val['bill_order_list'] as $k => $v) {
+                        if($v['status']==1){
+                            $cost_status = 1;
                         }
                     }
                 }
