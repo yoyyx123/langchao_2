@@ -76,9 +76,7 @@
                 <? $i++;}?>
                 <tr>
                     <td colspan="18"><?php $this->load->view('elements/pager'); ?></td>
-                    <td><a class="btn btn-info do_check_all" bill_id="<?echo $val['id'];?>" id="do_check_all">一键审核</a></td>
-                    
-   
+                    <td><a class="btn btn-info do_check_all" bill_id="<?echo $val['id'];?>" id="do_check_all"><?php if($is_verify=="yes"){echo "一键反审核";}else{echo"一键审核";}?></a></td>
                 </tr>
             </tbody>
         </table>
@@ -112,7 +110,17 @@ var sel_time_data = function (per_page) {
 
 $(function() {
         $(".do_check_all").click(function(){
-            if(!confirm("确定要审核全部")){
+            is_verify = "<? echo $is_verify;?>";
+            if(is_verify=="yes"){
+                confirm_msg = "确定要反审核全部";
+                res_msg = "全部反审核成功！"
+                status = "1";
+            }else{
+                confirm_msg = "确定要审核全部";
+                res_msg = "全部审核成功！";
+                status = "2";
+            }
+            if(!confirm(confirm_msg)){
                     return false;
                 }
             event_month = $('.event_month').val();
@@ -120,12 +128,12 @@ $(function() {
             xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST","<?php echo site_url('ctl=event&act=check_all_bill_order');?>",false);
             xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            xmlhttp.send("event_month="+event_month+"&user_id="+user_id+"&status=2");
+            xmlhttp.send("event_month="+event_month+"&user_id="+user_id+"&status="+status+"&is_verify="+is_verify);
             var result = xmlhttp.responseText;
             var data = eval("("+result+")");
             if ("succ" == data.status){
                 var n = noty({
-                  text: "全部审核成功！",
+                  text: res_msg,
                   type: 'success',
                   layout: 'center',
                   timeout: 1000,

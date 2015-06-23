@@ -427,8 +427,10 @@ class Event extends MY_Controller {
             $event_list = $this->Event_model->get_event_list($where,$this->per_page);
             $this->pages_conf($event_list['count']);
             foreach ($event_list['info'] as $key => $value) {
-                $worktime_count = $this->get_event_worktime_count($value);
-                $value['worktime_count'] = $worktime_count;
+                $tmp_work = $this->get_event_worktime_more($value);
+                //$worktime_count = $this->get_event_worktime_count($value);
+                //$value['worktime_count'] = $worktime_count;
+                $value['worktime_count'] = $tmp_work['work_time']+ $tmp_work['week_more']+ $tmp_work['weekend_more']+ $tmp_work['holiday_more'];
                 $event_list['info'][$key] = $value;
             }
             $this->data['event_list'] = $event_list['info'];
@@ -444,6 +446,8 @@ class Event extends MY_Controller {
         $this->layout->view('event/event_check',$this->data);
     }
 
+    //6-23 zhushi
+    /**
     public function get_event_worktime_count($event){
         $worktime_count = 0;
         $tmp_where = array("id"=>$event['worktime_id']);
@@ -686,6 +690,7 @@ class Event extends MY_Controller {
         $time = round($time,1);
         return $time;
     }
+    **/
 
     public function do_check_search(){
         $data = $this->security->xss_clean($_POST);
@@ -734,13 +739,18 @@ class Event extends MY_Controller {
         }
         $where = array("id"=>trim($data['event_id']));
         $event = $this->Event_model->get_event_info($where);
-        $worktime_count = $this->get_event_worktime_count($event);
-        $event['worktime_count'] =  round($worktime_count,1);
+        
         $more_work = $this->get_event_worktime_more($event);
-        $event['work_time'] = round($more_work['work_time'],1);
-        $event['week_more'] = round($more_work['week_more'],1);
-        $event['weekend_more'] = round($more_work['weekend_more'],1);
-        $event['holiday_more'] = round($more_work['holiday_more'],1);
+        $event['work_time'] = $more_work['work_time'];
+        $event['week_more'] = $more_work['week_more'];
+        $event['weekend_more'] = $more_work['weekend_more'];
+        $event['holiday_more'] = $more_work['holiday_more'];
+        
+
+        //6-23 xiugai
+        //$worktime_count = $this->get_event_worktime_count($event);
+        //$event['worktime_count'] =  round($worktime_count,1);
+
         $time = $event['event_time'];
         $x = strtotime($time);
         $work_order = $this->Event_model->get_work_order_info(array('event_id'=>$event['id']));
@@ -767,7 +777,7 @@ class Event extends MY_Controller {
         //$event['event_less_time'] = $r;
         $this->data['event'] = $event;
         $check = $this->Event_model->get_check_event_info(array('id'=>$data['event_id']));
-        if($check['performance_id'] !=0){
+        if($check['work_performance_id'] !=0||$check['workmore_performance_id'] !=0||$check['weekend_performance_id'] !=0||$check['holiday_performance_id'] !=0){
             $this->data['check'] = $check;
         }
         $where = array("event_id"=>trim($data['event_id']));
@@ -778,42 +788,6 @@ class Event extends MY_Controller {
         $this->data['performance_list'] = $performance_list['info'];
         $this->layout->view('event/check_work_order',$this->data);
     }
-/**
-    public function get_event_worktime_more($event){
-        $week_more = 0;
-        $weekend_more = 0;
-        $holiday_more = 0;
-
-        $work_order_list = $this->Event_model->get_work_order_list(array('event_id'=>$event['id']));
-        foreach ($work_order_list as $key => $value) {
-            $tmp = strtotime($value['back_time']) - strtotime($value['arrive_time']);
-            $int_tmp =  intval($tmp/3600);
-            $less = $tmp-($int_tmp*3600);
-            $less_int =  intval($less/60);
-            if ($less_int>45){
-                $less_tmp = 1;
-            }elseif($less_int<=45 && $less_int>=15){
-                $less_tmp = 0.5;
-            }else{
-                $less_tmp = 0;
-            }
-            $date = substr($value['back_time'],0,10);
-            $holiday_list = $this->Event_model->get_holiday_list();
-            $weekend_list = explode('_', WEEKEND);
-            if (in_array($date, $holiday_list)){
-                $holiday_more = $holiday_more+$int_tmp+$less_tmp;
-            }elseif(in_array(date("N",strtotime($date)), $weekend_list)){
-                $weekend_more = $weekend_more+$int_tmp+$less_tmp;
-            }else{
-                $week_more = $week_more+$int_tmp+$less_tmp;
-            }
-        }
-        $res['week_more'] = $week_more;
-        $res['weekend_more'] = $weekend_more;
-        $res['holiday_more'] = $holiday_more;
-        return $res;
-    }
-**/
 
    public function get_event_worktime_more($event){
         $arrive = True;
@@ -846,9 +820,7 @@ class Event extends MY_Controller {
                 $holiday_more = $holiday_more+$back_int_tmp+$back_less_tmp;
                 $arrive = False;
                 $back = False;
-            }
-
-            if (in_array($arrive_date, $h_weekend_list) && !in_array($back_date, $h_weekend_list)){
+            }elseif (in_array($arrive_date, $h_weekend_list) && !in_array($back_date, $h_weekend_list)){
                 $arrive_tmp = strtotime($arrive_date." 00:00:00") + (3600*24) -strtotime($value['arrive_time']);
                 list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
                 $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
@@ -874,7 +846,7 @@ class Event extends MY_Controller {
                 list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
                 $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
                 $arrive = False;
-            }elseif (in_array(date("N",strtotime($arrive_date)), $weekend_list) && in_array(date("N",strtotime($back_date)), $weekend_list)) {
+            }elseif(in_array(date("N",strtotime($arrive_date)), $weekend_list) && in_array(date("N",strtotime($back_date)), $weekend_list)) {
                 $arrive_tmp = strtotime($value['back_time']) -strtotime($value['arrive_time']);
                 list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
                 $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
@@ -888,10 +860,53 @@ class Event extends MY_Controller {
             $work_time_tmp = $this->get_work_time($value['arrive_time'],$value['back_time'],$arrive,$back,$tmp_time,$day);
             $work_time = $work_time+$work_time_tmp;
         }
-        $res['work_time'] = $work_time;
-        $res['week_more'] = $week_more;
-        $res['weekend_more'] = $weekend_more;
-        $res['holiday_more'] = $holiday_more;
+            
+        $time = $event['event_time'];
+        $x = strtotime($time);
+        $work_order = $this->Event_model->get_work_order_info(array('event_id'=>$event['id']));
+        if($work_order){
+            $n = strtotime($work_order['date']);
+        }else{
+            $n = strtotime(date("Y-m-d"));
+        }
+        $tmp = $this->Role_model->get_expire_date();
+        if(!$tmp){
+            $m = 0;
+        }else{
+            $m = $tmp['name'];
+        }
+        $r = round(($x+$m*24*3600-$n)/(24*3600));
+        if($r>=0){
+            $date = 1;
+        }else{
+            $date = 1 +(0.1*$r);
+        }
+        if($date<=0.5){
+            $date = 0.5;
+        }
+        $work_performance = $this->Role_model->get_setting_info(array("id"=>$event['work_performance_id']));
+        $workmore_performance = $this->Role_model->get_setting_info(array("id"=>$event['workmore_performance_id']));
+        $weekend_performance = $this->Role_model->get_setting_info(array("id"=>$event['weekend_performance_id']));
+        $holiday_performance = $this->Role_model->get_setting_info(array("id"=>$event['holiday_performance_id']));
+        if($work_performance['name'] || $work_performance['name']!=0){
+            $work_time = $work_time*$work_performance['name']/100*$date;
+            $week_more = $week_more*$workmore_performance['name']/100*$date;
+            $weekend_more = $weekend_more*$weekend_performance['name']/100*$date;
+            $holiday_more = $holiday_more*$holiday_performance['name']/100*$date;
+        }else{
+            $work_time = $work_time*$date;
+            $week_more = $week_more*$date;
+            $weekend_more = $weekend_more*$date;
+            $holiday_more = $holiday_more*$date;
+        }
+        $res['work_time'] = round($work_time,1);
+        $res['week_more'] = round($week_more,1);
+        $res['weekend_more'] = round($weekend_more,1);
+        $res['holiday_more'] = round($holiday_more,1);
+        //如果是调休，加班为 工作日工时和工作日加班和的负值
+        if($event['event_type_name'] == "调休"){
+            $res['week_more'] = -($res['work_time']+$res['week_more']);
+        }
         return $res;
     }
 
@@ -1413,6 +1428,7 @@ class Event extends MY_Controller {
     }
 
     public function get_event_biil_list(){
+        $is_verify = 'yes';
         $total = 0;
         $bill_list = array();
         $is_cost = 1;
@@ -1439,14 +1455,17 @@ class Event extends MY_Controller {
         $bill_list = $this->bubble_sort($bill_list);  
         $n_bill_list = array();
         foreach ($bill_list as $key => $value) {
+            if($value['status'] == "1"){
+                $is_verify = 'no';
+            }
             if($i>$per_page && $i<=($per_page+ROW_SHOW_NUM)){
                 $n_bill_list[$key] = $value;
             }
             $i++;
         }
-              
         $user_info = $this->User_model->get_user_info(array('id'=>$data['user_id']));
         $this->data['is_cost'] = $is_cost;
+        $this->data['is_verify'] = $is_verify;
         $this->data['total'] = $total;
         $this->data['bill_list'] = $n_bill_list;
         $this->data['event_month'] = $data['event_month'];
@@ -1644,7 +1663,10 @@ class Event extends MY_Controller {
         $params['status'] = 3;
         $params['is_complain'] = $data['is_complain'];
         $params['event_status'] = $data['event_status'];
-        $params['performance_id'] = $data['performance_id'];
+        $params['work_performance_id'] = $data['work_performance_id'];
+        $params['workmore_performance_id'] = $data['workmore_performance_id'];
+        $params['weekend_performance_id'] = $data['weekend_performance_id'];
+        $params['holiday_performance_id'] = $data['holiday_performance_id'];
         $params['memo'] = $data['memo'];
         foreach($where as $key=>$value){
             if(!$value){

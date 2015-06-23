@@ -17,12 +17,45 @@
                     </td>
                 </tr>
                 <tr align="center">
-                    <th>绩效完成率</th>
+                    <th>有效工时绩效完成率</th>
                     <td>
-                        <select name="performance_id" id="performance_id">
+                        <select name="work_performance_id" id="work_performance_id">
                             <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['performance_id'])&&$check['performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['work_performance_id'])&&$check['work_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                            <?}?>
+                        </select>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <th>平时加班绩效完成率</th>
+                    <td>
+                        <select name="workmore_performance_id" id="workmore_performance_id">
+                            <option value="">请选择</option>
+                            <?foreach ($performance_list as $key => $value) {?>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['workmore_performance_id'])&&$check['workmore_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                            <?}?>
+                        </select>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <th>周末加班绩效完成率</th>
+                    <td>
+                        <select name="weekend_performance_id" id="weekend_performance_id">
+                            <option value="">请选择</option>
+                            <?foreach ($performance_list as $key => $value) {?>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['weekend_performance_id'])&&$check['weekend_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                            <?}?>
+                        </select>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <th>节假日加班绩效完成率</th>
+                    <td>
+                        <select name="holiday_performance_id" id="holiday_performance_id">
+                            <option value="">请选择</option>
+                            <?foreach ($performance_list as $key => $value) {?>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['holiday_performance_id'])&&$check['holiday_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -49,7 +82,10 @@
     function dopost(){
         is_complain = $('input[name="is_complain"]:checked').val()
         event_status = $('input[name="event_status"]:checked').val()
-        performance_id = $("#performance_id").val();
+        work_performance_id = $("#work_performance_id").val();
+        workmore_performance_id = $("#workmore_performance_id").val();
+        weekend_performance_id = $("#weekend_performance_id").val();
+        holiday_performance_id = $("#holiday_performance_id").val();
         memo = $("#memo").val();
         if (is_complain== '') {
             var n = noty({
@@ -69,9 +105,36 @@
             });
             return false;
         }
-        if (performance_id== '') {
+        if (work_performance_id== '') {
             var n = noty({
-              text: "请选择绩效完成率",
+              text: "请选择有效工时绩效完成率",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+        if (workmore_performance_id== '') {
+            var n = noty({
+              text: "请选择平时加班绩效完成率",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+        if (weekend_performance_id== '') {
+            var n = noty({
+              text: "请选择周末加班绩效完成率",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+        if (holiday_performance_id== '') {
+            var n = noty({
+              text: "请选择节假日加班绩效完成率",
               type: 'error',
               layout: 'center',
               timeout: 1000,

@@ -373,9 +373,7 @@ class Search extends MY_Controller {
                 $holiday_more = $holiday_more+$back_int_tmp+$back_less_tmp;
                 $arrive = False;
                 $back = False;
-            }
-            
-            if (in_array($arrive_date, $h_weekend_list) && !in_array($back_date, $h_weekend_list)){
+            }elseif (in_array($arrive_date, $h_weekend_list) && !in_array($back_date, $h_weekend_list)){
                 $arrive_tmp = strtotime($arrive_date." 00:00:00") + (3600*24) -strtotime($value['arrive_time']);
                 list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
                 $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
@@ -441,16 +439,17 @@ class Search extends MY_Controller {
         if($date<=0.5){
             $date = 0.5;
         }
-        $performance = $this->Role_model->get_setting_info(array("id"=>$event['performance_id']));        
-        //$worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
-        if($performance['name'] || $performance['name']!=0){
-            $xxx = $worktime_count_tmp*$performance['name']/100*$date;
-            $work_time = $work_time*$performance['name']/100*$date;
-            $week_more = $week_more*$performance['name']/100*$date;
-            $weekend_more = $weekend_more*$performance['name']/100*$date;
-            $holiday_more = $holiday_more*$performance['name']/100*$date;
+        $work_performance = $this->Role_model->get_setting_info(array("id"=>$event['work_performance_id']));
+        $workmore_performance = $this->Role_model->get_setting_info(array("id"=>$event['workmore_performance_id']));
+        $weekend_performance = $this->Role_model->get_setting_info(array("id"=>$event['weekend_performance_id']));
+        $holiday_performance = $this->Role_model->get_setting_info(array("id"=>$event['holiday_performance_id']));
+
+        if($work_performance['name'] || $work_performance['name']!=0){
+            $work_time = $work_time*$work_performance['name']/100*$date;
+            $week_more = $week_more*$workmore_performance['name']/100*$date;
+            $weekend_more = $weekend_more*$weekend_performance['name']/100*$date;
+            $holiday_more = $holiday_more*$holiday_performance['name']/100*$date;
         }else{
-            $xxx = $worktime_count_tmp*$date;
             $work_time = $work_time*$date;
             $week_more = $week_more*$date;
             $weekend_more = $weekend_more*$date;
@@ -459,8 +458,12 @@ class Search extends MY_Controller {
         $res['work_time'] = $work_time;
         $res['week_more'] = $week_more;
         $res['weekend_more'] = $weekend_more;
-        $res['holiday_more'] = $holiday_more;        
-        //$res['worktime_count'] = $xxx;
+        $res['holiday_more'] = $holiday_more;
+
+        //调休事件特殊处理
+        if($event['event_type_name'] == "调休"){
+            $res['week_more'] = -($res['work_time']+$res['week_more']);
+        }
         return $res;
     }
 
@@ -714,6 +717,8 @@ class Search extends MY_Controller {
         return $res;
     }
 
+    //6-23 注释
+    /**
     public function get_event_worktime_count($event){
         $worktime_count = 0;
         $work_order_list = $this->Event_model->get_work_order_list(array('event_id'=>$event['id']));
@@ -763,7 +768,7 @@ class Search extends MY_Controller {
         }        
         return $time;
     }
-
+    **/
 
     public function do_data_export_all(){
         $data = $this->security->xss_clean($_GET);
@@ -970,7 +975,7 @@ class Search extends MY_Controller {
                 $holiday_more += $value['holiday_more'];
             }
             $all['user_name'] = '合计';
-            $all['date'] = '';
+            //$all['date'] = '';
             $all['short_name'] = '';
             $all['event_type_name'] = '';
             $all['arrive_time'] = '';
@@ -1240,26 +1245,34 @@ class Search extends MY_Controller {
         if($date<=0.5){
             $date = 0.5;
         }
-        $performance = $this->Role_model->get_setting_info(array("id"=>$event['performance_id']));        
+        $work_performance = $this->Role_model->get_setting_info(array("id"=>$event['work_performance_id']));
+        $workmore_performance = $this->Role_model->get_setting_info(array("id"=>$event['workmore_performance_id'])); 
+        $weekend_performance = $this->Role_model->get_setting_info(array("id"=>$event['weekend_performance_id'])); 
+        $holiday_performance = $this->Role_model->get_setting_info(array("id"=>$event['holiday_performance_id']));        
         //$worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
-        if($performance['name'] || $performance['name']!=0){
-            $xx = $worktime_count*$performance['name']/100*$date;
-            $work_time = $work_time*$performance['name']/100*$date;
-            $week_more = $week_more*$performance['name']/100*$date;
-            $weekend_more = $weekend_more*$performance['name']/100*$date;
-            $holiday_more = $holiday_more*$performance['name']/100*$date;
+        if($work_performance['name'] || $work_performance['name']!=0){
+            //$xx = $worktime_count*$performance['name']/100*$date;
+            $work_time = $work_time*$work_performance['name']/100*$date;
+            $week_more = $week_more*$workmore_performance['name']/100*$date;
+            $weekend_more = $weekend_more*$weekend_performance['name']/100*$date;
+            $holiday_more = $holiday_more*$holiday_performance['name']/100*$date;
         }else{
-            $xx = $worktime_count*$date;
+            //$xx = $worktime_count*$date;
             $work_time = $work_time*$date;
             $week_more = $week_more*$date;
             $weekend_more = $weekend_more*$date;
             $holiday_more = $holiday_more*$date;
-        }        
+        }
         //$work['worktime_count'] = $xx;
         $work['work_time'] = round($work_time,1);
         $work['week_more'] = round($week_more,1);
         $work['weekend_more'] = round($weekend_more,1);
         $work['holiday_more'] = round($holiday_more,1);
+
+        //调休事件特殊处理
+        if($event['event_type_name'] == "调休"){
+            $work['week_more'] = -($work['work_time']+$work['week_more']);
+        }
         return $work;
     }
 
@@ -1280,42 +1293,6 @@ class Search extends MY_Controller {
         return $worktime_count;
     }
 
-/**
-    public function do_data_export_worktime_more($event,$work_order){
-        $week_more = 0;
-        $weekend_more = 0;
-        $holiday_more = 0;
-
-        $tmp = strtotime($work_order['back_time']) - strtotime($work_order['arrive_time']);
-        $int_tmp =  intval($tmp/3600);
-        $less = $tmp-($int_tmp*3600);
-        $less_int =  intval($less/60);
-        if ($less_int>45){
-            $less_tmp = 1;
-        }elseif($less_int<=45 && $less_int>=15){
-            $less_tmp = 0.5;
-        }else{
-            $less_tmp = 0;
-        }
-        $date = substr($work_order['back_time'],0,10);
-        $holiday_list = $this->Event_model->get_holiday_list();
-        $weekend_list = explode('_', WEEKEND);
-        if (in_array($date, $holiday_list)){
-            $holiday_more = $holiday_more+$int_tmp+$less_tmp;
-        }elseif(in_array(date("N",strtotime($date)), $weekend_list)){
-            $weekend_more = $weekend_more+$int_tmp+$less_tmp;
-        }else{
-            $tmp_time = $this->Event_model->get_work_time();
-            $week_more_tmp = $this->get_work_more_time($work_order['arrive_time'],$work_order['back_time'],$tmp_time);
-            $week_more = $week_more+$week_more_tmp;
-        }
-        $res[] = $week_more;
-        $res[] = $weekend_more;
-        $res[] = $holiday_more;
-        return $res;
-    }
-**/
-
    public function do_data_export_worktime_more($event,$work_order){
         $arrive = True;
         $back = True;
@@ -1329,6 +1306,7 @@ class Search extends MY_Controller {
         $arrive_date = substr($work_order['arrive_time'],0,10);
         $day = (strtotime($back_date." 00:00:00") - strtotime($arrive_date." 00:00:00"))/(3600*24);
         $holiday_list = $this->Event_model->get_holiday_list();
+        $h_weekend_list = $this->Event_model->get_h_weekend_list();
         $weekend_list = explode('_', WEEKEND);
         if (in_array($arrive_date, $holiday_list) && !in_array($back_date, $holiday_list)){
             $arrive_tmp = strtotime($arrive_date." 00:00:00") + (3600*24) -strtotime($work_order['arrive_time']);
@@ -1346,8 +1324,23 @@ class Search extends MY_Controller {
             $holiday_more = $holiday_more+$back_int_tmp+$back_less_tmp;
             $arrive = False;
             $back = False;
-        }
-        if(in_array(date("N",strtotime($back_date)), $weekend_list) && !in_array(date("N",strtotime($arrive_date)), $weekend_list)){
+        }elseif (in_array($arrive_date, $h_weekend_list) && !in_array($back_date, $h_weekend_list)){
+            $arrive_tmp = strtotime($arrive_date." 00:00:00") + (3600*24) -strtotime($value['arrive_time']);
+            list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
+            $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
+            $arrive = False;
+        }elseif (!in_array($arrive_date, $h_weekend_list) && in_array($back_date, $h_weekend_list)){
+            $back_tmp = strtotime($value['back_time']) - strtotime($back_date." 00:00:00");
+            list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
+            $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;
+            $back = False;
+        }elseif (in_array($arrive_date, $h_weekend_list) && in_array($back_date, $h_weekend_list)){
+            $back_tmp = strtotime($value['back_time']) - strtotime($value['arrive_time']);
+            list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
+            $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;
+            $arrive = False;
+            $back = False;
+        }elseif(in_array(date("N",strtotime($back_date)), $weekend_list) && !in_array(date("N",strtotime($arrive_date)), $weekend_list)){
             $back_tmp = strtotime($work_order['back_time']) - strtotime($back_date." 00:00:00");
             list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
             $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;
