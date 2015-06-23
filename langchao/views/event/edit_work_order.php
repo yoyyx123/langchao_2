@@ -109,6 +109,7 @@ select{width:60px;}
     </table>
     <input type="hidden" id="work_order_id" name="work_order_id" value="<?echo $value['id']; ?>">
     <input type="hidden" id="event_id" name="event_id" value="<?echo $event['id']; ?>">
+    <input type="hidden" id="event_time" value="<?echo $event['event_time']; ?>">
 </div>
 <input type="hidden" name="back_url" value="<?php echo $back_url;?>">
 <div class="col-lg-7 col-md-4">
@@ -287,6 +288,99 @@ $(function() {
 
 
 })
+
+
+
+function do_add(){
+    arrive_time = $('#arrive_time').val();
+    back_time = $('#back_time').val();
+    failure_mode = $('#failure_mode').val();
+    desc = $('#desc').val();
+    schedule = $('input[name="schedule"]:checked').val();
+    memo = $('#memo').val();
+
+    arrive_date = arrive_time.substr(0, 10);
+    back_date = back_time.substr(0, 10);
+    event_time = $('#event_time').val();
+    if (arrive_time== '') {
+            var n = noty({
+              text: "请输入到达时间",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+    if (back_time== '') {
+            var n = noty({
+              text: "请输入离场时间",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+    if(event_time != arrive_date){
+        var n = noty({
+          text: "到达时间必须为事件时间",
+          type: 'error',
+          layout: 'center',
+          timeout: 1000,
+        });
+        return false;
+    }
+    /*
+    if(event_time != back_date){
+        var n = noty({
+          text: "离场时间必须为事件时间",
+          type: 'error',
+          layout: 'center',
+          timeout: 1000,
+        });
+        return false;
+    }
+    */
+    if (failure_mode== '') {
+            var n = noty({
+              text: "请选择故障分类",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+    if (desc== '') {
+            var n = noty({
+              text: "请输入使用人描述",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+    if (schedule== '') {
+            var n = noty({
+              text: "请选择事件反馈",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+    if (memo== '' &&(schedule=='1'||schedule=='2')) {
+            var n = noty({
+              text: "备注必填",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }        
+    return true;                             
+}
+
+
+
 function add_td(atable){
     var type_id = $(atable).attr('type_id');
     var ObjTb = $(atable).parent().parent().parent().parent();

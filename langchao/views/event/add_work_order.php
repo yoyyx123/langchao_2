@@ -108,6 +108,7 @@
         </tbody>
     </table>
     <input type="hidden" name="event_id" value="<?echo $event['id']; ?>">
+    <input type="hidden" id="event_time" value="<?echo $event['event_time']; ?>">
     <input type="hidden" name="back_url" value="<?echo $back_url; ?>">
 </div>
 <div class="col-lg-7 col-md-4">
@@ -170,6 +171,10 @@ function do_add(){
     desc = $('#desc').val();
     schedule = $('input[name="schedule"]:checked').val();
     memo = $('#memo').val();
+
+    arrive_date = arrive_time.substr(0, 10);
+    back_date = back_time.substr(0, 10);
+    event_time = $('#event_time').val();
     if (arrive_time== '') {
             var n = noty({
               text: "请输入到达时间",
