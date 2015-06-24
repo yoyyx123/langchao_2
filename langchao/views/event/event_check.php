@@ -101,7 +101,7 @@
             <?if(isset($status)&&$status==2){?>
             <td><a class="btn btn-info do_check_all" user_id='<?php echo $value['id'];?>'>一键审核</a></td>
             <?}else{?>
-            <td></td>
+            <td><a class="btn btn-info do_check_all_no" user_id='<?php echo $value['id'];?>'>一键反审核</a></td>
             <?}?>
         </tr>
         
@@ -199,7 +199,7 @@ $(function() {
         status = $('#status').val();        
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'do_check_all_view'))?>"+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id,
+            url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'do_check_all_view'))?>"+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id+"&check_status=3",
             data: "",
             success: function(result){
                 $("#dialog").html(result);
@@ -215,6 +215,29 @@ $(function() {
          });
     });
 
+    $(".do_check_all_no").click(function() {
+        _self = this;
+        department_id = $('#department_id').val();
+        user_id = $('#user_id').val();
+        event_month = $('#event_month').val();
+        status = $('#status').val();        
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'do_check_all_view'))?>"+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id+"&check_status=2",
+            data: "",
+            success: function(result){
+                $("#dialog").html(result);
+                $("#dialog").dialog({
+                    autoOpen : false,
+                    width : 900,
+                    title : ('正在进行一键审核'),
+                    modal: true,
+
+                });
+                $("#dialog").dialog("open");
+            }
+         });
+    });
 
         $(".department_id").change(function() {
             _self = this;

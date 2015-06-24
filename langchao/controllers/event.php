@@ -85,7 +85,7 @@ class Event extends MY_Controller {
         unset($params['event_month']);
         $event = $this->Event_model->update_event_info($params,$where);
 
-        $redirect_url = 'ctl=event&act=event_list&is_event=1&user_id='.$data['user_id']."&event_month=".$data['event_month']."&status=1&res_status=修改成功";
+        $redirect_url = 'ctl=event&act=event_list&is_event=1&user_id='.$data['user_id']."&department_id=".$data['department_id']."&event_month=".$data['event_month']."&status=1&res_status=修改成功";
         redirect($redirect_url);
     }
 
@@ -1651,6 +1651,7 @@ class Event extends MY_Controller {
         $this->data['user_id'] = $data['user_id'];
         $this->data['event_month'] = $data['event_month'];
         $this->data['status'] = $data['status'];
+        $this->data['check_status'] = $data['check_status'];
         $this->load->view('event/do_check_all_view',$this->data);
     }
 
@@ -1660,7 +1661,7 @@ class Event extends MY_Controller {
         $where['user_id'] = $data['user_id'];
         $where['event_month'] = $data['event_month'];
         $where['status'] = $data['status'];
-        $params['status'] = 3;
+        $params['status'] = $data['check_status'];
         $params['is_complain'] = $data['is_complain'];
         $params['event_status'] = $data['event_status'];
         $params['work_performance_id'] = $data['work_performance_id'];

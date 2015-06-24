@@ -20,9 +20,8 @@
                     <th>有效工时绩效完成率</th>
                     <td>
                         <select name="work_performance_id" id="work_performance_id">
-                            <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['work_performance_id'])&&$check['work_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['work_performance_id'])&&$check['work_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -31,9 +30,8 @@
                     <th>平时加班绩效完成率</th>
                     <td>
                         <select name="workmore_performance_id" id="workmore_performance_id">
-                            <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['workmore_performance_id'])&&$check['workmore_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['workmore_performance_id'])&&$check['workmore_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -42,9 +40,8 @@
                     <th>周末加班绩效完成率</th>
                     <td>
                         <select name="weekend_performance_id" id="weekend_performance_id">
-                            <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['weekend_performance_id'])&&$check['weekend_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['weekend_performance_id'])&&$check['weekend_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -53,9 +50,8 @@
                     <th>节假日加班绩效完成率</th>
                     <td>
                         <select name="holiday_performance_id" id="holiday_performance_id">
-                            <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['holiday_performance_id'])&&$check['holiday_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['holiday_performance_id'])&&$check['holiday_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -72,6 +68,7 @@
         <input type="hidden" name="user_id" id="user_id" value="<?echo $user_id;?>">
         <input type="hidden" name="event_month" id="event_month" value="<?echo $event_month;?>">
         <input type="hidden" name="status" id="status" value="<?echo $status;?>">
+        <input type="hidden" name="check_status" id="check_status" value="<?echo $check_status;?>">
         <button class="btn btn-primary" type="submit">审核</button>
     </form>
 </div>

@@ -175,6 +175,15 @@ function do_add(){
     arrive_date = arrive_time.substr(0, 10);
     back_date = back_time.substr(0, 10);
     event_time = $('#event_time').val();
+    if(event_time != arrive_date){
+        var n = noty({
+          text: "到达时间必须为事件时间",
+          type: 'error',
+          layout: 'center',
+          timeout: 1000,
+        });
+        return false;
+    }
     if (arrive_time== '') {
             var n = noty({
               text: "请输入到达时间",

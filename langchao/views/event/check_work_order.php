@@ -21,9 +21,8 @@
                     <td><?php echo $event['work_time'];?>小时</td>
                     <td>
                         <select name="work_performance_id" id="work_performance_id" autocomplete = "off">
-                            <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['work_performance_id'])&&$check['work_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['work_performance_id'])&&$check['work_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -33,9 +32,8 @@
                     <td><?php echo $event['week_more'];?>小时</td>
                     <td>
                         <select name="workmore_performance_id" id="workmore_performance_id" autocomplete = "off">
-                            <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['workmore_performance_id'])&&$check['workmore_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['workmore_performance_id'])&&$check['workmore_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -45,9 +43,8 @@
                     <td><?php echo $event['weekend_more'];?>小时</td>
                     <td>
                         <select name="weekend_performance_id" id="weekend_performance_id" autocomplete = "off">
-                            <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['weekend_performance_id'])&&$check['weekend_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['weekend_performance_id'])&&$check['weekend_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -57,9 +54,8 @@
                     <td><?php echo $event['holiday_more'];?>小时</td>
                     <td>
                         <select name="holiday_performance_id" id="holiday_performance_id" autocomplete = "off">
-                            <option value="">请选择</option>
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['holiday_performance_id'])&&$check['holiday_performance_id']==$value['id']){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['holiday_performance_id'])&&$check['holiday_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>

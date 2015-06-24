@@ -5,9 +5,10 @@ select{width:60px;}
 
 
 
-<? foreach ($work_order_list as $key => $value) {
+<? $i=0;foreach ($work_order_list as $key => $value) {
+    $i++;
 ?>
-<form class="form-horizontal" action="<?php echo site_url('ctl=event&act=do_edit_work_order');?>" method="post"  onsubmit="return do_add();">
+<form class="form-horizontal-<?echo $i;?>" action="<?php echo site_url('ctl=event&act=do_edit_work_order');?>" method="post"  onsubmit="return do_add();">
 
 <div class="box col-lg-12 col-md-12">
     <table class="table table-bordered">
@@ -107,13 +108,14 @@ select{width:60px;}
 
         </tbody>
     </table>
-    <input type="hidden" id="work_order_id" name="work_order_id" value="<?echo $value['id']; ?>">
-    <input type="hidden" id="event_id" name="event_id" value="<?echo $event['id']; ?>">
-    <input type="hidden" id="event_time" value="<?echo $event['event_time']; ?>">
+    
 </div>
 <input type="hidden" name="back_url" value="<?php echo $back_url;?>">
 <div class="col-lg-7 col-md-4">
     <p class="center col-md-12">
+        <input type="hidden" id="work_order_id" name="work_order_id" value="<?echo $value['id']; ?>">
+        <input type="hidden" id="event_id" name="event_id" value="<?echo $event['id']; ?>">
+        <input type="hidden" id="event_time" value="<?echo $event['event_time']; ?>">
         <button type="submit" class="btn btn-primary">编辑</button>&nbsp&nbsp&nbsp
         <button type="button" class="btn btn-info delete_work_order">删除</button>&nbsp&nbsp&nbsp
         <a class="btn btn-info" href="<?php echo $back_url;?>">返回</a>
@@ -249,7 +251,6 @@ select{width:60px;}
 </div>
 -->
 <script type="text/javascript">
-laydate.skin('danlan')
 $(function() {
     $('.format_time').datetimepicker({
         format: "yyyy-mm-dd hh:ii:ss", 
@@ -274,7 +275,10 @@ $(function() {
      
 
     $(".delete_work_order").click(function() {
-        work_order_id = $('#work_order_id').val();
+        var work_order_id = $(this).parent().children('input[id="work_order_id"]').val();
+        //alert(id);
+        //return;
+        //work_order_id = $('#work_order_id').val();
         event_id = $('#event_id').val();
         $('#arrive_time').val();
      if(confirm("确认删除工单吗")){
