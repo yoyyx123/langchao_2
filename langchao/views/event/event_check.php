@@ -58,14 +58,14 @@
 
     <?php
     if(isset($event_list)&&!empty($event_list)&&isset($is_event)){
-    ?>    
+    ?>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>事件列表</th>
                 <th colspan="2">使用人：<?php echo $user['name'];?></th>
                 <th colspan="7"></th>
-            </tr>                    
+            </tr>
             <tr>
                 <th>序号</th>
                 <th>日期、时间</th>
@@ -95,7 +95,7 @@
                 <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=check_work_order')."&event_id=".$value['id']."&user_id=".$user_id."&department_id=".$department_id."&event_month=".$event_month."&status=".$status;?>">查看</a></td>
             </tr>
             <? } ?>
-        
+
         <tr>
             <td colspan="8"><?php $this->load->view('elements/pager'); ?></td>
             <?if(isset($status)&&$status==2){?>
@@ -104,12 +104,12 @@
             <td><a class="btn btn-info do_check_all_no" user_id='<?php echo $value['id'];?>'>一键反审核</a></td>
             <?}?>
         </tr>
-        
-        </tbody>       
+
+        </tbody>
     </table>
 <?php }elseif(isset($is_event)){?>
 <p>查询不到事件信息!</p>
-<?php }?> 
+<?php }?>
 
 </div>
 
@@ -124,7 +124,7 @@ var sel_time_data = function (per_page) {
     department_id = $('#department_id').val();
     user_id = $('#user_id').val();
     event_month = $('#event_month').val();
-    status = $('#status').val();    
+    status = $('#status').val();
     var url = '<?php echo site_url("ctl=event&act=event_check");?>'+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id;
     var getobj = {};
     if(per_page>0){
@@ -151,16 +151,16 @@ var sel_time_data = function (per_page) {
                 if(value['id']==<?echo$user_id;?>){
                 $(".user_id").append('<option value="'+value['id']+'" selected=selected>'+value['name']+'</option>');
                 }else{
-                $(".user_id").append('<option value="'+value['id']+'">'+value['name']+'</option>');                  
+                $(".user_id").append('<option value="'+value['id']+'">'+value['name']+'</option>');
                 }
             });
         }
-     });   
+     });
 
 <?}?>
 
 $(function() {
-  
+
 
         <?if(isset($is_status) && $is_status == "succ"){?>
             var n = noty({
@@ -180,7 +180,7 @@ $(function() {
         <?}?>
 
     $('.format_time').datetimepicker({
-        format: "yyyy-mm", 
+        format: "yyyy-mm",
         language:  'zh-CN',
         todayBtn:  1,
         autoclose: 1,
@@ -196,7 +196,7 @@ $(function() {
         department_id = $('#department_id').val();
         user_id = $('#user_id').val();
         event_month = $('#event_month').val();
-        status = $('#status').val();        
+        status = $('#status').val();
         $.ajax({
             type: "POST",
             url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'do_check_all_view'))?>"+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id+"&check_status=3",
@@ -220,23 +220,14 @@ $(function() {
         department_id = $('#department_id').val();
         user_id = $('#user_id').val();
         event_month = $('#event_month').val();
-        status = $('#status').val();        
-        $.ajax({
-            type: "POST",
-            url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'do_check_all_view'))?>"+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id+"&check_status=2",
-            data: "",
-            success: function(result){
-                $("#dialog").html(result);
-                $("#dialog").dialog({
-                    autoOpen : false,
-                    width : 900,
-                    title : ('正在进行一键审核'),
-                    modal: true,
-
-                });
-                $("#dialog").dialog("open");
-            }
-         });
+        status = $('#status').val();
+        check_status = 2;
+        if(confirm("确认要全部取消审核吗？")){
+            var url = "<?php echo site_url(array('ctl'=>'event', 'act'=>'do_check_all'))?>"+"&department_id="+department_id+"&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&check_status="+check_status;
+            window.location.href = url;
+        }else{
+            return;
+        }
     });
 
         $(".department_id").change(function() {
@@ -261,7 +252,7 @@ $(function() {
                         }
                     });
                 }
-             });            
+             });
         });
 
         $(".do_search").click(function() {
@@ -278,7 +269,7 @@ $(function() {
                       timeout: 1000,
                     });
                     return false;
-                }            
+                }
             if (user_id == '' && event_time == '' && status == '' ) {
                     var n = noty({
                       text: "三项中必须填写一项",
@@ -300,7 +291,7 @@ $(function() {
                 }
              });
             **/
-        });        
+        });
 
 })
 </script>

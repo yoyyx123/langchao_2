@@ -31,14 +31,14 @@ select{width:60px;}
                 <th>离场时间(签退)</th>
                 <td>
                     <input type="text" style="width:160px" class="format_time" name="back_time" id="back_time" value="<?echo $value['back_time'];?>">
-                </td>                
+                </td>
             </tr>
             <tr>
                 <th>保修症状</th>
                 <td colspan="3">
                     <textarea  name="symptom"  rows="3" cols="50"><?echo $value['symptom'];?></textarea>
                 </td>
-            </tr>            
+            </tr>
             <tr>
                 <th>故障分类</th>
                 <td>
@@ -108,7 +108,7 @@ select{width:60px;}
 
         </tbody>
     </table>
-    
+
 </div>
 <input type="hidden" name="back_url" value="<?php echo $back_url;?>">
 <div class="col-lg-7 col-md-4">
@@ -128,7 +128,7 @@ select{width:60px;}
         <thead>
             <tr class="CaseRow">
                 <th align="center" colspan="15">去程费用</th>
-            </tr>                    
+            </tr>
             <tr class="CaseRow">
                 <th>序号</th>
                 <th>出发时间</th>
@@ -182,7 +182,7 @@ select{width:60px;}
         <thead>
             <tr class="CaseRow">
                 <th align="center" colspan="15">返程费用</th>
-            </tr>                    
+            </tr>
             <tr class="CaseRow">
                 <th>序号</th>
                 <th>出发时间</th>
@@ -232,7 +232,7 @@ select{width:60px;}
             <?}?>
         </tbody>
     </table>
-    
+
 </div>
 </div>
 
@@ -253,7 +253,7 @@ select{width:60px;}
 <script type="text/javascript">
 $(function() {
     $('.format_time').datetimepicker({
-        format: "yyyy-mm-dd hh:ii:ss", 
+        format: "yyyy-mm-dd hh:ii:ss",
         language:  'zh-CN',
         weekStart: 1,
         todayBtn:  1,
@@ -272,13 +272,10 @@ $(function() {
       timeout: 1000,
     });
     <?}?>
-     
+
 
     $(".delete_work_order").click(function() {
         var work_order_id = $(this).parent().children('input[id="work_order_id"]').val();
-        //alert(id);
-        //return;
-        //work_order_id = $('#work_order_id').val();
         event_id = $('#event_id').val();
         $('#arrive_time').val();
      if(confirm("确认删除工单吗")){
@@ -379,8 +376,8 @@ function do_add(){
               timeout: 1000,
             });
             return false;
-        }        
-    return true;                             
+        }
+    return true;
 }
 
 
@@ -397,7 +394,7 @@ function add_td(atable){
     var TrContent = '<tr id="'+NId+'"><td>'+NId+'</td><td><input type="text" style="width:135px" name="go_time" id="go_time" class="format_time"></td><td><input style="width:135px" type="text" name="arrival_time" id="arrival_time" class="format_time"></td><td><input type="text" name="start_place" id="start_place"></td><td><input type="text" name="arrival_place" id="arrival_place"></td><td><select id="transportation" name="transportation"><?foreach ($traffic_list as $k => $tmp) {?><option value="<?echo $tmp["id"];?>" selected=selected><?echo $tmp["name"];?></option><?}?></select></td><td><input type="text" name="transportation_fee" id="transportation_fee" value="0" style="width:45px" ></td><td><input type="text" name="hotel_fee" id="hotel_fee" value="0" style="width:45px" ></td><td><input type="text" name="food_fee" id="food_fee" value="0" style="width:45px" ></td><td><input type="text" name="other_fee" value="0" id="other_fee" style="width:45px" ></td><td><input type="text" name="memo" id="memo"></td><td><input type="text" name="use_person" id="use_person"></td><td><input type="text" name="bill_no" id="bill_no"></td><td><a class="btn btn-primary do_save" type_id="'+type_id+'" bill_id="" onclick="do_save(this)">保存</a></td><td><a class="btn btn-primary" id="do_delete" type_id="'+type_id+'" bill_id="" onclick="do_delete(this)">删除</a></td></tr>';
     $(atable).parent().parent().parent().parent().find("tbody").append(TrContent);
     $('.format_time').datetimepicker({
-        format: "yyyy-mm-dd hh:ii:ss", 
+        format: "yyyy-mm-dd hh:ii:ss",
         language:  'zh-CN',
         weekStart: 1,
         todayBtn:  1,
@@ -432,9 +429,9 @@ function do_delete(atable){
               timeout: 1000,
             });
             return false;
-        }         
+        }
     }
-    $(atable).parent().parent().remove()   
+    $(atable).parent().parent().remove()
 }
 function do_save(atable){
     work_order_id = $("#work_order_id").val();
@@ -484,7 +481,7 @@ function do_save(atable){
             });
             return false;
         }
-    **/               
+    **/
     if (go_time== '') {
             var n = noty({
               text: "请输入出发时间",

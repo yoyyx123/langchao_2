@@ -30,14 +30,14 @@
                 <th>离场时间(签退)</th>
                 <td>
                     <input type="text" name="back_time" id="back_time" class="back_time">
-                </td>                
+                </td>
             </tr>
             <tr>
                 <th>保修症状</th>
                 <td colspan="3">
                     <textarea  name="symptom" rows="3" cols="50"></textarea>
                 </td>
-            </tr>            
+            </tr>
             <tr>
                 <th>故障分类</th>
                 <td>
@@ -115,7 +115,7 @@
     <p class="center col-md-12">
         <button type="submit" class="btn btn-primary">添加</button>&nbsp&nbsp&nbsp
     </p>
-</div> 
+</div>
 
 </form>
 
@@ -125,7 +125,7 @@
 $(function() {
 
     $('.arrive_time').datetimepicker({
-        format: "yyyy-mm-dd hh:ii:00", 
+        format: "yyyy-mm-dd hh:ii:00",
         language:  'zh-CN',
         weekStart: 1,
         todayBtn:  1,
@@ -138,7 +138,7 @@ $(function() {
     });
 
     $('.back_time').datetimepicker({
-        format: "yyyy-mm-dd hh:ii:00", 
+        format: "yyyy-mm-dd hh:ii:00",
         language:  'zh-CN',
         weekStart: 1,
         todayBtn:  1,
@@ -157,9 +157,9 @@ $(function() {
       layout: 'center',
       timeout: 1000,
     });
-    <?}?>    
+    <?}?>
 
-})        
+})
 
 
 
@@ -237,7 +237,7 @@ function do_add(){
               timeout: 1000,
             });
             return false;
-        }        
-    return true;                             
+        }
+    return true;
 }
 </script>

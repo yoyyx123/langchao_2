@@ -18,7 +18,7 @@
                 <?php }} ?>
               </select>
             </div>
-          </div>          
+          </div>
           <div class="form-group">
             <div class="input-group">
             <div class="input-group-addon">使用人</div>
@@ -37,12 +37,12 @@
           <div class="form-group">
             <div class="input-group">
               <div class="input-group-addon">月份</div>
-              <input id="event_month" class="form-control format_time" type="text" value="<?if(isset($event_month)){echo $event_month;}?>" name="event_month">              
+              <input id="event_month" class="form-control format_time" type="text" value="<?if(isset($event_month)){echo $event_month;}?>" name="event_month">
             </div>
           </div>&nbsp&nbsp
           <div class="form-group">
             <div class="input-group">
-              <div class="input-group-addon">事件状态</div>
+              <div class="input-group-addon">费用状态</div>
               <select class="form-control" name="cost_status" id="cost_status">
                 <option value="1" <?if(isset($cost_status)&&$cost_status==1){echo "selected=selected";}?>>未审核</option>
                 <option value="2" <?if(isset($cost_status)&&$cost_status==2){echo "selected=selected";}?>>待报销</option>
@@ -58,9 +58,9 @@
 <div class="row event_info" id="event_info">
     <?php
     if(isset($month_list)&&!empty($month_list)&&isset($is_event)){
-    ?>    
+    ?>
     <table class="table table-bordered">
-        <thead>            
+        <thead>
             <tr>
                 <th>序号</th>
                 <th>使用人</th>
@@ -81,14 +81,14 @@
                 <td><?php echo $value['name'];?></td>
                 <td><?php echo $key;?></td>
                 <td><?if($value['cost_status']==1){echo "未审核";}elseif($value['cost_status']==2){echo "待报销";}elseif($value['cost_status']==3){echo "已报销";}?></td>
-                <td><?php echo $value['total_fee'];?></td>              
-                <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=get_event_biil_list')."&user_id=".$value['user_id']."&event_month=".$key;?>">查看</a></td>
+                <td><?php echo $value['total_fee'];?></td>
+                <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=get_event_biil_list')."&user_id=".$value['user_id']."&event_month=".$key."&cost_status=".$value['cost_status'];?>">查看</a></td>
                 <td><?php echo $value['rel_total_fee'];?></td>
             </tr>
             <? } ?>
         <tr>
             <td colspan="7"><?php $this->load->view('elements/pager'); ?></td>
-        </tr>            
+        </tr>
         </tbody>
     </table>
 <?php }elseif(isset($is_event)){?>
@@ -106,10 +106,10 @@
 
 
 var sel_time_data = function (per_page) {
-    department_id = $('#department_id').val();    
+    department_id = $('#department_id').val();
     user_id = $('#user_id').val();
     event_month = $('#event_month').val();
-    status = $('#status').val();    
+    status = $('#status').val();
     var url = '<?php echo site_url("ctl=event&act=cost_check");?>'+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id;
     var getobj = {};
     if(per_page>0){
@@ -136,18 +136,18 @@ var sel_time_data = function (per_page) {
                 if(value['id']==<?echo$user_id;?>){
                 $(".user_id").append('<option value="'+value['id']+'" selected=selected>'+value['name']+'</option>');
                 }else{
-                $(".user_id").append('<option value="'+value['id']+'">'+value['name']+'</option>');                  
+                $(".user_id").append('<option value="'+value['id']+'">'+value['name']+'</option>');
                 }
             });
         }
-     });   
+     });
 
 <?}?>
 
 $(function() {
 
     $('.format_time').datetimepicker({
-        format: "yyyy-mm", 
+        format: "yyyy-mm",
         language:  'zh-CN',
         todayBtn:  1,
         autoclose: 1,
@@ -157,7 +157,7 @@ $(function() {
         showMeridian: 1,
         minView:3
     });
-    
+
         $(".department_id").change(function() {
             _self = this;
             $.ajax({
@@ -180,7 +180,7 @@ $(function() {
                         }
                     });
                 }
-             });            
+             });
         });
         $(".do_search").click(function() {
             _self = this;
@@ -196,7 +196,7 @@ $(function() {
                       timeout: 1000,
                     });
                     return false;
-                }            
+                }
             if (user_id == '' && event_month == '' && cost_status == '' ) {
                     var n = noty({
                       text: "三项中必须填写一项",
@@ -218,7 +218,7 @@ $(function() {
                 }
              });
           **/
-        });        
+        });
 
 })
 </script>

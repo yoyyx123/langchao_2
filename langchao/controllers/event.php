@@ -458,7 +458,7 @@ class Event extends MY_Controller {
             $bstatus = True;
 
             $tmp = strtotime($value['back_time']) - strtotime($value['arrive_time']);
-            
+
             $tmpx = explode("_",$worktime);
             $work_start = $tmpx[0];
             $work_end = $tmpx[1];
@@ -493,7 +493,7 @@ class Event extends MY_Controller {
             }elseif (in_array($start_date, $h_weekend_list) && in_array($end_date, $h_weekend_list)){
                 $astatus = False;
                 $bstatus = False;
-            }            
+            }
             if($day>1){
                 if($worktime==="08:30:00_17:00:00"){
                     $int_tmp = $int_tmp - ($day-1)*(0.5*3600);
@@ -557,7 +557,7 @@ class Event extends MY_Controller {
                     $tmp = $tmp - (strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time));
                 }elseif($worktime==="09:30:00_18:00:00" && $start_time>"12:00:00" && $start_time<="13:00:00"&& $end_time>"13:00:00"){
                     $tmp = $tmp - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-                }            
+                }
 
             }
             if($astatus && ($start_date ==$end_date) && ($start_time >$work_start) && ($start_time<$work_end) && ($end_time>$work_end) ){
@@ -573,7 +573,7 @@ class Event extends MY_Controller {
                     $tmp = $tmp - (0.5*3600);
                 }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                    $tmp = $tmp - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-                }            
+                }
             }
 
             if($astatus && ($start_date <$end_date) && ($start_time <$work_start)){
@@ -599,7 +599,7 @@ class Event extends MY_Controller {
                     $tmp = $tmp - (0.5*3600);
                 }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                    $tmp = $tmp - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-                }             
+                }
 
             }
 
@@ -628,7 +628,7 @@ class Event extends MY_Controller {
                     $tmp = $tmp - (strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time));
                 }elseif($worktime==="09:30:00_18:00:00" && $start_time>"12:00:00" && $start_time<="13:00:00"&& $end_time>"13:00:00"){
                     $tmp = $tmp - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-                }             
+                }
             }elseif($bstatus && ($start_date < $end_date) && ($end_time>$work_end)){
                 if($worktime==="08:30:00_17:00:00" && $start_time<"12:00:00" && $start_time>="11:30:00"){
                     $tmp = $tmp - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
@@ -642,7 +642,7 @@ class Event extends MY_Controller {
                     $tmp = $tmp - (0.5*3600);
                 }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                    $tmp = $tmp - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-                }            
+                }
             }
 
 
@@ -739,13 +739,13 @@ class Event extends MY_Controller {
         }
         $where = array("id"=>trim($data['event_id']));
         $event = $this->Event_model->get_event_info($where);
-        
+
         $more_work = $this->get_event_worktime_more($event);
         $event['work_time'] = $more_work['work_time'];
         $event['week_more'] = $more_work['week_more'];
         $event['weekend_more'] = $more_work['weekend_more'];
         $event['holiday_more'] = $more_work['holiday_more'];
-        
+
 
         //6-23 xiugai
         //$worktime_count = $this->get_event_worktime_count($event);
@@ -860,7 +860,7 @@ class Event extends MY_Controller {
             $work_time_tmp = $this->get_work_time($value['arrive_time'],$value['back_time'],$arrive,$back,$tmp_time,$day);
             $work_time = $work_time+$work_time_tmp;
         }
-            
+
         $time = $event['event_time'];
         $x = strtotime($time);
         $work_order = $this->Event_model->get_work_order_info(array('event_id'=>$event['id']));
@@ -938,7 +938,7 @@ class Event extends MY_Controller {
             }elseif($worktime==="08:30:00_17:00:00" && $end_time>="11:30:00"&& $end_time<="12:00:00"){
                 $tmp_int = $tmp_int - (strtotime($start_date." ".$end_time) - strtotime($start_date." 11:30:00"));
             }elseif($worktime==="08:30:00_17:30:00" && $end_time>"12:30:00"){
-                $tmp_int = $tmp_int - (0.5*3600);
+                $tmp_int = $tmp_int - (1*3600);
             }elseif($worktime==="08:30:00_17:30:00" && $end_time>="11:30:00"&& $end_time<="12:30:00"){
                $tmp_int = $tmp_int - (strtotime($start_date." ".$end_time) - strtotime($start_date." 11:30:00"));
             }elseif($worktime==="09:30:00_18:00:00" && $end_time>"13:00:00"){
@@ -985,7 +985,7 @@ class Event extends MY_Controller {
                 $tmp_int = $tmp_int - (strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time));
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>"12:00:00" && $start_time<="13:00:00"&& $end_time>"13:00:00"){
                 $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }            
+            }
 
         }
         if($astatus && ($start_date ==$end_date) && ($start_time >$work_start) && ($start_time<$work_end) && ($end_time>$work_end) ){
@@ -1002,7 +1002,7 @@ class Event extends MY_Controller {
                 $tmp_int = $tmp_int - (0.5*3600);
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }            
+            }
         }
 
         if($astatus && ($start_date <$end_date) && ($start_time <$work_start)){
@@ -1030,7 +1030,7 @@ class Event extends MY_Controller {
                 $tmp_int = $tmp_int - (0.5*3600);
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }             
+            }
 
         }
 
@@ -1060,7 +1060,7 @@ class Event extends MY_Controller {
                 $tmp_int = $tmp_int - (strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time));
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>"12:00:00" && $start_time<="13:00:00"&& $end_time>"13:00:00"){
                 $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }             
+            }
         }elseif($bstatus && ($start_date < $end_date) && ($end_time>$work_end)){
             $tmp_int += strtotime($end_date." ".$work_end) - strtotime($end_date." ".$work_start);
             if($worktime==="08:30:00_17:00:00" && $start_time<"12:00:00" && $start_time>="11:30:00"){
@@ -1075,7 +1075,7 @@ class Event extends MY_Controller {
                 $tmp_int = $tmp_int - (0.5*3600);
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }            
+            }
         }
         list($int_tmp,$less_tmp) = $this->get_time_format($tmp_int);
         return ($int_tmp+$less_tmp);
@@ -1335,10 +1335,9 @@ class Event extends MY_Controller {
                         'total_fee' =>$total_fee,
                         'rel_total_fee' => $rel_total_fee,
                         );
-                    $month_list[$key] = $info;                    
+                    $month_list[$key] = $info;
                 }
                 $i++;
-                
             }
             $this->data['month_list'] = $month_list;
         }
@@ -1433,7 +1432,7 @@ class Event extends MY_Controller {
         $bill_list = array();
         $is_cost = 1;
         $data = $this->security->xss_clean($_GET);
-        $where = array('event_month'=>$data['event_month'],'user_id'=>$data['user_id']);
+        $where = array('event_month'=>$data['event_month'],'user_id'=>$data['user_id'],'cost_status'=>$data['cost_status']);
         $event_list = $this->Event_model->get_event_simple_list($where);
         foreach ($event_list as $key => $value) {
             list($total_tmp,$biil_list_tmp) = $this->get_biil_list($value['id']);
@@ -1452,7 +1451,7 @@ class Event extends MY_Controller {
                 $per_page = 0;
             }
         $i = 1;
-        $bill_list = $this->bubble_sort($bill_list);  
+        $bill_list = $this->bubble_sort($bill_list);
         $n_bill_list = array();
         foreach ($bill_list as $key => $value) {
             if($value['status'] == "1"){
@@ -1484,7 +1483,7 @@ class Event extends MY_Controller {
                 }
             }
         }
-        return $array;        
+        return $array;
     }
 
     public function check_all_bill_order(){
@@ -1515,7 +1514,7 @@ class Event extends MY_Controller {
         }else{
             echo json_encode(array('status'=>'succ'));
         }
-        
+
 
     }
 
@@ -1576,7 +1575,7 @@ class Event extends MY_Controller {
                     $bill_total += $val['rel_other'];
                 }else{
                     $bill_total += $val['other_fee'];
-                }                
+                }
                 $val['bill_total'] = $bill_total;
                 $bill_list[] = $val;
             }
@@ -1636,10 +1635,10 @@ class Event extends MY_Controller {
             if($data['status'] == 1){
                 $this->Event_model->update_event_info(array("cost_status"=>'1'),array('id'=>$event['id']));
             }
-            echo "succ";        
+            echo "succ";
         }else{
             echo "error";
-        }        
+        }
 
     }
 
@@ -1657,18 +1656,24 @@ class Event extends MY_Controller {
 
     public function do_check_all(){
         $data = $this->security->xss_clean($_POST);
+        $data2 = $this->security->xss_clean($_GET);
+        $data = array_merge($data2, $data);
         //$where['department_id'] = $data['department_id'];
         $where['user_id'] = $data['user_id'];
         $where['event_month'] = $data['event_month'];
         $where['status'] = $data['status'];
         $params['status'] = $data['check_status'];
-        $params['is_complain'] = $data['is_complain'];
-        $params['event_status'] = $data['event_status'];
-        $params['work_performance_id'] = $data['work_performance_id'];
-        $params['workmore_performance_id'] = $data['workmore_performance_id'];
-        $params['weekend_performance_id'] = $data['weekend_performance_id'];
-        $params['holiday_performance_id'] = $data['holiday_performance_id'];
-        $params['memo'] = $data['memo'];
+
+        if($data['check_status'] != 2){
+            $params['is_complain'] = $data['is_complain'];
+            $params['event_status'] = $data['event_status'];
+            $params['work_performance_id'] = $data['work_performance_id'];
+            $params['workmore_performance_id'] = $data['workmore_performance_id'];
+            $params['weekend_performance_id'] = $data['weekend_performance_id'];
+            $params['holiday_performance_id'] = $data['holiday_performance_id'];
+            $params['memo'] = $data['memo'];
+        }
+
         foreach($where as $key=>$value){
             if(!$value){
                 unset($where[$key]);
@@ -1681,7 +1686,7 @@ class Event extends MY_Controller {
         }else{
             $redirect_url .= '&is_status=fail';
         }
-        redirect($redirect_url);        
+        redirect($redirect_url);
     }
 }
 
