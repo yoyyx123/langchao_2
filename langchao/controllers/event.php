@@ -1434,7 +1434,7 @@ class Event extends MY_Controller {
         $data = $this->security->xss_clean($_GET);
         $where = array('event_month'=>$data['event_month'],'user_id'=>$data['user_id'],'cost_status'=>$data['cost_status']);
         $event_list = $this->Event_model->get_event_simple_list($where);
-        if($data['cost-status'] == 1){
+        if($data['cost_status'] == 1){
             $fee_status = 1;
         }else{
             $fee_status = 2;
