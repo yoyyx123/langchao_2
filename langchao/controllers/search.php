@@ -780,6 +780,7 @@ class Search extends MY_Controller {
         $this->data['event_month'] = $data['event_month'];
 
         $where = array('user_id'=>$data['user_id'],'event_month'=>$data['event_month']);
+
         $where['status'] = '3';
         if($data['department_id'] =='all'){
             unset($where['user_id']);
