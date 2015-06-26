@@ -83,7 +83,7 @@
                 <td><?if($value['cost_status']==1){echo "未审核";}elseif($value['cost_status']==2){echo "待报销";}elseif($value['cost_status']==3){echo "已报销";}?></td>
                 <td><?php echo $value['total_fee'];?></td>
                 <td><a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=get_event_biil_list')."&user_id=".$value['user_id']."&event_month=".$key."&cost_status=".$value['cost_status'];?>">查看</a></td>
-                <td><?php echo $value['rel_total_fee'];?></td>
+                <td><?if($cost_status != 1){echo $value['rel_total_fee'];}?></td>
             </tr>
             <? } ?>
         <tr>
