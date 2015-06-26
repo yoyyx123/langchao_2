@@ -21,7 +21,7 @@
                         <?}?>
                     </th>
                     <th colspan="13"></th>
-                </tr>                
+                </tr>
                 <tr>
                 <th>序号</th>
                 <!--<th>日期</th>-->
@@ -42,7 +42,7 @@
                 <th>单据编号</th>
                 <th>事件关联</th>
                 <th>审核</th>
-                <th>小计</th>                
+                <th>小计</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,7 +71,7 @@
                     <?}else{?>
                         <td><a class="btn btn-primary do_check" bill_id="<?echo $val['id'];?>" id="do_check">已审核</a></td>
                     <?}?>
-                    <td><div id="xiaoji" <?if($val['status'] !=2){echo "style='display:none'";}?>><?echo $val['bill_total'];?></div></td>                    
+                    <td><div id="xiaoji" <?if($val['status'] !=2){echo "style='display:none'";}?>><?echo $val['bill_total'];?></div></td>
                 </tr>
                 <? $i++;}?>
                 <tr>
@@ -96,7 +96,7 @@
 var sel_time_data = function (per_page) {
     user_id = $('#user_id').val();
     event_month = $('#event_month').val();
-    status = $('#status').val();    
+    status = $('#status').val();
     var url = '<?php echo site_url("ctl=event&act=get_event_biil_list");?>'+"&user_id="+user_id+"&event_month="+event_month;
     var getobj = {};
     if(per_page>0){
@@ -115,10 +115,12 @@ $(function() {
                 confirm_msg = "确定要反审核全部";
                 res_msg = "全部反审核成功！"
                 status = "1";
+                cost_status = "1";
             }else{
                 confirm_msg = "确定要审核全部";
                 res_msg = "全部审核成功！";
                 status = "2";
+                cost_status = "2";
             }
             if(!confirm(confirm_msg)){
                     return false;
@@ -128,7 +130,7 @@ $(function() {
             xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST","<?php echo site_url('ctl=event&act=check_all_bill_order');?>",false);
             xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            xmlhttp.send("event_month="+event_month+"&user_id="+user_id+"&status="+status+"&is_verify="+is_verify);
+            xmlhttp.send("event_month="+event_month+"&user_id="+user_id+"&status="+status+"&cost_status="+cost_status+"&is_verify="+is_verify);
             var result = xmlhttp.responseText;
             var data = eval("("+result+")");
             if ("succ" == data.status){
@@ -173,7 +175,7 @@ $(function() {
                             $("#change_event_status").html("已报销");
                         }
                     }
-                 });                
+                 });
             }
             if ("已报销" == value){
                 if(!confirm("确认要取消报销")){
@@ -190,7 +192,7 @@ $(function() {
                             $("#change_event_status").html("进行报销");
                         }
                     }
-                 });                
+                 });
             }
 
         });
@@ -203,7 +205,7 @@ $(function() {
             var rel_food = $(this).parent().parent().find("#rel_food").val();
             var rel_other = $(this).parent().parent().find("#rel_other").val();
             var xiaoji = $(this).parent().parent().find("#xiaoji");
-            
+
             var params = "id="+id;
             if (rel_transportation||rel_hotel||rel_food||rel_other){
                 params = params+"&rel_transportation="+rel_transportation+"&rel_hotel="+rel_hotel+"&rel_food="+rel_food+"&rel_other="+rel_other;
@@ -231,7 +233,7 @@ $(function() {
                           timeout: 1000,
                         });
                     }
-                }                
+                }
             }
             if ("已审核" == value){
                 if(confirm("确认要取消审核")){
@@ -250,11 +252,11 @@ $(function() {
                                 location.reload();
                             }
                         }
-                     });                
-                }                
-            }            
+                     });
+                }
+            }
 
-        });        
+        });
 
 })
 </script>

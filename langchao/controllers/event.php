@@ -1507,11 +1507,11 @@ class Event extends MY_Controller {
             $work_order_list = $this->Event_model->get_work_order_list($sql);
             foreach ($work_order_list as $k => $val) {
                 $ww = array("work_order_id"=>$val['id']);
-                $data = array("status"=>$data['status']);
-                $this->Event_model->update_bill_order_status($data,$ww);
+                $sql3 = array("status"=>$data['status']);
+                $this->Event_model->update_bill_order_status($sql3,$ww);
             }
             $ew = array('id'=>$value['id']);
-            $ep = array('cost_status'=>'2');
+            $ep = array('cost_status'=>$data['cost_status']);
             $this->Event_model->update_event_info($ep,$ew);
         }
         if($status == 'status_error'){

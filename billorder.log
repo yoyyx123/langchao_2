@@ -1,0 +1,4 @@
+update ldb_biil_order_list set `rel_transportation`= 46.00 where `id`=203
+update ldb_biil_order_list set `rel_transportation`= 42.00 where `id`=479
+update ldb_biil_order_list set `rel_transportation`= 46.00 where `id`=1556
+update ldb_biil_order_list set `rel_transportation`= 45.00 where `id`=2128
