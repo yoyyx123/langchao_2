@@ -145,9 +145,10 @@ $(function() {
         todayBtn:  1,
         autoclose: 1,
         todayHighlight: 1,
-        startView: 2,
+        startView: 1,
         forceParse: 0,
         showMeridian: 1,
+        initialDate:"<?echo $event['event_time']; ?>",
 
     });
 
