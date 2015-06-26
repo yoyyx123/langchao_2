@@ -20,9 +20,9 @@ class Search extends MY_Controller {
             $this->data['user_id'] = $data['user_id'];
             $user = $this->User_model->get_user_info(array('id'=>$data['user_id']));
             if($data['user_id'] == 'all'){
-                $this->data['name'] = "全部"; 
+                $this->data['name'] = "全部";
             }else{
-                $this->data['name'] = $user['name'];                
+                $this->data['name'] = $user['name'];
             }
             $this->data['start_time'] = $data['start_time'];
             $this->data['end_time'] = $data['end_time'];
@@ -36,13 +36,13 @@ class Search extends MY_Controller {
                 $member = $this->Member_model->get_member_info_like(array("short_name"=>$data['short_name']));
                 if($member){
                     $sql = $sql." and `member_id` =".$member['id'];
-                }   
+                }
             }
             $type_list = explode(",",$data['event_type']);
             $in_sql = " and `event_type_id` in(";
             foreach($type_list as $key=>$val){
                 if($val !=""){
-                    $in_sql = $in_sql.$val.",";                    
+                    $in_sql = $in_sql.$val.",";
                 }
             }
             $in_sql = substr($in_sql,0,-1);
@@ -62,8 +62,8 @@ class Search extends MY_Controller {
             $this->data['count'] = $count;
         }
         $department_list = $this->Role_model->get_setting_list(array("type"=>"department"));
-        $this->data['department_list'] = $department_list['info'];        
-        $this->data['user_data'] = $this->session->userdata;        
+        $this->data['department_list'] = $department_list['info'];
+        $this->data['user_data'] = $this->session->userdata;
         $this->layout->view('search/performance_search',$this->data);
     }
 
@@ -81,7 +81,7 @@ class Search extends MY_Controller {
         $event_list = $this->Role_model->get_event_list(array('department_id'=>$data['department_id']));
         $event_list2 = $this->Role_model->get_event_list(array('department_id'=>'all'));
         $list = array_merge($event_list['info'],$event_list2['info']);
-        $result = array('user_list'=>$user_list,'event_list'=>$list);        
+        $result = array('user_list'=>$user_list,'event_list'=>$list);
         if($list){
             $result['event_list']=$list;
         }
@@ -121,12 +121,12 @@ class Search extends MY_Controller {
             }elseif(isset($params['member_id'])&&empty($params['user_id'])){
                 foreach($event_list as $key=>$val){
                     $result[$val['user_id']][] = $val;
-                }                
+                }
             }elseif(!isset($params['member_id'])&&!empty($params['user_id'])){
                 foreach($event_list as $key=>$val){
                     $result[$val['member_id']][] = $val;
                 }
-                
+
             }
             foreach ($result as $k=>$v){
                 $info[$k]['count'] = count($v);
@@ -168,7 +168,7 @@ class Search extends MY_Controller {
         }
         $user_list = $this->User_model->get_user_list();
         $this->data['user_list'] = $user_list['info'];
-        $this->data['user_data'] = $this->session->userdata;        
+        $this->data['user_data'] = $this->session->userdata;
         $this->layout->view('search/data_search',$this->data);
     }
 
@@ -215,7 +215,7 @@ class Search extends MY_Controller {
                 }
                 $where['where_in']['key'] = 'user_id';
             }
-            
+
             $result = array();
             $event_list = $this->Event_model->get_event_list($where);
             foreach($event_list['info'] as $key=>$val){
@@ -234,12 +234,12 @@ class Search extends MY_Controller {
                     $info_list[] = $value;
                 }
                 $i++;
-            }            
+            }
             $this->data['info_list'] = $info_list;
         }
-        $department_list = $this->Role_model->get_setting_list(array("type"=>"department"));      
+        $department_list = $this->Role_model->get_setting_list(array("type"=>"department"));
         $this->data['department_list'] = $department_list['info'];
-        $this->data['user_data'] = $this->session->userdata;        
+        $this->data['user_data'] = $this->session->userdata;
         $this->layout->view('search/data_export',$this->data);
     }
 
@@ -251,7 +251,7 @@ class Search extends MY_Controller {
             $food_fee = 0;
             $other_fee = 0;
             $cost_status = 0;
-            $no_status = 0;            
+            $no_status = 0;
             foreach ($value as $k => $v) {
                 list($t_fee,$h_fee,$f_fee,$o_fee) = $this->get_cost_fee($v['id']);
                 $transportation_fee += $t_fee;
@@ -262,10 +262,10 @@ class Search extends MY_Controller {
                     $no_status += 1;
                 }else{
                     $cost_status += 1;
-                }                
+                }
             }
             $info[$key]['no_status'] =  $no_status;
-            $info[$key]['cost_status'] =  $cost_status;            
+            $info[$key]['cost_status'] =  $cost_status;
             $info[$key]['transportation_fee'] =  $transportation_fee;
             $info[$key]['hotel_fee'] = $hotel_fee;
             $info[$key]['food_fee'] = $food_fee;
@@ -304,7 +304,7 @@ class Search extends MY_Controller {
 
 
     public function get_data_export_worktime($result,$data){
-        $info = array();     
+        $info = array();
         foreach ($result as $key => $value) {
             $week_more = 0;
             $weekend_more = 0;
@@ -543,7 +543,7 @@ class Search extends MY_Controller {
                 $tmp_int = $tmp_int - (strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time));
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>"12:00:00" && $start_time<="13:00:00"&& $end_time>"13:00:00"){
                 $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }            
+            }
 
         }
         if($astatus && ($start_date ==$end_date) && ($start_time >$work_start) && ($start_time<$work_end) && ($end_time>$work_end) ){
@@ -560,7 +560,7 @@ class Search extends MY_Controller {
                 $tmp_int = $tmp_int - (0.5*3600);
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }            
+            }
         }
 
         if($astatus && ($start_date <$end_date) && ($start_time <$work_start)){
@@ -588,7 +588,7 @@ class Search extends MY_Controller {
                 $tmp_int = $tmp_int - (0.5*3600);
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }             
+            }
 
         }
 
@@ -618,7 +618,7 @@ class Search extends MY_Controller {
                 $tmp_int = $tmp_int - (strtotime($start_date." ".$end_time) - strtotime($start_date." ".$start_time));
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>"12:00:00" && $start_time<="13:00:00"&& $end_time>"13:00:00"){
                 $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }             
+            }
         }elseif($bstatus && ($start_date < $end_date) && ($end_time>$work_end)){
             $tmp_int += strtotime($end_date." ".$work_end) - strtotime($end_date." ".$work_start);
             if($worktime==="08:30:00_17:00:00" && $start_time<"12:00:00" && $start_time>="11:30:00"){
@@ -633,7 +633,7 @@ class Search extends MY_Controller {
                 $tmp_int = $tmp_int - (0.5*3600);
             }elseif($worktime==="09:30:00_18:00:00" && $start_time>="12:00:00"&& $start_time<="13:00:00"){
                $tmp_int = $tmp_int - (strtotime($start_date." 12:00:00") - strtotime($start_date." ".$start_time));
-            }            
+            }
         }
         list($int_tmp,$less_tmp) = $this->get_time_format($tmp_int);
         return ($int_tmp+$less_tmp);
@@ -652,7 +652,7 @@ class Search extends MY_Controller {
         if($day>1){
             $tmp_int += ($day-1)*(strtotime($start_date." ".$work_start) - strtotime($start_date." 00:00:00"));
             $tmp_int += ($day-1)*(3600*24 + strtotime($start_date." 00:00:00") - strtotime($start_date." ".$work_end));
-        }        
+        }
         if($astatus && ($start_date ==$end_date) && ($start_time <$work_start) && ($end_time>=$work_start) && ($end_time<=$work_end) ){
             $tmp_int += strtotime($start_date." ".$work_start) - strtotime($start_date." ".$start_time);
         }
@@ -685,7 +685,7 @@ class Search extends MY_Controller {
         }
         if($astatus && ($start_date <$end_date) &&($start_time >$work_end)){
             $tmp_int += 24*3600 + strtotime($start_date." 00:00:00") - strtotime($start_date." ".$start_time);
-        }             
+        }
 
         if($bstatus && ($start_date < $end_date) && ($end_time<=$work_start)){
             $tmp_int += strtotime($end_date." ".$end_time) - strtotime($end_date." 00:00:00");
@@ -696,8 +696,8 @@ class Search extends MY_Controller {
             $tmp_int += strtotime($end_date." ".$work_start) - strtotime($end_date." 00:00:00");
             $tmp_int += strtotime($end_date." ".$end_time) - strtotime($end_date." ".$work_end);
         }
-        list($int_tmp,$less_tmp) = $this->get_time_format($tmp_int);  
-        return ($int_tmp+$less_tmp);      
+        list($int_tmp,$less_tmp) = $this->get_time_format($tmp_int);
+        return ($int_tmp+$less_tmp);
     }
 
     public function get_time_format($tmp){
@@ -759,13 +759,13 @@ class Search extends MY_Controller {
         if($date<=0.5){
             $date = 0.5;
         }
-        $performance = $this->Role_model->get_setting_info(array("id"=>$event['performance_id']));        
+        $performance = $this->Role_model->get_setting_info(array("id"=>$event['performance_id']));
         //$time = $worktime_count*$performance['name']/100*$date;
         if($performance['name'] || $performance['name']!=0){
             $time = $worktime_count*$performance['name']/100*$date;
         }else{
             $time = $worktime_count*$date;
-        }        
+        }
         return $time;
     }
     **/
@@ -778,9 +778,9 @@ class Search extends MY_Controller {
         $this->data['user_id'] = $data['user_id'];
         $this->data['department_id'] = $data['department_id'];
         $this->data['event_month'] = $data['event_month'];
-        
+
         $where = array('user_id'=>$data['user_id'],'event_month'=>$data['event_month']);
-        
+        $where['status'] = '3';
         if($data['department_id'] =='all'){
             unset($where['user_id']);
         }else if($data['user_id']=='all'){
@@ -821,7 +821,7 @@ class Search extends MY_Controller {
                 $hotel_count = 0;
                 $food_count = 0;
                 $other_count = 0;
-                foreach ($value as $k => $val) {              
+                foreach ($value as $k => $val) {
                     $trans_count += $val["transportation_fee"];
                     $hotel_count += $val["hotel_fee"];
                     $food_count += $val["food_fee"];
@@ -832,12 +832,12 @@ class Search extends MY_Controller {
                     $res[$key]['head_msg']['other_count'] = $other_count;
                     $res[$key]['head_msg']['event_month'] = $this->data['event_month'];
                     $res[$key]['head_msg']['all_count'] = $trans_count + $hotel_count + $food_count + $other_count;
-                }                
+                }
             }
-            
+
 
             $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","业务员","单据编号","交通方式","类型");
-            $this->export_xls_all('费用',$res,$title);  
+            $this->export_xls_all('费用',$res,$title);
         }elseif(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="work_time"){
             foreach ($res as $k => $v) {
                 $vv =  $this->bubble_sort_time($v);
@@ -849,7 +849,7 @@ class Search extends MY_Controller {
                 $work_time = 0;
                 $week_more = 0;
                 $weekend_more = 0;
-                $holiday_more = 0;                
+                $holiday_more = 0;
                 foreach ($v as $key => $value) {
                     //$worktime_count += $value['worktime_count'];
                     $work_time += $value['work_time'];
@@ -863,7 +863,7 @@ class Search extends MY_Controller {
                 $all['event_type_name'] = '';
                 $all['arrive_time'] = '';
                 $all['back_time'] = '';
-                $all['desc'] = '';        
+                $all['desc'] = '';
                 //$all['worktime_count'] = $worktime_count;
                 $all['work_time'] = $work_time;
                 $all['week_more'] = $week_more;
@@ -872,7 +872,7 @@ class Search extends MY_Controller {
                 $v[] = $all;
                 $res[$k] = $v;
             }
-            $this->export_xls_all('工时',$res,$title);  
+            $this->export_xls_all('工时',$res,$title);
         }
         $this->pages_conf(count($result));
         $info_list = array();
@@ -882,7 +882,7 @@ class Search extends MY_Controller {
             }
         }
         $this->data['info_list'] = $info_list;
-        $this->data['user_data'] = $this->session->userdata; 
+        $this->data['user_data'] = $this->session->userdata;
         $this->layout->view('search/do_data_export',$this->data);
     }
 
@@ -896,7 +896,7 @@ class Search extends MY_Controller {
                 }
             }
         }
-        return $array;        
+        return $array;
     }
 
     public function bubble_sort_time($array){
@@ -909,8 +909,8 @@ class Search extends MY_Controller {
                 }
             }
         }
-        return $array;        
-    }    
+        return $array;
+    }
 
     public function do_data_export(){
         $data = $this->security->xss_clean($_GET);
@@ -934,7 +934,7 @@ class Search extends MY_Controller {
                 }elseif($data['data_type']=="fee"){
                     foreach($val['bill_order_list'] as $m=>$n){
                         if($n['status'] == '2'){
-                            $result[] = $this->format_bill_data($n,$user['name']);                           
+                            $result[] = $this->format_bill_data($n,$user['name']);
                         }
                         $result = $this->bubble_sort($result);
                     }
@@ -960,7 +960,7 @@ class Search extends MY_Controller {
             $result['head_msg']['all_count'] = $trans_count + $hotel_count + $food_count + $other_count;
             $msg[$this->data['name']] = $result;
             $title = array("使用人","出发时间","到达时间","起始地","目的地","交通费","住宿费","加班餐费","其他费用","备注","业务员","单据编号","交通方式","类型");
-            $this->export_xls($this->data['name'],$msg,$title);  
+            $this->export_xls($this->data['name'],$msg,$title);
         }elseif(isset($data['is_export']) && $data['is_export'] && $data['data_type']=="work_time"){
             $worktime_count = 0;
             $work_time = 0;
@@ -980,7 +980,7 @@ class Search extends MY_Controller {
             $all['event_type_name'] = '';
             $all['arrive_time'] = '';
             $all['back_time'] = '';
-            $all['desc'] = '';        
+            $all['desc'] = '';
             //$all['worktime_count'] = $worktime_count;
             $all['work_time'] = $work_time;
             $all['week_more'] = $week_more;
@@ -989,7 +989,7 @@ class Search extends MY_Controller {
             $result[] = $all;
             $msg[$this->data['name']] = $result;
             $title = array("使用人","客户简称","事件类型","到场时间","离场时间","事件描述","工作日工时","平时加班","周末加班","节日加班");
-            $this->export_xls($this->data['name'],$msg,$title);  
+            $this->export_xls($this->data['name'],$msg,$title);
         }
         $this->pages_conf(count($result));
         $info_list = array();
@@ -999,7 +999,7 @@ class Search extends MY_Controller {
             }
         }
         $this->data['info_list'] = $info_list;
-        $this->data['user_data'] = $this->session->userdata; 
+        $this->data['user_data'] = $this->session->userdata;
         $this->layout->view('search/do_data_export',$this->data);
     }
 
@@ -1070,17 +1070,17 @@ class Search extends MY_Controller {
                         array("","","其他费用",$head_msg['other_count'],),
                         NULL,
                         "A4"
-                    );                                        
+                    );
                     unset($value['head_msg']);
                     $start = "A6";
                     $second = "A7";
-            }            
+            }
             $objPHPExcel->setActiveSheetIndex($i)
                 ->fromArray(
                     $title,
                     NULL,
                     $start
-                );            
+                );
             $arrayData = $value;
             $objPHPExcel->setActiveSheetIndex($i)
                 ->fromArray(
@@ -1115,7 +1115,7 @@ class Search extends MY_Controller {
 
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
-        exit;        
+        exit;
     }
 
     public function export_xls($name,$msg,$title){
@@ -1158,7 +1158,7 @@ class Search extends MY_Controller {
                         array("","","其他费用",$head_msg['other_count'],),
                         NULL,
                         "A4"
-                    );                                        
+                    );
                     unset($value['head_msg']);
                     $start = "A6";
                     $second = "A7";
@@ -1204,7 +1204,7 @@ class Search extends MY_Controller {
 
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
-        exit;        
+        exit;
     }
 
     public function do_data_export_worktime($event,$work_order,$data,$user_name){
@@ -1246,9 +1246,9 @@ class Search extends MY_Controller {
             $date = 0.5;
         }
         $work_performance = $this->Role_model->get_setting_info(array("id"=>$event['work_performance_id']));
-        $workmore_performance = $this->Role_model->get_setting_info(array("id"=>$event['workmore_performance_id'])); 
-        $weekend_performance = $this->Role_model->get_setting_info(array("id"=>$event['weekend_performance_id'])); 
-        $holiday_performance = $this->Role_model->get_setting_info(array("id"=>$event['holiday_performance_id']));        
+        $workmore_performance = $this->Role_model->get_setting_info(array("id"=>$event['workmore_performance_id']));
+        $weekend_performance = $this->Role_model->get_setting_info(array("id"=>$event['weekend_performance_id']));
+        $holiday_performance = $this->Role_model->get_setting_info(array("id"=>$event['holiday_performance_id']));
         //$worktime_count = $worktime_count_tmp*$performance['name']/100*$date;
         if($work_performance['name'] || $work_performance['name']!=0){
             //$xx = $worktime_count*$performance['name']/100*$date;
@@ -1362,15 +1362,15 @@ class Search extends MY_Controller {
         $week_more_tmp = $this->get_work_more_time($work_order['arrive_time'],$work_order['back_time'],$arrive,$back,$tmp_time,$day);
         $week_more = $week_more+$week_more_tmp;
         $work_time_tmp = $this->get_work_time($work_order['arrive_time'],$work_order['back_time'],$arrive,$back,$tmp_time,$day);
-        $work_time = $work_time+$work_time_tmp; 
+        $work_time = $work_time+$work_time_tmp;
 
-        
-        $res[] = $work_time;        
+
+        $res[] = $work_time;
         $res[] = $week_more;
         $res[] = $weekend_more;
         $res[] = $holiday_more;
         return $res;
-    }    
+    }
 
 }
 
