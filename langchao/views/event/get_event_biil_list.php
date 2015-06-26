@@ -140,7 +140,9 @@ $(function() {
                   layout: 'center',
                   timeout: 1000,
                 });
-                window.location.reload();
+                url = "<?php echo site_url('ctl=event&act=get_event_biil_list');?>"+"&event_month="+event_month+"&user_id="+user_id+"&cost_status="+cost_status;
+                window.location.href = url;
+                //window.location.reload();
                 //return true;
             }
             if ("error" == data.status){
