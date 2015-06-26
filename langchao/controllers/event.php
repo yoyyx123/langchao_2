@@ -1434,8 +1434,13 @@ class Event extends MY_Controller {
         $data = $this->security->xss_clean($_GET);
         $where = array('event_month'=>$data['event_month'],'user_id'=>$data['user_id'],'cost_status'=>$data['cost_status']);
         $event_list = $this->Event_model->get_event_simple_list($where);
+        if($data['cost-status'] == 1){
+            $fee_status = 1;
+        }else{
+            $fee_status = 2;
+        }
         foreach ($event_list as $key => $value) {
-            list($total_tmp,$biil_list_tmp) = $this->get_biil_list($value['id']);
+            list($total_tmp,$biil_list_tmp) = $this->get_biil_list($value['id'],$fee_status);
             $total += $total_tmp;
             foreach ($biil_list_tmp as $key => $val) {
                 $val['event_id'] = $value['id'];
@@ -1518,13 +1523,16 @@ class Event extends MY_Controller {
 
     }
 
-    public function get_biil_list($event_id){
+    public function get_biil_list($event_id,$fee_status){
         $total = 0;
         $bill_list = array();
         $where = array('event_id' => $event_id);
         $work_order_list = $this->Event_model->get_work_order_list($where);
         foreach ($work_order_list as $key => $value) {
             foreach ($value['bill_order_list'] as $k => $val) {
+                if($val['status'] != $fee_status){
+                    continue;
+                }
                 $transportation_info = $this->Role_model->get_setting_info(array("id"=>$val['transportation']));
                 $val['transportation_name'] = $transportation_info['name'];
 
