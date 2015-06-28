@@ -803,7 +803,9 @@ class Search extends MY_Controller {
                     $result[] = $this->do_data_export_worktime($value,$val,$data,$user['name']);
                 }elseif($data['data_type']=="fee"){
                     foreach($val['bill_order_list'] as $m=>$n){
-                        $result[] = $this->format_bill_data($n,$user['name']);
+                        if ($n['status'] == '2'){
+                            $result[] = $this->format_bill_data($n,$user['name']);
+                        }
                     }
                 }
             }
