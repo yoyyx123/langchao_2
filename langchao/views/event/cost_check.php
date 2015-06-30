@@ -109,8 +109,8 @@ var sel_time_data = function (per_page) {
     department_id = $('#department_id').val();
     user_id = $('#user_id').val();
     event_month = $('#event_month').val();
-    status = $('#status').val();
-    var url = '<?php echo site_url("ctl=event&act=cost_check");?>'+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status+"&department_id="+department_id;
+    cost_status = $('#cost_status').val();
+    var url = '<?php echo site_url("ctl=event&act=cost_check");?>'+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&cost_status="+cost_status+"&department_id="+department_id;
     var getobj = {};
     if(per_page>0){
         getobj.per_page=per_page;

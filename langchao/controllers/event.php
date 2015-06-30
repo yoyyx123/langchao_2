@@ -1332,12 +1332,24 @@ class Event extends MY_Controller {
                     unset($where[$key]);
                 }
             }
+            if($where['cost_status'] !='3'){
+                unset($where['cost_status']);
+            }
+            if ($data['cost_status'] == '1'){
+                $status = '1';
+            }else{
+                $status = '2';
+            }
             unset($where['is_event']);
             $month_list = array();
             $event_list = $this->Event_model->get_event_list($where);
             //$this->pages_conf($event_list['count']);
             foreach($event_list['info'] as $key => $value){
-                list($total,$rel_total) = $this->get_cost_fee($value['id']);
+                if ($data['cost_status'] == '3'){
+                    list($total,$rel_total) = $this->get_cost_fee_all($value['id']);
+                }else{
+                    list($total,$rel_total) = $this->get_cost_fee($value['id'],$status);
+                }
                 $value['total'] = $total;
                 $value['rel_total'] = $rel_total;
                 $month_list[$value['event_month']][] = $value;
@@ -1360,7 +1372,7 @@ class Event extends MY_Controller {
                         'name' =>$v['name'],
                         'user_name' =>$v['user_name'],
                         'user_id' =>$v['user_id'],
-                        'cost_status'=>$v['cost_status'],
+                        'cost_status'=> $data['cost_status'],
                         'total_fee' =>$total_fee,
                         'rel_total_fee' => $rel_total_fee,
                         );
@@ -1418,7 +1430,8 @@ class Event extends MY_Controller {
         $this->load->view('event/do_event_cost_search',$this->data);
     }
 
-    public function get_cost_fee($event_id){
+
+    public function get_cost_fee_all($event_id,$status=2){
         $total = 0;
         $rel_total = 0;
         $where = array('event_id' => $event_id);
@@ -1426,7 +1439,45 @@ class Event extends MY_Controller {
         foreach ($work_order_list as $key => $value) {
             foreach ($value['bill_order_list'] as $k => $val) {
                 $total = $total + $val['transportation_fee']+$val['hotel_fee']+$val['food_fee']+$val['other_fee'];
-                if($val['status'] == 2){
+                if($val['rel_transportation'] && $val['rel_transportation']>=0){
+                    $rel_total += $val['rel_transportation'];
+                }else{
+                    $rel_total += $val['transportation_fee'];
+                }
+                if($val['rel_hotel'] && $val['rel_hotel']>=0){
+                    $rel_total += $val['rel_hotel'];
+                }else{
+                    $rel_total += $val['hotel_fee'];
+                }
+                if($val['rel_food'] && $val['rel_food']>=0){
+                    $rel_total += $val['rel_food'];
+                }else{
+                    $rel_total += $val['food_fee'];
+                }
+                if($val['rel_other'] && $val['rel_other']>=0){
+                    $rel_total += $val['rel_other'];
+                }else{
+                    $rel_total += $val['other_fee'];
+                }
+            }
+        }
+        $result[] = $total;
+        $result[] = $rel_total;
+        return $result;
+    }
+
+
+
+
+    public function get_cost_fee($event_id,$status=2){
+        $total = 0;
+        $rel_total = 0;
+        $where = array('event_id' => $event_id);
+        $work_order_list = $this->Event_model->get_work_order_list($where);
+        foreach ($work_order_list as $key => $value) {
+            foreach ($value['bill_order_list'] as $k => $val) {
+                if($val['status'] == $status){
+                    $total = $total + $val['transportation_fee']+$val['hotel_fee']+$val['food_fee']+$val['other_fee'];
                     if($val['rel_transportation'] && $val['rel_transportation']>=0){
                         $rel_total += $val['rel_transportation'];
                     }else{
@@ -1461,7 +1512,10 @@ class Event extends MY_Controller {
         $bill_list = array();
         $is_cost = 1;
         $data = $this->security->xss_clean($_GET);
-        $where = array('event_month'=>$data['event_month'],'user_id'=>$data['user_id'],'cost_status'=>$data['cost_status']);
+        $where = array('event_month'=>$data['event_month'],'user_id'=>$data['user_id']);
+        if($data['cost_status']==3){
+            $where['cost_status']=$data['cost_status'];
+        }
         $event_list = $this->Event_model->get_event_simple_list($where);
         if($data['cost_status'] == 1){
             $fee_status = 1;
@@ -1510,7 +1564,7 @@ class Event extends MY_Controller {
     public function bubble_sort($array){
         for($i = 0; $i < count($array) - 1; $i++) {
             for($j = 0; $j < count($array) - 1 - $i; $j++) {    //$j为需要排序的元素个数,用总长减去$i
-                if($array[$j]['arrival_time'] > $array[$j + 1]['arrival_time']) {    //按升序排序
+                if($array[$j]['go_time'] > $array[$j + 1]['go_time']) {    //按升序排序
                     $temp = $array[$j];
                     $array[$j] = $array[$j + 1];
                     $array[$j + 1] = $temp;
