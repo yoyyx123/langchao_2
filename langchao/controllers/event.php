@@ -822,7 +822,7 @@ class Event extends MY_Controller {
                 $back_type = 'h_weekend';
             }
 
-            if(in_array($arrive_date, $holiday_list){
+            if(in_array($arrive_date, $holiday_list)){
                 $arrive_type = 'holiday';
             }
             if(in_array($back_date, $holiday_list)){
