@@ -834,7 +834,7 @@ class Event extends MY_Controller {
                 list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
                 $holiday_more = $holiday_more+$arrive_int_tmp+$arrive_less_tmp;
                 $arrive = False;
-            }elseif (($arrive_type!='holiday' && $back_type == 'holiday'){
+            }elseif ($arrive_type!='holiday' && $back_type == 'holiday'){
                 $back_tmp = strtotime($value['back_time']) - strtotime($back_date." 00:00:00");
                 list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
                 $holiday_more = $holiday_more+$back_int_tmp+$back_less_tmp;
