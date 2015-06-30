@@ -207,8 +207,9 @@ $(function() {
             var rel_food = $(this).parent().parent().find("#rel_food").val();
             var rel_other = $(this).parent().parent().find("#rel_other").val();
             var xiaoji = $(this).parent().parent().find("#xiaoji");
-
-            var params = "id="+id;
+            event_month = $('.event_month').val();
+            user_id = $('.user_id').val();
+            var params = "id="+id+"&event_month="+event_month+"&user_id="+user_id;
             if (rel_transportation||rel_hotel||rel_food||rel_other){
                 params = params+"&rel_transportation="+rel_transportation+"&rel_hotel="+rel_hotel+"&rel_food="+rel_food+"&rel_other="+rel_other;
             }
@@ -221,12 +222,21 @@ $(function() {
                     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                     xmlhttp.send(params);
                     var result = xmlhttp.responseText;
-                    if(result=="succ"){
-                        $(_self).parent().find("#do_check").removeClass("btn-info");
-                        $(_self).parent().find("#do_check").addClass("btn-primary");
-                        $(_self).parent().find("#do_check").html("已审核");
-                        xiaoji.removeAttr("style");
-                        location.reload();
+                    var data = eval("("+result+")");
+                    if(data.status=="succ"){
+                        if(data.step=='jump'){
+                            cost_status = 2;
+                            url = "<?php echo site_url('ctl=event&act=get_event_biil_list');?>"+"&event_month="+event_month+"&user_id="+user_id+"&cost_status="+cost_status;
+                            window.location.href = url;
+                        }else{
+                            $(_self).parent().find("#do_check").removeClass("btn-info");
+                            $(_self).parent().find("#do_check").addClass("btn-primary");
+                            $(_self).parent().find("#do_check").html("已审核");
+                            xiaoji.removeAttr("style");
+                            location.reload();
+                        }
+
+
                     }else{
                         var n = noty({
                           text: "对应事件状态未审核，不能审核费用！",
@@ -245,13 +255,20 @@ $(function() {
                         url: "<?php echo site_url(array('ctl'=>'event', 'act'=>'update_bill_order_status'))?>",
                         data: params,
                         success: function(result){
-                            if(result=="succ"){
-                                //$(_self).parent().find("#do_check").removeClass("do_check");
-                                $(_self).parent().find("#do_check").removeClass("btn-primary");
-                                $(_self).parent().find("#do_check").addClass("btn-info");
-                                $(_self).parent().find("#do_check").html("审核");
-                                xiaoji.attr("style","display:none");
-                                location.reload();
+                            var data = eval("("+result+")");
+                            if(data.status=="succ"){
+                                if(data.step=='jump'){
+                                    cost_status = 1;
+                                    url = "<?php echo site_url('ctl=event&act=get_event_biil_list');?>"+"&event_month="+event_month+"&user_id="+user_id+"&cost_status="+cost_status;
+                                    window.location.href = url;
+                                }else{
+                                    //$(_self).parent().find("#do_check").removeClass("do_check");
+                                    $(_self).parent().find("#do_check").removeClass("btn-primary");
+                                    $(_self).parent().find("#do_check").addClass("btn-info");
+                                    $(_self).parent().find("#do_check").html("审核");
+                                    xiaoji.attr("style","display:none");
+                                    location.reload();
+                                }
                             }
                         }
                      });

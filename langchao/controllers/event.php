@@ -1688,6 +1688,10 @@ class Event extends MY_Controller {
         $data = $this->security->xss_clean($_POST);
         $id = $data['id'];
         unset($data['id']);
+        $event_month = $data['event_month'];
+        unset($data['event_month']);
+        $user_id = $data['user_id'];
+        unset($data['user_id']);
         $where = array('id'=>$id);
         $event = $this->Event_model->get_event_info_by_bill_id($id);
         if($event['status'] == "3" || $data['status'] == 1){
@@ -1699,20 +1703,6 @@ class Event extends MY_Controller {
             $this->Event_model->update_bill_order_status($data,$where);
             if($data['status'] == 2){
                 $cost_status = 2;
-                /**
-
-                $event_list = $this->Event_model->get_event_search_list(array("id"=>$event['id']));
-                foreach ($event_list as $key => $value) {
-                    foreach ($value['work_order_list'] as $ke => $val) {
-                        foreach ($$val['bill_order_list'] as $k => $v) {
-                            if($v['status']==1){
-                                $cost_status = 1;
-                            }
-                        }
-                    }
-                }
-                **/
-
                 $work_list = $this->Event_model->get_work_order_list(array("event_id"=>$event['id']));
                 foreach ($work_list as $ke => $val) {
                     foreach ($$val['bill_order_list'] as $k => $v) {
@@ -1726,13 +1716,38 @@ class Event extends MY_Controller {
             if($data['status'] == 1){
                 $this->Event_model->update_event_info(array("cost_status"=>'1'),array('id'=>$event['id']));
             }
-            echo "succ";
+            $status =  "succ";
         }else{
-            echo "error";
+            $status = "error";
         }
+        $status_1 = 0;
+        $status_2 = 0;
+        $event_list = $this->Event_model->get_event_list(array('event_month'=>$event_month,'user_id'=>$user_id));
+        foreach ($event_list['info'] as $key => $value) {
+            $workorder_list =  $this->Event_model->get_work_order_list(array("event_id"=>$value['id']));
+            foreach ($workorder_list as $k => $val) {
+                foreach ($val['bill_order_list'] as $m => $n) {
+                    if($n['status'] == 1){
+                        $status_1 = $status_1+1;
+                    }
+                    if($n['status'] == 2){
+                        $status_2 =$status_2+1;
+                    }
+
+                }
+            }
+        }
+        $step = '';
+        if($status_2 ==0 && ($data['status'] ==1)){
+            $step = 'jump';
+        }
+        if($status_1 ==0 && ($data['status'] ==2)){
+            $step = 'jump';
+        }
+        $result = json_encode(array('status'=>$status,'step'=>$step));
+        echo $result;
 
     }
-
     public function do_check_all_view(){
         $data = $this->security->xss_clean($_GET);
         $performance_list = $this->Role_model->get_setting_list(array("type"=>"performance"));
