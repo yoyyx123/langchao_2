@@ -261,9 +261,10 @@ $(function() {
         todayBtn:  1,
         autoclose: 1,
         todayHighlight: 1,
-        startView: 2,
+        startView: 1,
         forceParse: 0,
         showMeridian: 1,
+        initialDate:"<?echo $event['event_time']; ?>",
     });
 
     <?if(isset($status) && $status=="succ"){?>
@@ -402,10 +403,11 @@ function add_td(atable){
         todayBtn:  1,
         autoclose: 1,
         todayHighlight: 1,
-        startView: 2,
+        startView: 1,
         forceParse: 0,
         showMeridian: 1,
         pickerPosition: 'bottom-right',
+        initialDate:"<?echo $event['event_time']; ?>",
     });
 }
 function do_delete(atable){
