@@ -1377,17 +1377,17 @@ class Search extends MY_Controller {
             $back = False;
         }
 
-        if ($arrive_type == 'weekend' && $back_type != 'weekend'){
+        if ($arrive_type == 'h_weekend' && $back_type != 'h_weekend'){
             $arrive_tmp = strtotime($arrive_date." 00:00:00") + (3600*24) -strtotime($work_order['arrive_time']);
             list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
             $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
             $arrive = False;
-        }elseif ($arrive_type != 'weekend' && $back_type == 'weekend'){
+        }elseif ($arrive_type != 'h_weekend' && $back_type == 'h_weekend'){
             $back_tmp = strtotime($work_order['back_time']) - strtotime($back_date." 00:00:00");
             list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
             $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;
             $back = False;
-        }elseif($arrive_type == 'weekend' && $back_type == 'weekend') {
+        }elseif($arrive_type == 'h_weekend' && $back_type == 'h_weekend') {
             $back_tmp = strtotime($work_order['back_time']) - strtotime($work_order['arrive_time']);
             list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
             $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;
@@ -1395,17 +1395,17 @@ class Search extends MY_Controller {
             $back = False;
         }
 
-        if(in_array(date("N",strtotime($back_date)), $weekend_list) && !in_array(date("N",strtotime($arrive_date)), $weekend_list)){
+        if($arrive_type != 'weekend') && $back_type == 'weekend'){){
             $back_tmp = strtotime($work_order['back_time']) - strtotime($back_date." 00:00:00");
             list($back_int_tmp,$back_less_tmp) = $this->get_time_format($back_tmp);
             $weekend_more = $weekend_more+$back_int_tmp+$back_less_tmp;
             $back = False;
-        }elseif(in_array(date("N",strtotime($arrive_date)), $weekend_list) && !in_array(date("N",strtotime($back_date)), $weekend_list)){
+        }elseif($arrive_type == 'weekend') &&  $back_type != 'weekend'){
             $arrive_tmp = strtotime($arrive_date." 00:00:00") + (3600*24) -strtotime($work_order['arrive_time']);
             list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
             $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
             $arrive = False;
-        }elseif (in_array(date("N",strtotime($arrive_date)), $weekend_list) && in_array(date("N",strtotime($back_date)), $weekend_list)) {
+        }elseif ($arrive_type == 'weekend') && $back_type == 'weekend') {
             $arrive_tmp = strtotime($work_order['back_time']) -strtotime($work_order['arrive_time']);
             list($arrive_int_tmp,$arrive_less_tmp) = $this->get_time_format($arrive_tmp);
             $weekend_more = $weekend_more+$arrive_int_tmp+$arrive_less_tmp;
