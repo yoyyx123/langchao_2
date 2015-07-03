@@ -124,6 +124,8 @@ select{width:60px;}
 </form>
 <div class="row">
 <div class="col-sm-12 col-md-12">
+    <input type="hidden" id="work_order_id_2" name="work_order_id_2" value="<?echo $value['id']; ?>">
+
     <table class="table-bordered table-striped table-condensed">
         <thead>
             <tr class="CaseRow">
@@ -434,7 +436,7 @@ function do_delete(atable){
     $(atable).parent().parent().remove()
 }
 function do_save(atable){
-    work_order_id = $("#work_order_id").val();
+    work_order_id = $(atable).parent().parent().parent().parent().parent().find("#work_order_id_2").val();
     go_time = $(atable).parent().parent().find("#go_time").val();
     arrival_time = $(atable).parent().parent().find('#arrival_time').val();
     start_place = $(atable).parent().parent().find('#start_place').val();
