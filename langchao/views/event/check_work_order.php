@@ -15,14 +15,14 @@
                     <th>工作时间段</th>
                     <td><?php echo $event['worktime_id_value'];?></td>
                     <td>绩效完成率</td>
-                </tr>                
+                </tr>
                 <tr align="center">
                     <th>有效工时</th>
-                    <td><?php echo $event['work_time'];?>小时</td>
+                    <td><?php echo $event['work_time'];?></td>
                     <td>
                         <select name="work_performance_id" id="work_performance_id" autocomplete = "off">
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['work_performance_id'])&&$check['work_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['work_performance_id'])&&$check['work_performance_id']==$value['id']){echo "selected='selected'";}elseif( !isset($check['work_performance_id']) && $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -33,7 +33,7 @@
                     <td>
                         <select name="workmore_performance_id" id="workmore_performance_id" autocomplete = "off">
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['workmore_performance_id'])&&$check['workmore_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['workmore_performance_id'])&&$check['workmore_performance_id']==$value['id']){echo "selected='selected'";}elseif(!isset($check['work_performance_id']) &&  $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -44,7 +44,7 @@
                     <td>
                         <select name="weekend_performance_id" id="weekend_performance_id" autocomplete = "off">
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['weekend_performance_id'])&&$check['weekend_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['weekend_performance_id'])&&$check['weekend_performance_id']==$value['id']){echo "selected='selected'";}elseif(!isset($check['work_performance_id']) &&  $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -55,7 +55,7 @@
                     <td>
                         <select name="holiday_performance_id" id="holiday_performance_id" autocomplete = "off">
                             <?foreach ($performance_list as $key => $value) {?>
-                                <option value="<?echo $value['id'];?>" <?if(isset($check['holiday_performance_id'])&&$check['holiday_performance_id']==$value['id']){echo "selected='selected'";}elseif( $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
+                                <option value="<?echo $value['id'];?>" <?if(isset($check['holiday_performance_id'])&&$check['holiday_performance_id']==$value['id']){echo "selected='selected'";}elseif(!isset($check['work_performance_id']) &&  $value['name']=='100'){echo "selected='selected'";}?>><?echo $value['name'];?>%</option>
                             <?}?>
                         </select>
                     </td>
@@ -79,7 +79,7 @@
                     <th>有效期状态</th>
                     <!--<td><?php if($event_less_time==0){echo "已超时";}elseif($event_less_time==1){echo "未超时";}?></td>-->
                     <td colspan="2"><?php echo $event_less_time;?></td>
-                </tr>                                                                      
+                </tr>
             </tbody>
         </table>
 </div>
@@ -120,14 +120,14 @@
                     <td>
                         <input type="text" name="memo" id="memo" value="<?if(isset($check)){echo $check['memo'];}?>">
                     </td>
-                </tr>                                                                     
+                </tr>
             </tbody>
         </table>
         <input type="hidden" name="event_id" id="event_id" value="<?echo $event['id'];?>">
         <input type="hidden" name="check_id" id="check_id" value="<?if(isset($check)){echo $check['id'];}?>">
 
         <a class="btn btn-primary do_add" onclick="do_add()"><?if($event['status']==3){echo "已审核";}if($event['status']==2){echo "审核";}?></a>&nbsp&nbsp&nbsp
-        <a class="btn btn-primary do_delete" event_id='<?php echo $event['id'];?>'>删除</a>        
+        <a class="btn btn-primary do_delete" event_id='<?php echo $event['id'];?>'>删除</a>
     </form>
 </div>
 
@@ -210,7 +210,7 @@ function do_add(){
           timeout: 1000,
         });
         return false;
-    }    
+    }
 
     var value = $(".do_add").html();
 
@@ -255,6 +255,6 @@ function do_add(){
         });
         $(".do_add").html("审核");
         return true;
-    }    
+    }
 }
 </script>
