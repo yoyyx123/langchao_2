@@ -315,10 +315,10 @@ class Search extends MY_Controller {
             $no_status = 0;
             foreach ($value as $k => $v) {
                 $more_work = $this->get_event_worktime_more($v);
-                $work_time += $more_work['work_time'];
-                $week_more += $more_work['week_more'];
-                $weekend_more += $more_work['weekend_more'];
-                $holiday_more += $more_work['holiday_more'];
+                $work_time += round($more_work['work_time'],1);
+                $week_more += round($more_work['week_more'],1);
+                $weekend_more += round($more_work['weekend_more'],1);
+                $holiday_more += round($more_work['holiday_more'],1);
                 $worktime_count += $more_work['worktime_count'];;
                 if ($v['cost_status'] != '3'){
                     $no_status += 1;
@@ -329,10 +329,16 @@ class Search extends MY_Controller {
             $info[$key]['no_status'] =  $no_status;
             $info[$key]['cost_status'] =  $cost_status;
             //$info[$key]['worktime_count'] =  $worktime_count;
-            $info[$key]['work_time'] = round($work_time,1);
-            $info[$key]['week_more'] = round($week_more,1);
-            $info[$key]['weekend_more'] = round($weekend_more,1);
-            $info[$key]['holiday_more'] = round($holiday_more,1);
+            //$info[$key]['work_time'] = round($work_time,1);
+            //$info[$key]['week_more'] = round($week_more,1);
+            //$info[$key]['weekend_more'] = round($weekend_more,1);
+            //$info[$key]['holiday_more'] = round($holiday_more,1);
+
+            $info[$key]['work_time'] = $work_time;
+            $info[$key]['week_more'] = $week_more;
+            $info[$key]['weekend_more'] = $weekend_more;
+            $info[$key]['holiday_more'] = $holiday_more;
+
             $info[$key]['event_month'] = $data['event_month'];
             $info[$key]['user_name'] = $value[0]['user_name'];
             $info[$key]['name'] = $value[0]['name'];
