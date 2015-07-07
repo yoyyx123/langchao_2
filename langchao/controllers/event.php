@@ -1352,7 +1352,7 @@ class Event extends MY_Controller {
                 }
                 $value['total'] = $total;
                 $value['rel_total'] = $rel_total;
-                if($value['total'] != 0){
+                if($value['total'] != 0 && !($data['cost_status']!=3 && $value['cost_status']==3)){
                     $month_list[$value['event_month']][] = $value;
                 }
             }
