@@ -1352,7 +1352,9 @@ class Event extends MY_Controller {
                 }
                 $value['total'] = $total;
                 $value['rel_total'] = $rel_total;
-                $month_list[$value['event_month']][] = $value;
+                if($value['total'] != 0){
+                    $month_list[$value['event_month']][] = $value;
+                }
             }
             $this->pages_conf(count($month_list));
             if(!$per_page){

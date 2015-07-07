@@ -58,14 +58,14 @@
 <div class="row event_info" id="event_info">
     <?php
     if(isset($event_list)&&!empty($event_list)&&isset($is_event)){
-    ?>    
+    ?>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>事件列表</th>
                 <th colspan="2">使用人：<?php echo $user['name'];?></th>
                 <th colspan="9"></th>
-            </tr>                    
+            </tr>
             <tr>
                 <th>序号</th>
                 <th>日期、时间</th>
@@ -99,10 +99,10 @@
                 <?}else{?>
                 <a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=look_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);;?>">查看</a>&nbsp&nbsp
                 <?}?>
-                <?if($user_data['position2'] == 3 || $user_data['position2'] == 4 || $user_data['id'] == $value['user_id']){?>
+                <?if($value['status'] != '3' && ($user_data['position2'] == 3 || $user_data['position2'] == 4 || $user_data['id'] == $value['user_id'])){?>
                 <a class="btn btn-primary" href="<?php echo site_url('ctl=event&act=add_work_order')."&event_id=".$value['id']."&back_url=".urlencode($back_url);?>" >添加工单</a>&nbsp&nbsp
                 <?}?>
-                <?if($user_data['position2'] == 3 || $user_data['position2'] == 4){?>
+                <?if($value['status'] !='3' && ($user_data['position2'] == 3 || $user_data['position2'] == 4)){?>
                 <a class="btn btn-primary edit_event" event_id="<?echo $value['id'];?>">编辑</a>&nbsp&nbsp
                 <a class="btn btn-info delete_event" event_id="<?echo $value['id'];?>">删除</a>
                 </td>
@@ -110,7 +110,7 @@
             </tr>
             <? } ?>
         </tbody>
-        
+
         <tbody>
             <tr>
                 <td colspan="10"><?php $this->load->view('elements/pager'); ?></td>
@@ -128,7 +128,7 @@
 
 <script type="text/javascript">
 var sel_time_data = function (per_page) {
-    department_id = $('#department_id').val();    
+    department_id = $('#department_id').val();
     user_id = $('#user_id').val();
     event_month = $('#event_month').val();
     status = $('#status').val();
@@ -158,11 +158,11 @@ var sel_time_data = function (per_page) {
                 if(value['id']==<?echo$user_id;?>){
                 $(".user_id").append('<option value="'+value['id']+'" selected=selected>'+value['name']+'</option>');
                 }else{
-                $(".user_id").append('<option value="'+value['id']+'">'+value['name']+'</option>');                  
+                $(".user_id").append('<option value="'+value['id']+'">'+value['name']+'</option>');
                 }
             });
         }
-     });   
+     });
 
 <?}?>
 
@@ -178,7 +178,7 @@ $(function() {
         <?}?>
 
     $('.format_time').datetimepicker({
-        format: "yyyy-mm", 
+        format: "yyyy-mm",
         language:  'zh-CN',
         todayBtn:  1,
         autoclose: 1,
@@ -211,15 +211,15 @@ $(function() {
                         }
                     });
                 }
-             });            
-        }); 
+             });
+        });
 
         $(".delete_event").click(function(){
              if(confirm("确认删除吗")){
                 _self = this;
                 user_id = $('#user_id').val();
                 event_month = $('#event_month').val();
-                status = $('#status').val();                
+                status = $('#status').val();
                 url = "<?php echo site_url(array('ctl'=>'event', 'act'=>'delete_event'))?>"+"&event_id="+$(this).attr('event_id')+"&is_event=1&user_id="+user_id+"&event_month="+event_month+"&status="+status;
                 window.location.href=url;
              }else{
@@ -246,7 +246,7 @@ $(function() {
                     $("#dialog").dialog("open");
                 }
              });
-        });        
+        });
 
         $(".do_search").click(function() {
             _self = this;
@@ -262,7 +262,7 @@ $(function() {
                       timeout: 1000,
                     });
                     return false;
-                }            
+                }
             if (user_id == '' && event_time == '' && status == '' ) {
                     var n = noty({
                       text: "三项中必须填写一项",
