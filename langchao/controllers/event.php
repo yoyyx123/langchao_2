@@ -83,6 +83,9 @@ class Event extends MY_Controller {
         $params = $data;
         unset($params['id']);
         unset($params['event_month']);
+        if(isset($params['event_time']) && !empty($params['event_time'])){
+            $params['event_month'] = substr($params['event_time'],0,7);
+        }
         $event = $this->Event_model->update_event_info($params,$where);
 
         $redirect_url = 'ctl=event&act=event_list&is_event=1&user_id='.$data['user_id']."&department_id=".$data['department_id']."&event_month=".$data['event_month']."&status=1&res_status=修改成功";
