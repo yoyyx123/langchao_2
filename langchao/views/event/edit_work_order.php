@@ -296,6 +296,8 @@ $(function() {
 
 
 function do_add(){
+
+    custom_department = $('#custom_department').val();
     arrive_time = $('#arrive_time').val();
     back_time = $('#back_time').val();
     failure_mode = $('#failure_mode').val();
@@ -306,6 +308,17 @@ function do_add(){
     arrive_date = arrive_time.substr(0, 10);
     back_date = back_time.substr(0, 10);
     event_time = $('#event_time').val();
+
+    if (custom_department== '') {
+            var n = noty({
+              text: "请输入客户部门",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+
     if (arrive_time== '') {
             var n = noty({
               text: "请输入到达时间",

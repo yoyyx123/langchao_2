@@ -170,6 +170,7 @@ function do_add(){
     arrive_time = $('#arrive_time').val();
     back_time = $('#back_time').val();
     failure_mode = $('#failure_mode').val();
+    custom_department = $('#custom_department').val();
     desc = $('#desc').val();
     schedule = $('input[name="schedule"]:checked').val();
     memo = $('#memo').val();
@@ -198,6 +199,15 @@ function do_add(){
     if (back_time== '') {
             var n = noty({
               text: "请输入离场时间",
+              type: 'error',
+              layout: 'center',
+              timeout: 1000,
+            });
+            return false;
+        }
+    if (custom_department== '') {
+            var n = noty({
+              text: "请输入客户部门",
               type: 'error',
               layout: 'center',
               timeout: 1000,
