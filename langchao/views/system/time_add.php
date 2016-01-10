@@ -17,7 +17,8 @@
                         <option value="weekend">周末</option>
                         <option value="holiday">节日</option>
                         <option value="h_weekend">假期周末加班</option>
-                    </select>                    
+                        <option value="h_worktime">补班</option>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -34,7 +35,7 @@
     <p class="center col-md-5">
         <button type="submit" class="btn btn-primary">添加</button>
     </p>
-</div> 
+</div>
 </form>
 
 
@@ -46,7 +47,7 @@
 $(function() {
 
         $('.form_datetime').datetimepicker({
-            format: "yyyy-mm-dd", 
+            format: "yyyy-mm-dd",
             language:  'zh-CN',
             weekStart: 1,
             todayBtn:  1,
@@ -66,7 +67,7 @@ $(function() {
                 $(".datetime").removeClass("form_datetime");
                 $("#value").val("");
                 $('.form_datetime').datetimepicker({
-                    format: "yyyy-mm-dd", 
+                    format: "yyyy-mm-dd",
                     language:  'zh-CN',
                     weekStart: 1,
                     todayBtn:  1,
@@ -77,13 +78,13 @@ $(function() {
                     forceParse: 0,
                     showMeridian: 1,
 
-                });                
+                });
             }
             if (type == "holiday"){
                 $(".datetime").addClass("form_datetime");
                 $("#value").val("");
                 $('.form_datetime').datetimepicker({
-                    format: "yyyy-mm-dd", 
+                    format: "yyyy-mm-dd",
                     language:  'zh-CN',
                     weekStart: 1,
                     todayBtn:  1,
@@ -94,13 +95,13 @@ $(function() {
                     forceParse: 0,
                     showMeridian: 1,
 
-                });                
+                });
             }
             if (type == "h_weekend"){
                 $(".datetime").addClass("form_datetime");
                 $("#value").val("");
                 $('.form_datetime').datetimepicker({
-                    format: "yyyy-mm-dd", 
+                    format: "yyyy-mm-dd",
                     language:  'zh-CN',
                     weekStart: 1,
                     todayBtn:  1,
@@ -111,15 +112,33 @@ $(function() {
                     forceParse: 0,
                     showMeridian: 1,
 
-                });                
+                });
             }
+            if (type == "h_worktime"){
+                $(".datetime").addClass("form_datetime");
+                $("#value").val("");
+                $('.form_datetime').datetimepicker({
+                    format: "yyyy-mm-dd",
+                    language:  'zh-CN',
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView:2,
+                    forceParse: 0,
+                    showMeridian: 1,
+
+                });
+            }
+
         })
 })
 
 function do_add(){
     value = $('#value').val();
     type = $('#type').val();
-    name = $('#name').val();  
+    name = $('#name').val();
     if (name== '') {
         var n = noty({
           text: "请输入节假日名称",
@@ -148,7 +167,7 @@ function do_add(){
         return false;
     }
     return true;
-        
+
 }
 
 

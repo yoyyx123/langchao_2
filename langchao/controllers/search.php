@@ -223,8 +223,10 @@ class Search extends MY_Controller {
             }
             if($data['data_type']=="work_time"){
                 $info = $this->get_data_export_worktime($result,$data);
+                $info = $this->sort_work_time($info);
             }elseif($data['data_type']=="fee"){
                 $info = $this->get_data_export_fee($result,$data);
+                $info = $this->sort_work_free($info);
             }
             $this->pages_conf(count($info));
             $info_list = array();
@@ -242,6 +244,41 @@ class Search extends MY_Controller {
         $this->data['user_data'] = $this->session->userdata;
         $this->layout->view('search/data_export',$this->data);
     }
+
+    public function sort_work_time($info){
+        $arr = array();
+        foreach ($info as $key => $value) {
+            $arr[] = $value;
+        }
+        for($i = 0; $i < count($arr) - 1; $i++) {
+            for($j = 0; $j < count($arr) - 1 - $i; $j++) {    //$j为需要排序的元素个数,用总长减去$i
+                if($arr[$j]['work_time'] <= $arr[$j + 1]['work_time']) {    //按升序排序
+                    $temp = $arr[$j];
+                    $arr[$j] = $arr[$j + 1];
+                    $arr[$j + 1] = $temp;
+                }
+            }
+        }
+        return $arr;
+    }
+
+    public function sort_work_free($info){
+        $arr = array();
+        foreach ($info as $key => $value) {
+            $arr[] = $value;
+        }
+        for($i = 0; $i < count($arr) - 1; $i++) {
+            for($j = 0; $j < count($arr) - 1 - $i; $j++) {    //$j为需要排序的元素个数,用总长减去$i
+                if($arr[$j]['cost_status'] <= $arr[$j + 1]['cost_status']) {    //按升序排序
+                    $temp = $arr[$j];
+                    $arr[$j] = $arr[$j + 1];
+                    $arr[$j + 1] = $temp;
+                }
+            }
+        }
+        return $arr;
+    }
+
 
     public function get_data_export_fee($result,$data){
         $info = array();
@@ -364,25 +401,26 @@ class Search extends MY_Controller {
             $h_weekend_list = $this->Event_model->get_h_weekend_list();
             $weekend_list = explode('_', WEEKEND);
 
+            $h_worktime_list = $this->Event_model->get_h_worktime_list();
 
-            if(in_array(date("N",strtotime($arrive_date)), $weekend_list)){
+            if(in_array(date("N",strtotime($arrive_date)), $weekend_list) && !in_array($arrive_date, $h_worktime_list)){
                 $arrive_type = 'weekend';
             }
-            if(in_array(date("N",strtotime($back_date)), $weekend_list)){
+            if(in_array(date("N",strtotime($back_date)), $weekend_list) && !in_array($back_date, $h_worktime_list)){
                 $back_type = 'weekend';
             }
 
-            if(in_array($arrive_date, $h_weekend_list)){
+            if(in_array($arrive_date, $h_weekend_list) && !in_array($arrive_date, $h_worktime_list)){
                 $arrive_type = 'h_weekend';
             }
-            if(in_array($back_date, $h_weekend_list)){
+            if(in_array($back_date, $h_weekend_list) && !in_array($back_date, $h_worktime_list)){
                 $back_type = 'h_weekend';
             }
 
-            if(in_array($arrive_date, $holiday_list)){
+            if(in_array($arrive_date, $holiday_list) && !in_array($arrive_date, $h_worktime_list)){
                 $arrive_type = 'holiday';
             }
-            if(in_array($back_date, $holiday_list)){
+            if(in_array($back_date, $holiday_list) && !in_array($back_date, $h_worktime_list)){
                 $back_type = 'holiday';
             }
 
@@ -1344,24 +1382,27 @@ class Search extends MY_Controller {
         $h_weekend_list = $this->Event_model->get_h_weekend_list();
         $weekend_list = explode('_', WEEKEND);
 
-        if(in_array(date("N",strtotime($arrive_date)), $weekend_list)){
+        $h_worktime_list = $this->Event_model->get_h_worktime_list();
+
+
+        if(in_array(date("N",strtotime($arrive_date)), $weekend_list) && !in_array($arrive_date, $h_worktime_list)){
             $arrive_type = 'weekend';
         }
-        if(in_array(date("N",strtotime($back_date)), $weekend_list)){
+        if(in_array(date("N",strtotime($back_date)), $weekend_list) && !in_array($back_date, $h_worktime_list)){
             $back_type = 'weekend';
         }
 
-        if(in_array($arrive_date, $h_weekend_list)){
+        if(in_array($arrive_date, $h_weekend_list) && !in_array($arrive_date, $h_worktime_list)){
             $arrive_type = 'h_weekend';
         }
-        if(in_array($back_date, $h_weekend_list)){
+        if(in_array($back_date, $h_weekend_list) && !in_array($back_date, $h_worktime_list)){
             $back_type = 'h_weekend';
         }
 
-        if(in_array($arrive_date, $holiday_list)){
+        if(in_array($arrive_date, $holiday_list) && !in_array($arrive_date, $h_worktime_list)){
             $arrive_type = 'holiday';
         }
-        if(in_array($back_date, $holiday_list)){
+        if(in_array($back_date, $holiday_list) && !in_array($back_date, $h_worktime_list)){
             $back_type = 'holiday';
         }
 

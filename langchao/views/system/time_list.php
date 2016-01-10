@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                     <th colspan="10" style="text-align:center;"><h4>节假日时间管理</h4></th>
-                </tr>               
+                </tr>
                 <tr>
                     <th>序号</th>
                     <th>名称</th>
@@ -27,16 +27,17 @@
                     <td><?php echo $i;?></td>
                     <td><?php echo $value['name'];?></td>
                     <td><?php echo $value['value'];?></td>
-                    <td><?php 
+                    <td><?php
                         if($value['type']=="holiday"){echo "节日";}
                         if($value['type']=="weekend"){echo "周末";}
                         if($value['type']=="h_weekend"){echo "假期周末加班";}
+                        if($value['type']=="h_worktime"){echo "补班";}
                      ?></td>
                     <td><a class="btn btn-info doedit" setting_id='<?php echo $value['id'];?>'>编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-danger dodelete" setting_id='<?php echo $value['id'];?>'>删除</a>
                     </td>
                 </tr>
-                
+
                 <?php $i++;} ?>
 
             </tbody>
@@ -123,4 +124,4 @@ $(function() {
 
 })
 </script>
- 
+

@@ -12,10 +12,11 @@
                 <th width="80px">类型</th>
                 <td>
                     <select name="type" id="type" class="type">
-                        <option value="weekend" <?php if($info['type']=="weekend") echo "selected='selected'"; ?>>周末</option>                        
+                        <option value="weekend" <?php if($info['type']=="weekend") echo "selected='selected'"; ?>>周末</option>
                         <option value="holiday" <?php if($info['type']=="holiday") echo "selected='selected'"; ?>>节日</option>
-                        <option value="h_weekend" <?php if($info['type']=="h_weekend") echo "selected='selected'"; ?>>假期周末加班</option>                        
-                    </select>                    
+                        <option value="h_weekend" <?php if($info['type']=="h_weekend") echo "selected='selected'"; ?>>假期周末加班</option>
+                        <option value="h_worktime" <?php if($info['type']=="h_worktime") echo "selected='selected'"; ?>>补班</option>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -23,7 +24,7 @@
                 <td>
                     <input type="text" name="name" id="name" value="<?echo $info['name']?>">
                 </td>
-            </tr>            
+            </tr>
         </tbody>
     </table>
         <input type="hidden" name="id" id="id" value="<?php echo $info['id']?>">
@@ -40,7 +41,7 @@ $(function() {
         $(".datetime").addClass("form_datetime");
         $("#value").val("");
         $('.form_datetime').datetimepicker({
-            format: "yyyy-mm-dd", 
+            format: "yyyy-mm-dd",
             language:  'zh-CN',
             weekStart: 1,
             todayBtn:  1,
@@ -51,11 +52,11 @@ $(function() {
             forceParse: 0,
             showMeridian: 1,
 
-        });                
+        });
     }
 
         $('.form_datetime').datetimepicker({
-            format: "yyyy-mm-dd", 
+            format: "yyyy-mm-dd",
             language:  'zh-CN',
             weekStart: 1,
             todayBtn:  1,
@@ -75,7 +76,7 @@ $(function() {
                 $(".datetime").removeClass("form_datetime");
                 $("#value").val("");
                 $('.form_datetime').datetimepicker({
-                    format: "yyyy-mm-dd", 
+                    format: "yyyy-mm-dd",
                     language:  'zh-CN',
                     weekStart: 1,
                     todayBtn:  1,
@@ -86,12 +87,12 @@ $(function() {
                     forceParse: 0,
                     showMeridian: 1,
 
-                });                
+                });
             }
             if (type == "holiday"){
                 $(".datetime").addClass("form_datetime");
                 $('.form_datetime').datetimepicker({
-                    format: "yyyy-mm-dd", 
+                    format: "yyyy-mm-dd",
                     language:  'zh-CN',
                     weekStart: 1,
                     todayBtn:  1,
@@ -102,15 +103,32 @@ $(function() {
                     forceParse: 0,
                     showMeridian: 1,
 
-                });                
+                });
             }
-        })        
+            if (type == "h_worktime"){
+                $(".datetime").addClass("form_datetime");
+                $('.form_datetime').datetimepicker({
+                    format: "yyyy-mm-dd",
+                    language:  'zh-CN',
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView:2,
+                    forceParse: 0,
+                    showMeridian: 1,
+
+                });
+            }
+
+        })
 })
 
 function do_add(){
     value = $('#value').val();
     type = $('#type').val();
-    name = $('#name').val();  
+    name = $('#name').val();
     if (name== '') {
         var n = noty({
           text: "请输入节假日名称",
@@ -139,6 +157,6 @@ function do_add(){
         return false;
     }
     return true;
-        
+
 }
 </script>
